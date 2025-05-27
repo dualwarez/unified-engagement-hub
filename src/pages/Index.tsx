@@ -18,7 +18,8 @@ import {
   Filter,
   Search,
   Bell,
-  Settings
+  Settings,
+  LogIn
 } from 'lucide-react';
 import MarketingModule from '@/components/MarketingModule';
 import LeadModule from '@/components/LeadModule';
@@ -211,7 +212,14 @@ const Index = () => {
       <nav className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-8">
-            <h1 className="text-xl font-bold text-blue-600">BusinessPro</h1>
+            <div className="flex items-center space-x-3">
+              <img 
+                src="/lovable-uploads/d93d77cc-c8d8-4de8-a99e-50e5437a8947.png" 
+                alt="Business Pro Logo" 
+                className="h-8 w-8"
+              />
+              <h1 className="text-xl font-bold text-blue-600">Business Pro</h1>
+            </div>
             <div className="flex space-x-1">
               <Button
                 variant={activeModule === 'dashboard' ? 'default' : 'ghost'}
@@ -250,13 +258,19 @@ const Index = () => {
               </Button>
             </div>
           </div>
-          <Button
-            variant="outline"
-            onClick={() => setSelectedIndustry('')}
-            className="text-sm"
-          >
-            Change Industry
-          </Button>
+          <div className="flex items-center space-x-4">
+            <Button
+              variant="outline"
+              onClick={() => setSelectedIndustry('')}
+              className="text-sm"
+            >
+              Change Industry
+            </Button>
+            <Button className="text-sm">
+              <LogIn className="w-4 h-4 mr-2" />
+              Login
+            </Button>
+          </div>
         </div>
       </nav>
 
