@@ -78,7 +78,7 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect }) => {
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center space-x-3">
             <img 
-              src="/lovable-uploads/d93d77cc-c8d8-4de8-a99e-50e5437a8947.png" 
+              src="/lovable-uploads/652b541b-790b-47ac-a157-d2fefd4e719d.png" 
               alt="Business Pro Logo" 
               className="h-10 w-10"
             />
@@ -91,7 +91,7 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect }) => {
         </div>
 
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Welcome to Business Pro</h1>
+          <h1 className="text-4xl font-bold text-blue-600 mb-4">Welcome to Business Pro</h1>
           <p className="text-xl text-gray-600 mb-2">Choose your industry to get started</p>
           <p className="text-gray-500">We'll customize your experience based on your business type</p>
         </div>
