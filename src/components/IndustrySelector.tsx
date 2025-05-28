@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -76,13 +75,12 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect }) => {
       <div className="max-w-4xl w-full">
         {/* Header with Login Button */}
         <div className="flex justify-between items-center mb-8">
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center">
             <img 
               src="/lovable-uploads/652b541b-790b-47ac-a157-d2fefd4e719d.png" 
-              alt="Business Pro Logo" 
-              className="h-10 w-10"
+              alt="KALASH.AI Logo" 
+              className="h-16 w-auto"
             />
-            <h1 className="text-2xl font-bold text-blue-600">Business Pro</h1>
           </div>
           <Button className="text-sm">
             <LogIn className="w-4 h-4 mr-2" />
