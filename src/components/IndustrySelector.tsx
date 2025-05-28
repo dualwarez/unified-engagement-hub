@@ -79,7 +79,7 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect }) => {
             <img 
               src="/lovable-uploads/652b541b-790b-47ac-a157-d2fefd4e719d.png" 
               alt="KALASH.AI Logo" 
-              className="h-16 w-auto"
+              className="h-24 w-auto"
             />
           </div>
           <Button className="text-sm">
@@ -126,7 +126,7 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect }) => {
             <Card className="relative border-2 hover:border-blue-300 transition-all duration-300">
               <CardHeader className="text-center">
                 <CardTitle className="text-2xl font-bold text-gray-900">Standard</CardTitle>
-                <div className="text-4xl font-bold text-blue-600 mt-2">$29/mo</div>
+                <div className="text-4xl font-bold text-blue-600 mt-2">$36/mo</div>
                 <CardDescription>Perfect for small businesses</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -159,7 +159,7 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect }) => {
               </div>
               <CardHeader className="text-center">
                 <CardTitle className="text-2xl font-bold text-gray-900">Value</CardTitle>
-                <div className="text-4xl font-bold text-blue-600 mt-2">$79/mo</div>
+                <div className="text-4xl font-bold text-blue-600 mt-2">$180/mo</div>
                 <CardDescription>Best value for growing businesses</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -193,7 +193,7 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect }) => {
             <Card className="relative border-2 hover:border-blue-300 transition-all duration-300">
               <CardHeader className="text-center">
                 <CardTitle className="text-2xl font-bold text-gray-900">Pro</CardTitle>
-                <div className="text-4xl font-bold text-blue-600 mt-2">$149/mo</div>
+                <div className="text-4xl font-bold text-blue-600 mt-2">$540/mo</div>
                 <CardDescription>For enterprise-level businesses</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
