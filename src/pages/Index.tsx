@@ -22,7 +22,7 @@ import {
   LogIn
 } from 'lucide-react';
 import MarketingModule from '@/components/MarketingModule';
-import LeadModule from '@/components/LeadModule';
+import EnhancedLeadModule from '@/components/EnhancedLeadModule';
 import CRMModule from '@/components/CRMModule';
 import AppointmentModule from '@/components/AppointmentModule';
 import IndustrySelector from '@/components/IndustrySelector';
@@ -240,7 +240,7 @@ const Index = () => {
                 onClick={() => setActiveModule('leads')}
                 className="text-sm"
               >
-                Leads
+                Lead Capture
               </Button>
               <Button
                 variant={activeModule === 'crm' ? 'default' : 'ghost'}
@@ -277,7 +277,7 @@ const Index = () => {
       <main className="p-6">
         {activeModule === 'dashboard' && renderDashboard()}
         {activeModule === 'marketing' && <MarketingModule industry={selectedIndustry} />}
-        {activeModule === 'leads' && <LeadModule industry={selectedIndustry} />}
+        {activeModule === 'leads' && <EnhancedLeadModule industry={selectedIndustry} />}
         {activeModule === 'crm' && <CRMModule industry={selectedIndustry} />}
         {activeModule === 'appointments' && <AppointmentModule industry={selectedIndustry} />}
       </main>
