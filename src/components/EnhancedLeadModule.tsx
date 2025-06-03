@@ -68,10 +68,11 @@ const EnhancedLeadModule: React.FC<EnhancedLeadModuleProps> = ({ industry }) => 
 
   const fetchLeads = async () => {
     try {
+      const industryKey = industry.toLowerCase().replace(' ', '_') as 'real_estate' | 'stock_broking' | 'broking_franchise' | 'insurance' | 'loans' | 'edutech';
       const { data, error } = await supabase
         .from('leads')
         .select('*')
-        .eq('industry', industry.toLowerCase().replace(' ', '_'))
+        .eq('industry', industryKey)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -137,7 +138,7 @@ const EnhancedLeadModule: React.FC<EnhancedLeadModuleProps> = ({ industry }) => 
                     <div key={idx} className="p-2 bg-gray-50 rounded text-xs">
                       <div className="font-medium truncate">{lead.name}</div>
                       <div className="text-gray-500 truncate">{lead.phone}</div>
-                      <Badge size="sm" className={intentColors[lead.buyer_intent]}>
+                      <Badge className={intentColors[lead.buyer_intent]}>
                         {lead.buyer_intent}
                       </Badge>
                     </div>

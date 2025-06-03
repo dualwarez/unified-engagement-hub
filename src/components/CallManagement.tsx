@@ -28,9 +28,9 @@ const CallManagement: React.FC<CallManagementProps> = ({ leads, onLeadUpdate, in
   const [callLogs, setCallLogs] = useState([]);
   const [callScripts, setCallScripts] = useState([]);
   const [selectedLead, setSelectedLead] = useState(null);
-  const [activeCall, setActiveCall] = useState(null);
+  const [activeCall, setActiveCall] = useState<{ lead_id: string; start_time: Date; duration: number } | null>(null);
   const [callNotes, setCallNotes] = useState('');
-  const [callOutcome, setCallOutcome] = useState('');
+  const [callOutcome, setCallOutcome] = useState<'interested' | 'not_interested' | 'follow_up_required' | 'demo_scheduled' | 'invalid_lead' | ''>('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const CallManagement: React.FC<CallManagementProps> = ({ leads, onLeadUpdate, in
 
   const fetchCallScripts = async () => {
     try {
-      const industryKey = industry.toLowerCase().replace(' ', '_');
+      const industryKey = industry.toLowerCase().replace(' ', '_') as 'real_estate' | 'stock_broking' | 'broking_franchise' | 'insurance' | 'loans' | 'edutech';
       const { data, error } = await supabase
         .from('call_scripts')
         .select('*')
@@ -73,7 +73,7 @@ const CallManagement: React.FC<CallManagementProps> = ({ leads, onLeadUpdate, in
     }
   };
 
-  const startCall = (lead) => {
+  const startCall = (lead: any) => {
     setSelectedLead(lead);
     setActiveCall({
       lead_id: lead.id,
@@ -88,18 +88,18 @@ const CallManagement: React.FC<CallManagementProps> = ({ leads, onLeadUpdate, in
     if (!activeCall || !selectedLead) return;
 
     try {
-      const duration = Math.floor((new Date() - activeCall.start_time) / 1000);
+      const duration = Math.floor((new Date().getTime() - activeCall.start_time.getTime()) / 1000);
       
       const { error } = await supabase
         .from('call_logs')
-        .insert([{
+        .insert({
           lead_id: selectedLead.id,
           user_id: 'current-user-id', // This should be the actual user ID
           call_duration: duration,
-          outcome: callOutcome,
+          outcome: callOutcome || null,
           notes: callNotes,
           scheduled_follow_up: null // Can be set based on outcome
-        }]);
+        });
 
       if (error) throw error;
 
@@ -128,11 +128,11 @@ const CallManagement: React.FC<CallManagementProps> = ({ leads, onLeadUpdate, in
   };
 
   const outcomeOptions = [
-    { value: 'interested', label: 'Interested', color: 'bg-green-100 text-green-800' },
-    { value: 'not_interested', label: 'Not Interested', color: 'bg-red-100 text-red-800' },
-    { value: 'follow_up_required', label: 'Follow-up Required', color: 'bg-yellow-100 text-yellow-800' },
-    { value: 'demo_scheduled', label: 'Demo Scheduled', color: 'bg-blue-100 text-blue-800' },
-    { value: 'invalid_lead', label: 'Invalid Lead', color: 'bg-gray-100 text-gray-800' }
+    { value: 'interested' as const, label: 'Interested', color: 'bg-green-100 text-green-800' },
+    { value: 'not_interested' as const, label: 'Not Interested', color: 'bg-red-100 text-red-800' },
+    { value: 'follow_up_required' as const, label: 'Follow-up Required', color: 'bg-yellow-100 text-yellow-800' },
+    { value: 'demo_scheduled' as const, label: 'Demo Scheduled', color: 'bg-blue-100 text-blue-800' },
+    { value: 'invalid_lead' as const, label: 'Invalid Lead', color: 'bg-gray-100 text-gray-800' }
   ];
 
   const leadsToCall = leads.filter(lead => 

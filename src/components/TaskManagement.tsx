@@ -31,9 +31,9 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ tasks, onTaskUpdate, in
     'overdue': 'bg-red-100 text-red-800'
   };
 
-  const updateTaskStatus = async (taskId: string, status: string) => {
+  const updateTaskStatus = async (taskId: string, status: 'pending' | 'in_progress' | 'completed' | 'overdue') => {
     try {
-      const updateData = { 
+      const updateData: any = { 
         status,
         updated_at: new Date().toISOString()
       };

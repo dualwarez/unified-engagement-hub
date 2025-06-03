@@ -18,25 +18,25 @@ const LeadIntakeForm: React.FC<LeadIntakeFormProps> = ({ industry, onClose, onLe
     name: '',
     email: '',
     phone: '',
-    source: 'website',
-    buyer_intent: 'cold',
-    priority: 'medium',
+    source: 'website' as 'website' | 'google_ads' | 'facebook' | 'whatsapp' | 'referral' | 'portal_99acres' | 'portal_magicbricks' | 'other',
+    buyer_intent: 'cold' as 'hot' | 'warm' | 'cold',
+    priority: 'medium' as 'high' | 'medium' | 'low',
     notes: ''
   });
-  const [industryFields, setIndustryFields] = useState({});
-  const [tags, setTags] = useState([]);
+  const [industryFields, setIndustryFields] = useState<{[key: string]: string}>({});
+  const [tags, setTags] = useState<string[]>([]);
   const [newTag, setNewTag] = useState('');
   const [loading, setLoading] = useState(false);
 
   const sourceOptions = [
-    { value: 'website', label: 'Website Form' },
-    { value: 'google_ads', label: 'Google Ads' },
-    { value: 'facebook', label: 'Facebook' },
-    { value: 'whatsapp', label: 'WhatsApp' },
-    { value: 'referral', label: 'Referral' },
-    { value: 'portal_99acres', label: '99acres Portal' },
-    { value: 'portal_magicbricks', label: 'MagicBricks Portal' },
-    { value: 'other', label: 'Other' }
+    { value: 'website' as const, label: 'Website Form' },
+    { value: 'google_ads' as const, label: 'Google Ads' },
+    { value: 'facebook' as const, label: 'Facebook' },
+    { value: 'whatsapp' as const, label: 'WhatsApp' },
+    { value: 'referral' as const, label: 'Referral' },
+    { value: 'portal_99acres' as const, label: '99acres Portal' },
+    { value: 'portal_magicbricks' as const, label: 'MagicBricks Portal' },
+    { value: 'other' as const, label: 'Other' }
   ];
 
   const getIndustrySpecificFields = () => {
@@ -90,25 +90,26 @@ const LeadIntakeForm: React.FC<LeadIntakeFormProps> = ({ industry, onClose, onLe
     }
   };
 
-  const removeTag = (tagToRemove) => {
+  const removeTag = (tagToRemove: string) => {
     setTags(tags.filter(tag => tag !== tagToRemove));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
       // Create the lead
+      const industryKey = industry.toLowerCase().replace(' ', '_') as 'real_estate' | 'stock_broking' | 'broking_franchise' | 'insurance' | 'loans' | 'edutech';
       const leadData = {
         ...formData,
-        industry: industry.toLowerCase().replace(' ', '_'),
+        industry: industryKey,
         tags: tags.length > 0 ? tags : null
       };
 
       const { data: lead, error: leadError } = await supabase
         .from('leads')
-        .insert([leadData])
+        .insert(leadData)
         .select()
         .single();
 
@@ -119,7 +120,7 @@ const LeadIntakeForm: React.FC<LeadIntakeFormProps> = ({ industry, onClose, onLe
         const detailsData = Object.entries(industryFields).map(([key, value]) => ({
           lead_id: lead.id,
           field_name: key,
-          field_value: value
+          field_value: String(value)
         }));
 
         const { error: detailsError } = await supabase
@@ -132,14 +133,14 @@ const LeadIntakeForm: React.FC<LeadIntakeFormProps> = ({ industry, onClose, onLe
       // Create initial task for first contact
       const { error: taskError } = await supabase
         .from('tasks')
-        .insert([{
+        .insert({
           lead_id: lead.id,
-          assigned_to: null, // Will be assigned by team lead
+          assigned_to: 'current-user-id', // Will be assigned by team lead
           title: 'First Contact Call',
           description: `Make first contact with ${formData.name} - ${industry} lead from ${formData.source}`,
-          status: 'pending',
+          status: 'pending' as const,
           due_date: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString() // 2 hours from now
-        }]);
+        });
 
       if (taskError) throw taskError;
 
@@ -202,7 +203,7 @@ const LeadIntakeForm: React.FC<LeadIntakeFormProps> = ({ industry, onClose, onLe
                 <select
                   className="w-full p-2 border rounded-md"
                   value={formData.source}
-                  onChange={(e) => setFormData({...formData, source: e.target.value})}
+                  onChange={(e) => setFormData({...formData, source: e.target.value as typeof formData.source})}
                 >
                   {sourceOptions.map(option => (
                     <option key={option.value} value={option.value}>
@@ -220,7 +221,7 @@ const LeadIntakeForm: React.FC<LeadIntakeFormProps> = ({ industry, onClose, onLe
                 <select
                   className="w-full p-2 border rounded-md"
                   value={formData.buyer_intent}
-                  onChange={(e) => setFormData({...formData, buyer_intent: e.target.value})}
+                  onChange={(e) => setFormData({...formData, buyer_intent: e.target.value as typeof formData.buyer_intent})}
                 >
                   <option value="hot">Hot</option>
                   <option value="warm">Warm</option>
@@ -232,7 +233,7 @@ const LeadIntakeForm: React.FC<LeadIntakeFormProps> = ({ industry, onClose, onLe
                 <select
                   className="w-full p-2 border rounded-md"
                   value={formData.priority}
-                  onChange={(e) => setFormData({...formData, priority: e.target.value})}
+                  onChange={(e) => setFormData({...formData, priority: e.target.value as typeof formData.priority})}
                 >
                   <option value="high">High</option>
                   <option value="medium">Medium</option>
@@ -259,7 +260,7 @@ const LeadIntakeForm: React.FC<LeadIntakeFormProps> = ({ industry, onClose, onLe
                           })}
                         >
                           <option value="">Select {field.label}</option>
-                          {field.options.map(option => (
+                          {field.options?.map(option => (
                             <option key={option} value={option}>{option}</option>
                           ))}
                         </select>
