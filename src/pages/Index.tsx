@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -25,6 +24,7 @@ import MarketingModule from '@/components/MarketingModule';
 import EnhancedLeadModule from '@/components/EnhancedLeadModule';
 import CRMModule from '@/components/CRMModule';
 import AppointmentModule from '@/components/AppointmentModule';
+import SalesModule from '@/components/SalesModule';
 import IndustrySelector from '@/components/IndustrySelector';
 
 const Index = () => {
@@ -243,6 +243,13 @@ const Index = () => {
                 Lead Capture
               </Button>
               <Button
+                variant={activeModule === 'sales' ? 'default' : 'ghost'}
+                onClick={() => setActiveModule('sales')}
+                className="text-sm"
+              >
+                Sales
+              </Button>
+              <Button
                 variant={activeModule === 'crm' ? 'default' : 'ghost'}
                 onClick={() => setActiveModule('crm')}
                 className="text-sm"
@@ -278,6 +285,7 @@ const Index = () => {
         {activeModule === 'dashboard' && renderDashboard()}
         {activeModule === 'marketing' && <MarketingModule industry={selectedIndustry} />}
         {activeModule === 'leads' && <EnhancedLeadModule industry={selectedIndustry} />}
+        {activeModule === 'sales' && <SalesModule industry={selectedIndustry} />}
         {activeModule === 'crm' && <CRMModule industry={selectedIndustry} />}
         {activeModule === 'appointments' && <AppointmentModule industry={selectedIndustry} />}
       </main>
