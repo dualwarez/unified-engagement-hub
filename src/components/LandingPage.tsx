@@ -26,7 +26,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             <img 
               src="/lovable-uploads/e966dfcc-3fb1-4c3f-9347-c92eb3132e2a.png" 
               alt="KALASH Logo" 
-              className="h-12 w-12 rounded-full"
+              className="h-16 w-16 rounded-full"
             />
             <h1 className="text-2xl font-bold text-green-700">KALASH</h1>
           </div>
@@ -100,7 +100,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             <CardContent className="p-6 text-center">
               <Building2 className="w-12 h-12 text-green-600 mx-auto mb-4" />
               <h3 className="font-semibold text-gray-900 mb-2">Multi-Industry</h3>
-              <p className="text-gray-600 text-sm">Real Estate, Insurance, EdTech, and Broking solutions</p>
+              <p className="text-gray-600 text-sm">Solutions for all service industries and business types</p>
             </CardContent>
           </Card>
           

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,7 +12,18 @@ import {
   Utensils, 
   Briefcase, 
   ShoppingBag,
-  LogIn 
+  LogIn,
+  Shield,
+  Truck,
+  Scissors,
+  Plane,
+  TrendingUp,
+  Users,
+  Camera,
+  Wrench,
+  Dumbbell,
+  Music,
+  Phone
 } from 'lucide-react';
 
 interface IndustrySelectorProps {
@@ -67,20 +79,93 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect }) => {
       icon: ShoppingBag,
       description: 'Stores and e-commerce businesses',
       color: 'bg-pink-500'
+    },
+    {
+      name: 'Insurance & Loans',
+      icon: Shield,
+      description: 'Insurance agencies and loan services',
+      color: 'bg-teal-500'
+    },
+    {
+      name: 'Logistics & Transport',
+      icon: Truck,
+      description: 'Shipping, courier, and transport services',
+      color: 'bg-gray-500'
+    },
+    {
+      name: 'Beauty & Wellness',
+      icon: Scissors,
+      description: 'Salons, spas, and beauty services',
+      color: 'bg-rose-500'
+    },
+    {
+      name: 'Travel & Tourism',
+      icon: Plane,
+      description: 'Travel agencies and tour operators',
+      color: 'bg-sky-500'
+    },
+    {
+      name: 'Financial Services',
+      icon: TrendingUp,
+      description: 'Banking, investment, and financial advisory',
+      color: 'bg-emerald-500'
+    },
+    {
+      name: 'Event Management',
+      icon: Users,
+      description: 'Event planning and management services',
+      color: 'bg-violet-500'
+    },
+    {
+      name: 'Photography',
+      icon: Camera,
+      description: 'Photography and videography services',
+      color: 'bg-amber-500'
+    },
+    {
+      name: 'Home Services',
+      icon: Wrench,
+      description: 'Plumbing, electrical, and repair services',
+      color: 'bg-stone-500'
+    },
+    {
+      name: 'Fitness & Sports',
+      icon: Dumbbell,
+      description: 'Gyms, personal training, and sports clubs',
+      color: 'bg-lime-500'
+    },
+    {
+      name: 'Entertainment',
+      icon: Music,
+      description: 'Music, arts, and entertainment services',
+      color: 'bg-fuchsia-500'
+    },
+    {
+      name: 'Telecommunications',
+      icon: Phone,
+      description: 'Telecom and communication services',
+      color: 'bg-cyan-500'
+    },
+    {
+      name: 'EdTech',
+      icon: GraduationCap,
+      description: 'Online education and e-learning platforms',
+      color: 'bg-blue-600'
     }
   ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-6">
-      <div className="max-w-4xl w-full">
+      <div className="max-w-6xl w-full">
         {/* Header with Login Button */}
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center">
             <img 
-              src="/lovable-uploads/652b541b-790b-47ac-a157-d2fefd4e719d.png" 
+              src="/lovable-uploads/e966dfcc-3fb1-4c3f-9347-c92eb3132e2a.png" 
               alt="KALASH.AI Logo" 
-              className="h-24 w-auto"
+              className="h-24 w-24 rounded-full"
             />
+            <h1 className="text-3xl font-bold text-blue-600 ml-4">KALASH</h1>
           </div>
           <Button className="text-sm">
             <LogIn className="w-4 h-4 mr-2" />
@@ -94,7 +179,7 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect }) => {
           <p className="text-gray-500">We'll customize your experience based on your business type</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-12">
           {industries.map((industry, index) => (
             <Card 
               key={index} 
@@ -102,13 +187,13 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect }) => {
               onClick={() => onSelect(industry.name)}
             >
               <CardHeader className="text-center pb-2">
-                <div className={`w-16 h-16 ${industry.color} rounded-full flex items-center justify-center mx-auto mb-4`}>
-                  <industry.icon className="w-8 h-8 text-white" />
+                <div className={`w-12 h-12 ${industry.color} rounded-full flex items-center justify-center mx-auto mb-3`}>
+                  <industry.icon className="w-6 h-6 text-white" />
                 </div>
-                <CardTitle className="text-lg">{industry.name}</CardTitle>
+                <CardTitle className="text-sm font-semibold">{industry.name}</CardTitle>
               </CardHeader>
               <CardContent className="text-center pt-0">
-                <CardDescription className="text-sm">{industry.description}</CardDescription>
+                <CardDescription className="text-xs">{industry.description}</CardDescription>
               </CardContent>
             </Card>
           ))}
