@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -27,12 +28,15 @@ import AppointmentModule from '@/components/AppointmentModule';
 import SalesModule from '@/components/SalesModule';
 import IndustrySelector from '@/components/IndustrySelector';
 import B2BAuthFlow from '@/components/B2BAuthFlow';
+import LandingPage from '@/components/LandingPage';
+import PostLoginDashboard from '@/components/PostLoginDashboard';
 
 const Index = () => {
+  const [currentView, setCurrentView] = useState('landing'); // 'landing', 'login', 'register', 'postLogin', 'dashboard'
   const [activeModule, setActiveModule] = useState('dashboard');
   const [selectedIndustry, setSelectedIndustry] = useState('');
-  const [showAuth, setShowAuth] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userData, setUserData] = useState<any>(null);
 
   const dashboardData = {
     leads: [
@@ -53,22 +57,64 @@ const Index = () => {
   const stats = [
     { title: 'Total Leads', value: '1,247', icon: Users, change: '+12%', color: 'text-blue-600' },
     { title: 'Conversion Rate', value: '24.5%', icon: TrendingUp, change: '+3.2%', color: 'text-green-600' },
-    { title: 'Revenue', value: '$45,678', icon: DollarSign, change: '+8.1%', color: 'text-purple-600' },
+    { title: 'Revenue', value: '₹45,678', icon: DollarSign, change: '+8.1%', color: 'text-purple-600' },
     { title: 'Appointments', value: '89', icon: Calendar, change: '+15%', color: 'text-orange-600' }
   ];
 
-  const handleAuthComplete = (userData: any) => {
+  const handleAuthComplete = (authUserData: any) => {
     setIsAuthenticated(true);
-    setShowAuth(false);
-    console.log('User authenticated:', userData);
+    setUserData(authUserData);
+    setSelectedIndustry(authUserData.industry || authUserData.useCase || 'general');
+    setCurrentView('postLogin');
+    console.log('User authenticated:', authUserData);
   };
 
-  if (showAuth) {
-    return <B2BAuthFlow onBack={() => setShowAuth(false)} onComplete={handleAuthComplete} />;
+  const handleLoginClick = () => {
+    setCurrentView('login');
+  };
+
+  const handleRegisterClick = () => {
+    setCurrentView('register');
+  };
+
+  const handleContinueToDashboard = () => {
+    setCurrentView('dashboard');
+  };
+
+  // Landing Page View
+  if (currentView === 'landing') {
+    return (
+      <LandingPage 
+        onLogin={handleLoginClick}
+        onRegister={handleRegisterClick}
+      />
+    );
   }
 
+  // Authentication Flow
+  if (currentView === 'login' || currentView === 'register') {
+    return (
+      <B2BAuthFlow 
+        onBack={() => setCurrentView('landing')} 
+        onComplete={handleAuthComplete}
+        initialFlow={currentView}
+      />
+    );
+  }
+
+  // Post-Login Dashboard Setup
+  if (currentView === 'postLogin') {
+    return (
+      <PostLoginDashboard 
+        userData={userData}
+        onContinue={handleContinueToDashboard}
+      />
+    );
+  }
+
+  // Industry Selector (fallback for non-authenticated users)
   if (!selectedIndustry && !isAuthenticated) {
-    return <IndustrySelector onSelect={setSelectedIndustry} onShowAuth={() => setShowAuth(true)} />;
+    return <IndustrySelector onSelect={setSelectedIndustry} onShowAuth={() => setCurrentView('login')} />;
   }
 
   const renderDashboard = () => (
@@ -284,12 +330,13 @@ const Index = () => {
               onClick={() => {
                 setSelectedIndustry('');
                 setIsAuthenticated(false);
+                setCurrentView('landing');
               }}
               className="text-sm"
             >
               Change Industry
             </Button>
-            <Button className="text-sm" onClick={() => setShowAuth(true)}>
+            <Button className="text-sm" onClick={() => setCurrentView('login')}>
               <LogIn className="w-4 h-4 mr-2" />
               Login
             </Button>

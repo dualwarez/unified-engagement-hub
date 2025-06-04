@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -22,22 +21,27 @@ import {
   Target,
   MessageSquare,
   Calendar,
-  TrendingUp
+  TrendingUp,
+  Chrome,
+  Linkedin
 } from 'lucide-react';
 
 interface B2BAuthFlowProps {
   onBack: () => void;
   onComplete: (data: any) => void;
+  initialFlow?: 'login' | 'register';
 }
 
-const B2BAuthFlow: React.FC<B2BAuthFlowProps> = ({ onBack, onComplete }) => {
-  const [currentStep, setCurrentStep] = useState('login'); // 'login', 'register', 'step1', 'step2', 'step3', 'step4', 'step5', 'step6', 'complete'
+const B2BAuthFlow: React.FC<B2BAuthFlowProps> = ({ onBack, onComplete, initialFlow = 'login' }) => {
+  const [currentStep, setCurrentStep] = useState(initialFlow); // 'login', 'register', 'step1', 'step2', 'step3', 'step4', 'step5', 'step6', 'complete'
   const [showPassword, setShowPassword] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
   const [formData, setFormData] = useState({
     // Login data
     email: '',
     password: '',
     mobile: '',
+    otp: '',
     rememberMe: false,
     
     // Registration data
@@ -61,6 +65,26 @@ const B2BAuthFlow: React.FC<B2BAuthFlowProps> = ({ onBack, onComplete }) => {
 
   const handleInputChange = (field: string, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSendOTP = () => {
+    if (formData.mobile) {
+      setOtpSent(true);
+      // Simulate OTP sending
+      console.log('OTP sent to:', formData.mobile);
+    }
+  };
+
+  const handleGoogleLogin = () => {
+    // Simulate Google SSO
+    console.log('Google login initiated');
+    onComplete({ ...formData, loginMethod: 'google' });
+  };
+
+  const handleLinkedInLogin = () => {
+    // Simulate LinkedIn SSO
+    console.log('LinkedIn login initiated');
+    onComplete({ ...formData, loginMethod: 'linkedin' });
   };
 
   const renderLogin = () => (
@@ -130,14 +154,51 @@ const B2BAuthFlow: React.FC<B2BAuthFlowProps> = ({ onBack, onComplete }) => {
         </Button>
 
         <div className="text-center">
-          <p className="text-sm text-gray-600">Or login with</p>
-          <div className="grid grid-cols-2 gap-2 mt-2">
-            <Button variant="outline" className="text-sm">
+          <p className="text-sm text-gray-600 mb-3">Or login with</p>
+          <div className="grid grid-cols-2 gap-2">
+            <Button variant="outline" className="text-sm" onClick={handleGoogleLogin}>
+              <Chrome className="w-4 h-4 mr-2" />
               Google
             </Button>
-            <Button variant="outline" className="text-sm">
+            <Button variant="outline" className="text-sm" onClick={handleLinkedInLogin}>
+              <Linkedin className="w-4 h-4 mr-2" />
               LinkedIn
             </Button>
+          </div>
+        </div>
+
+        <div className="border-t pt-4">
+          <p className="text-sm text-gray-600 mb-3 text-center">Mobile OTP Login (India)</p>
+          <div className="space-y-2">
+            <div className="flex gap-2">
+              <Input 
+                placeholder="+91 Mobile Number"
+                value={formData.mobile}
+                onChange={(e) => handleInputChange('mobile', e.target.value)}
+                className="flex-1"
+              />
+              <Button 
+                variant="outline" 
+                onClick={handleSendOTP}
+                disabled={!formData.mobile || otpSent}
+              >
+                {otpSent ? 'Sent' : 'Send OTP'}
+              </Button>
+            </div>
+            {otpSent && (
+              <div className="flex gap-2">
+                <Input 
+                  placeholder="Enter 6-digit OTP"
+                  value={formData.otp}
+                  onChange={(e) => handleInputChange('otp', e.target.value)}
+                  maxLength={6}
+                  className="flex-1"
+                />
+                <Button onClick={() => onComplete({ ...formData, loginMethod: 'otp' })}>
+                  Verify
+                </Button>
+              </div>
+            )}
           </div>
         </div>
 
@@ -151,18 +212,6 @@ const B2BAuthFlow: React.FC<B2BAuthFlowProps> = ({ onBack, onComplete }) => {
               Register Your Business
             </button>
           </p>
-        </div>
-
-        <div className="text-center">
-          <p className="text-sm text-gray-600">Or use Mobile OTP (India)</p>
-          <div className="flex gap-2 mt-2">
-            <Input 
-              placeholder="+91 Mobile Number"
-              value={formData.mobile}
-              onChange={(e) => handleInputChange('mobile', e.target.value)}
-            />
-            <Button variant="outline">Send OTP</Button>
-          </div>
         </div>
       </CardContent>
     </Card>
