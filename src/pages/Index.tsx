@@ -26,13 +26,10 @@ import CRMModule from '@/components/CRMModule';
 import AppointmentModule from '@/components/AppointmentModule';
 import SalesModule from '@/components/SalesModule';
 import IndustrySelector from '@/components/IndustrySelector';
-import LandingPage from '@/components/LandingPage';
-import AuthFlow from '@/components/AuthFlow';
 
 const Index = () => {
-  const [activeModule, setActiveModule] = useState('landing');
+  const [activeModule, setActiveModule] = useState('dashboard');
   const [selectedIndustry, setSelectedIndustry] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const dashboardData = {
     leads: [
@@ -57,20 +54,6 @@ const Index = () => {
     { title: 'Appointments', value: '89', icon: Calendar, change: '+15%', color: 'text-orange-600' }
   ];
 
-  // Show landing page if not authenticated
-  if (!isAuthenticated) {
-    if (activeModule === 'landing') {
-      return <LandingPage onNavigate={setActiveModule} />;
-    }
-    if (activeModule === 'login' || activeModule === 'register') {
-      return <AuthFlow mode={activeModule} onSuccess={() => {
-        setIsAuthenticated(true);
-        setActiveModule('industry-selector');
-      }} onNavigate={setActiveModule} />;
-    }
-  }
-
-  // Industry selection flow
   if (!selectedIndustry) {
     return <IndustrySelector onSelect={setSelectedIndustry} />;
   }
@@ -231,12 +214,11 @@ const Index = () => {
           <div className="flex items-center space-x-8">
             <div className="flex items-center space-x-3">
               <img 
-                src="/lovable-uploads/e966dfcc-3fb1-4c3f-9347-c92eb3132e2a.png" 
-                alt="KALASH Logo" 
-                className="h-20 w-20 rounded-full"
-                style={{ width: '80px', height: '80px' }}
+                src="/lovable-uploads/d93d77cc-c8d8-4de8-a99e-50e5437a8947.png" 
+                alt="Business Pro Logo" 
+                className="h-8 w-8"
               />
-              <h1 className="text-xl font-bold text-green-700">KALASH</h1>
+              <h1 className="text-xl font-bold text-blue-600">Business Pro</h1>
             </div>
             <div className="flex space-x-1">
               <Button
@@ -291,15 +273,9 @@ const Index = () => {
             >
               Change Industry
             </Button>
-            <Button 
-              variant="outline"
-              onClick={() => {
-                setIsAuthenticated(false);
-                setActiveModule('landing');
-              }}
-              className="text-sm"
-            >
-              Logout
+            <Button className="text-sm">
+              <LogIn className="w-4 h-4 mr-2" />
+              Login
             </Button>
           </div>
         </div>
