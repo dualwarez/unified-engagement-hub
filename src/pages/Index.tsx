@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -234,7 +233,8 @@ const Index = () => {
               <img 
                 src="/lovable-uploads/e966dfcc-3fb1-4c3f-9347-c92eb3132e2a.png" 
                 alt="KALASH Logo" 
-                className="h-10 w-10 rounded-full"
+                className="h-20 w-20 rounded-full"
+                style={{ width: '80px', height: '80px' }}
               />
               <h1 className="text-xl font-bold text-green-700">KALASH</h1>
             </div>

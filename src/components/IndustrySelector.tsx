@@ -163,7 +163,8 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect }) => {
             <img 
               src="/lovable-uploads/e966dfcc-3fb1-4c3f-9347-c92eb3132e2a.png" 
               alt="KALASH.AI Logo" 
-              className="h-24 w-24 rounded-full"
+              className="h-32 w-32 rounded-full"
+              style={{ width: '128px', height: '128px' }}
             />
             <h1 className="text-3xl font-bold text-blue-600 ml-4">KALASH</h1>
           </div>
