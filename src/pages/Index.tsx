@@ -26,10 +26,13 @@ import CRMModule from '@/components/CRMModule';
 import AppointmentModule from '@/components/AppointmentModule';
 import SalesModule from '@/components/SalesModule';
 import IndustrySelector from '@/components/IndustrySelector';
+import B2BAuthFlow from '@/components/B2BAuthFlow';
 
 const Index = () => {
   const [activeModule, setActiveModule] = useState('dashboard');
   const [selectedIndustry, setSelectedIndustry] = useState('');
+  const [showAuth, setShowAuth] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const dashboardData = {
     leads: [
@@ -54,8 +57,18 @@ const Index = () => {
     { title: 'Appointments', value: '89', icon: Calendar, change: '+15%', color: 'text-orange-600' }
   ];
 
-  if (!selectedIndustry) {
-    return <IndustrySelector onSelect={setSelectedIndustry} />;
+  const handleAuthComplete = (userData: any) => {
+    setIsAuthenticated(true);
+    setShowAuth(false);
+    console.log('User authenticated:', userData);
+  };
+
+  if (showAuth) {
+    return <B2BAuthFlow onBack={() => setShowAuth(false)} onComplete={handleAuthComplete} />;
+  }
+
+  if (!selectedIndustry && !isAuthenticated) {
+    return <IndustrySelector onSelect={setSelectedIndustry} onShowAuth={() => setShowAuth(true)} />;
   }
 
   const renderDashboard = () => (
@@ -214,11 +227,11 @@ const Index = () => {
           <div className="flex items-center space-x-8">
             <div className="flex items-center space-x-3">
               <img 
-                src="/lovable-uploads/d93d77cc-c8d8-4de8-a99e-50e5437a8947.png" 
-                alt="Business Pro Logo" 
-                className="h-8 w-8"
+                src="/lovable-uploads/b583aa5c-7bf8-4a13-b413-3f8b3437278d.png" 
+                alt="KALASH Logo" 
+                className="h-10 w-10"
               />
-              <h1 className="text-xl font-bold text-blue-600">Business Pro</h1>
+              <h1 className="text-xl font-bold text-green-600">KALASH</h1>
             </div>
             <div className="flex space-x-1">
               <Button
@@ -268,12 +281,15 @@ const Index = () => {
           <div className="flex items-center space-x-4">
             <Button
               variant="outline"
-              onClick={() => setSelectedIndustry('')}
+              onClick={() => {
+                setSelectedIndustry('');
+                setIsAuthenticated(false);
+              }}
               className="text-sm"
             >
               Change Industry
             </Button>
-            <Button className="text-sm">
+            <Button className="text-sm" onClick={() => setShowAuth(true)}>
               <LogIn className="w-4 h-4 mr-2" />
               Login
             </Button>

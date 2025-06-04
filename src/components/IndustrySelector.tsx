@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,14 +12,33 @@ import {
   Utensils, 
   Briefcase, 
   ShoppingBag,
-  LogIn 
+  LogIn,
+  Plane,
+  Music,
+  Palette,
+  Camera,
+  Dumbbell,
+  Leaf,
+  Users,
+  Laptop,
+  Truck,
+  Settings,
+  Hammer,
+  Shield,
+  DollarSign,
+  Clock,
+  Phone,
+  MapPin,
+  Shirt,
+  Coffee
 } from 'lucide-react';
 
 interface IndustrySelectorProps {
   onSelect: (industry: string) => void;
+  onShowAuth: () => void;
 }
 
-const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect }) => {
+const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect, onShowAuth }) => {
   const industries = [
     {
       name: 'Real Estate',
@@ -67,38 +87,151 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect }) => {
       icon: ShoppingBag,
       description: 'Stores and e-commerce businesses',
       color: 'bg-pink-500'
+    },
+    {
+      name: 'Travel & Tourism',
+      icon: Plane,
+      description: 'Travel agencies and tour operators',
+      color: 'bg-teal-500'
+    },
+    {
+      name: 'Entertainment',
+      icon: Music,
+      description: 'Media, events, and entertainment',
+      color: 'bg-purple-600'
+    },
+    {
+      name: 'Creative Services',
+      icon: Palette,
+      description: 'Design, marketing, and creative agencies',
+      color: 'bg-rose-500'
+    },
+    {
+      name: 'Photography',
+      icon: Camera,
+      description: 'Photography and videography services',
+      color: 'bg-gray-600'
+    },
+    {
+      name: 'Fitness & Sports',
+      icon: Dumbbell,
+      description: 'Gyms, fitness centers, and sports',
+      color: 'bg-emerald-500'
+    },
+    {
+      name: 'Beauty & Wellness',
+      icon: Leaf,
+      description: 'Salons, spas, and wellness centers',
+      color: 'bg-lime-500'
+    },
+    {
+      name: 'Non-Profit',
+      icon: Users,
+      description: 'NGOs and charitable organizations',
+      color: 'bg-cyan-500'
+    },
+    {
+      name: 'Technology',
+      icon: Laptop,
+      description: 'IT services and software companies',
+      color: 'bg-blue-600'
+    },
+    {
+      name: 'Logistics',
+      icon: Truck,
+      description: 'Transportation and logistics services',
+      color: 'bg-amber-600'
+    },
+    {
+      name: 'Manufacturing',
+      icon: Settings,
+      description: 'Manufacturing and industrial services',
+      color: 'bg-slate-600'
+    },
+    {
+      name: 'Home Services',
+      icon: Hammer,
+      description: 'Repair, maintenance, and home improvement',
+      color: 'bg-orange-600'
+    },
+    {
+      name: 'Insurance',
+      icon: Shield,
+      description: 'Insurance agencies and brokers',
+      color: 'bg-blue-700'
+    },
+    {
+      name: 'Financial Services',
+      icon: DollarSign,
+      description: 'Banking, loans, and financial advisors',
+      color: 'bg-green-600'
+    },
+    {
+      name: 'Personal Services',
+      icon: Clock,
+      description: 'Personal assistance and lifestyle services',
+      color: 'bg-violet-500'
+    },
+    {
+      name: 'Telecommunications',
+      icon: Phone,
+      description: 'Telecom and communication services',
+      color: 'bg-blue-800'
+    },
+    {
+      name: 'Local Services',
+      icon: MapPin,
+      description: 'Local community and municipal services',
+      color: 'bg-red-600'
+    },
+    {
+      name: 'Fashion & Apparel',
+      icon: Shirt,
+      description: 'Clothing stores and fashion brands',
+      color: 'bg-pink-600'
+    },
+    {
+      name: 'Cafes & Coffee Shops',
+      icon: Coffee,
+      description: 'Coffee shops and beverage services',
+      color: 'bg-amber-700'
     }
   ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-6">
-      <div className="max-w-4xl w-full">
+      <div className="max-w-6xl w-full">
         {/* Header with Login Button */}
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center">
             <img 
-              src="/lovable-uploads/652b541b-790b-47ac-a157-d2fefd4e719d.png" 
-              alt="KALASH.AI Logo" 
-              className="h-24 w-auto"
+              src="/lovable-uploads/b583aa5c-7bf8-4a13-b413-3f8b3437278d.png" 
+              alt="KALASH Logo" 
+              className="h-32 w-32"
             />
           </div>
-          <Button className="text-sm">
-            <LogIn className="w-4 h-4 mr-2" />
-            Login
-          </Button>
+          <div className="flex gap-3">
+            <Button onClick={onShowAuth} className="text-sm">
+              <LogIn className="w-4 h-4 mr-2" />
+              Login as B2B User
+            </Button>
+            <Button onClick={onShowAuth} variant="outline" className="text-sm">
+              Register Your Business
+            </Button>
+          </div>
         </div>
 
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-blue-600 mb-4">Welcome to Business Pro</h1>
+          <h1 className="text-4xl font-bold text-green-600 mb-4">Register your business & activate AI Agent</h1>
           <p className="text-xl text-gray-600 mb-2">Choose your industry to get started</p>
-          <p className="text-gray-500">We'll customize your experience based on your business type</p>
+          <p className="text-gray-500">We'll customize your AI sales agent based on your business type</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {industries.map((industry, index) => (
             <Card 
               key={index} 
-              className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-2 hover:border-blue-300"
+              className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-2 hover:border-green-300"
               onClick={() => onSelect(industry.name)}
             >
               <CardHeader className="text-center pb-2">
@@ -123,10 +256,10 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect }) => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Standard Plan */}
-            <Card className="relative border-2 hover:border-blue-300 transition-all duration-300">
+            <Card className="relative border-2 hover:border-green-300 transition-all duration-300">
               <CardHeader className="text-center">
                 <CardTitle className="text-2xl font-bold text-gray-900">Standard</CardTitle>
-                <div className="text-4xl font-bold text-blue-600 mt-2">$36/mo</div>
+                <div className="text-4xl font-bold text-green-600 mt-2">$36/mo</div>
                 <CardDescription>Perfect for small businesses</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -153,13 +286,13 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect }) => {
             </Card>
 
             {/* Value Plan */}
-            <Card className="relative border-2 border-blue-500 hover:border-blue-600 transition-all duration-300 transform scale-105">
+            <Card className="relative border-2 border-green-500 hover:border-green-600 transition-all duration-300 transform scale-105">
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <Badge className="bg-blue-500 text-white px-4 py-1">Most Popular</Badge>
+                <Badge className="bg-green-500 text-white px-4 py-1">Most Popular</Badge>
               </div>
               <CardHeader className="text-center">
                 <CardTitle className="text-2xl font-bold text-gray-900">Value</CardTitle>
-                <div className="text-4xl font-bold text-blue-600 mt-2">$180/mo</div>
+                <div className="text-4xl font-bold text-green-600 mt-2">$180/mo</div>
                 <CardDescription>Best value for growing businesses</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -190,10 +323,10 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect }) => {
             </Card>
 
             {/* Pro Plan */}
-            <Card className="relative border-2 hover:border-blue-300 transition-all duration-300">
+            <Card className="relative border-2 hover:border-green-300 transition-all duration-300">
               <CardHeader className="text-center">
                 <CardTitle className="text-2xl font-bold text-gray-900">Pro</CardTitle>
-                <div className="text-4xl font-bold text-blue-600 mt-2">$540/mo</div>
+                <div className="text-4xl font-bold text-green-600 mt-2">$540/mo</div>
                 <CardDescription>For enterprise-level businesses</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -233,6 +366,9 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect }) => {
           <p className="text-gray-500 text-sm">
             Don't see your industry? You can customize settings later in the dashboard.
           </p>
+          <Button onClick={onShowAuth} className="mt-4" size="lg">
+            Learn More
+          </Button>
         </div>
       </div>
     </div>
