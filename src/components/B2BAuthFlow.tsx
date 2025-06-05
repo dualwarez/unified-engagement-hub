@@ -1,9 +1,9 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import { 
   ArrowLeft, 
   Mail, 
@@ -22,7 +22,19 @@ import {
   Target,
   MessageSquare,
   Calendar,
-  TrendingUp
+  TrendingUp,
+  Globe,
+  Linkedin,
+  Key,
+  Clock,
+  AlertCircle,
+  Monitor,
+  Palette,
+  Zap,
+  BarChart3,
+  UserPlus,
+  Database,
+  Webhook
 } from 'lucide-react';
 
 interface B2BAuthFlowProps {
@@ -31,13 +43,16 @@ interface B2BAuthFlowProps {
 }
 
 const B2BAuthFlow: React.FC<B2BAuthFlowProps> = ({ onBack, onComplete }) => {
-  const [currentStep, setCurrentStep] = useState('login'); // 'login', 'register', 'step1', 'step2', 'step3', 'step4', 'step5', 'step6', 'complete'
+  const [currentStep, setCurrentStep] = useState('login');
   const [showPassword, setShowPassword] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
+  const [agentSetupStep, setAgentSetupStep] = useState(1);
   const [formData, setFormData] = useState({
     // Login data
     email: '',
     password: '',
     mobile: '',
+    otp: '',
     rememberMe: false,
     
     // Registration data
@@ -56,11 +71,28 @@ const B2BAuthFlow: React.FC<B2BAuthFlowProps> = ({ onBack, onComplete }) => {
     useCase: '',
     industry: '',
     teamSize: '',
-    agentGoals: []
+    agentGoals: [],
+    
+    // AI Agent Setup
+    whatsappSenderId: '',
+    crmIntegration: '',
+    leadSources: [],
+    agentTone: 'professional',
+    primaryGoals: [],
+    
+    // Post-login setup
+    profileCompletion: 45,
+    agentStatus: 'inactive'
   });
 
   const handleInputChange = (field: string, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const sendOTP = () => {
+    setOtpSent(true);
+    // Simulate OTP sending
+    console.log('OTP sent to:', formData.mobile);
   };
 
   const renderLogin = () => (
@@ -75,6 +107,7 @@ const B2BAuthFlow: React.FC<B2BAuthFlowProps> = ({ onBack, onComplete }) => {
         <CardDescription>Access your AI sales agent dashboard</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
+        {/* Email + Password Login */}
         <div className="space-y-4">
           <div>
             <label className="text-sm font-medium">Email Address</label>
@@ -125,20 +158,61 @@ const B2BAuthFlow: React.FC<B2BAuthFlowProps> = ({ onBack, onComplete }) => {
           </div>
         </div>
 
-        <Button className="w-full" onClick={() => onComplete(formData)}>
+        <Button className="w-full" onClick={() => setCurrentStep('dashboard-setup')}>
           Login
         </Button>
 
+        {/* Social Login */}
         <div className="text-center">
-          <p className="text-sm text-gray-600">Or login with</p>
-          <div className="grid grid-cols-2 gap-2 mt-2">
+          <p className="text-sm text-gray-600 mb-3">Or continue with</p>
+          <div className="grid grid-cols-2 gap-2">
             <Button variant="outline" className="text-sm">
+              <Globe className="w-4 h-4 mr-2" />
               Google
             </Button>
             <Button variant="outline" className="text-sm">
+              <Linkedin className="w-4 h-4 mr-2" />
               LinkedIn
             </Button>
           </div>
+        </div>
+
+        {/* Mobile OTP Section */}
+        <div className="border-t pt-4">
+          <p className="text-sm text-gray-600 mb-3 text-center">Login with Mobile OTP (India)</p>
+          <div className="space-y-3">
+            <div className="flex gap-2">
+              <Input 
+                placeholder="+91 Mobile Number"
+                value={formData.mobile}
+                onChange={(e) => handleInputChange('mobile', e.target.value)}
+              />
+              <Button variant="outline" onClick={sendOTP} disabled={otpSent}>
+                {otpSent ? 'Sent' : 'Send OTP'}
+              </Button>
+            </div>
+            
+            {otpSent && (
+              <div className="space-y-2">
+                <Input 
+                  placeholder="Enter 6-digit OTP"
+                  value={formData.otp}
+                  onChange={(e) => handleInputChange('otp', e.target.value)}
+                  maxLength={6}
+                />
+                <div className="flex items-center text-sm text-gray-600">
+                  <Clock className="w-4 h-4 mr-1" />
+                  Resend OTP in 30s
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Security Notice */}
+        <div className="flex items-center text-xs text-gray-500 bg-gray-50 p-2 rounded">
+          <Shield className="w-3 h-3 mr-1" />
+          Protected by reCAPTCHA & device verification
         </div>
 
         <div className="text-center">
@@ -151,18 +225,6 @@ const B2BAuthFlow: React.FC<B2BAuthFlowProps> = ({ onBack, onComplete }) => {
               Register Your Business
             </button>
           </p>
-        </div>
-
-        <div className="text-center">
-          <p className="text-sm text-gray-600">Or use Mobile OTP (India)</p>
-          <div className="flex gap-2 mt-2">
-            <Input 
-              placeholder="+91 Mobile Number"
-              value={formData.mobile}
-              onChange={(e) => handleInputChange('mobile', e.target.value)}
-            />
-            <Button variant="outline">Send OTP</Button>
-          </div>
         </div>
       </CardContent>
     </Card>
@@ -572,8 +634,336 @@ const B2BAuthFlow: React.FC<B2BAuthFlowProps> = ({ onBack, onComplete }) => {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back
           </Button>
-          <Button onClick={() => setCurrentStep('complete')}>
+          <Button onClick={() => setCurrentStep('agent-setup')}>
             Complete Registration
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+
+  const renderAgentSetup = () => (
+    <Card className="w-full max-w-3xl mx-auto">
+      <CardHeader className="text-center">
+        <CardTitle className="text-2xl text-green-600">AI Agent Activation</CardTitle>
+        <CardDescription>Configure your AI sales agent</CardDescription>
+        <div className="flex justify-center space-x-2 mt-4">
+          {[1, 2, 3, 4].map((step) => (
+            <div key={step} className={`w-3 h-3 rounded-full ${step <= agentSetupStep ? 'bg-green-500' : 'bg-gray-200'}`}></div>
+          ))}
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        {agentSetupStep === 1 && (
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">WhatsApp Integration</h3>
+            <div>
+              <label className="text-sm font-medium">WhatsApp Sender ID Setup</label>
+              <Input 
+                placeholder="Enter WhatsApp Business Number"
+                value={formData.whatsappSenderId}
+                onChange={(e) => handleInputChange('whatsappSenderId', e.target.value)}
+              />
+              <p className="text-xs text-gray-500 mt-1">We'll help you set up WhatsApp Business API</p>
+            </div>
+          </div>
+        )}
+
+        {agentSetupStep === 2 && (
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">CRM & Lead Sources</h3>
+            <div>
+              <label className="text-sm font-medium">CRM Integration (Optional)</label>
+              <select 
+                className="w-full p-2 border border-gray-300 rounded-md"
+                value={formData.crmIntegration}
+                onChange={(e) => handleInputChange('crmIntegration', e.target.value)}
+              >
+                <option value="">Select CRM</option>
+                <option value="salesforce">Salesforce</option>
+                <option value="hubspot">HubSpot</option>
+                <option value="pipedrive">Pipedrive</option>
+                <option value="zoho">Zoho CRM</option>
+                <option value="custom">Custom Integration</option>
+              </select>
+            </div>
+            
+            <div>
+              <label className="text-sm font-medium">Lead Source Mapping</label>
+              <div className="grid grid-cols-2 gap-2 mt-2">
+                {['Google Ads', 'Facebook Ads', 'Manual Entry', 'Website Form', 'Phone Calls', 'Referrals'].map((source) => (
+                  <label key={source} className="flex items-center p-2 border rounded cursor-pointer hover:bg-gray-50">
+                    <input 
+                      type="checkbox" 
+                      className="mr-2"
+                      checked={formData.leadSources.includes(source)}
+                      onChange={(e) => {
+                        const sources = formData.leadSources;
+                        if (e.target.checked) {
+                          handleInputChange('leadSources', [...sources, source]);
+                        } else {
+                          handleInputChange('leadSources', sources.filter(s => s !== source));
+                        }
+                      }}
+                    />
+                    <span className="text-sm">{source}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {agentSetupStep === 3 && (
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Agent Personality</h3>
+            <div>
+              <label className="text-sm font-medium">Agent Tone & Voice</label>
+              <div className="grid grid-cols-1 gap-2 mt-2">
+                {[
+                  { id: 'professional', label: 'Professional & Formal', desc: 'Best for B2B and corporate clients' },
+                  { id: 'friendly', label: 'Friendly & Casual', desc: 'Great for consumer-facing businesses' },
+                  { id: 'consultative', label: 'Consultative & Expert', desc: 'Perfect for advisory services' }
+                ].map((tone) => (
+                  <label key={tone.id} className={`flex items-start p-3 border rounded-lg cursor-pointer hover:bg-gray-50 ${formData.agentTone === tone.id ? 'border-green-500 bg-green-50' : ''}`}>
+                    <input 
+                      type="radio" 
+                      name="agentTone"
+                      className="mr-3 mt-1"
+                      checked={formData.agentTone === tone.id}
+                      onChange={() => handleInputChange('agentTone', tone.id)}
+                    />
+                    <div>
+                      <span className="font-medium">{tone.label}</span>
+                      <p className="text-sm text-gray-600">{tone.desc}</p>
+                    </div>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {agentSetupStep === 4 && (
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Primary Goals</h3>
+            <div className="grid grid-cols-1 gap-2">
+              {[
+                { id: 'qualification', label: 'Lead Qualification', icon: Target, desc: 'Score and qualify incoming leads' },
+                { id: 'booking', label: 'Appointment Booking', icon: Calendar, desc: 'Schedule meetings automatically' },
+                { id: 'nurturing', label: 'Follow-up Nurturing', icon: MessageSquare, desc: 'Automated follow-up sequences' }
+              ].map((goal) => (
+                <label key={goal.id} className="flex items-start p-4 border rounded-lg cursor-pointer hover:bg-gray-50">
+                  <input 
+                    type="checkbox" 
+                    className="mr-3 mt-1"
+                    checked={formData.primaryGoals.includes(goal.id)}
+                    onChange={(e) => {
+                      const goals = formData.primaryGoals;
+                      if (e.target.checked) {
+                        handleInputChange('primaryGoals', [...goals, goal.id]);
+                      } else {
+                        handleInputChange('primaryGoals', goals.filter(g => g !== goal.id));
+                      }
+                    }}
+                  />
+                  <goal.icon className="h-5 w-5 mr-3 text-green-500 mt-1" />
+                  <div>
+                    <span className="font-medium">{goal.label}</span>
+                    <p className="text-sm text-gray-600">{goal.desc}</p>
+                  </div>
+                </label>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="flex justify-between">
+          <Button 
+            variant="outline" 
+            onClick={() => setAgentSetupStep(Math.max(1, agentSetupStep - 1))}
+            disabled={agentSetupStep === 1}
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
+          <Button 
+            onClick={() => {
+              if (agentSetupStep < 4) {
+                setAgentSetupStep(agentSetupStep + 1);
+              } else {
+                setCurrentStep('dashboard-setup');
+              }
+            }}
+          >
+            {agentSetupStep < 4 ? 'Next' : 'Complete Setup'}
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+
+  const renderDashboardSetup = () => (
+    <Card className="w-full max-w-4xl mx-auto">
+      <CardHeader className="text-center">
+        <CheckCircle className="h-16 w-16 mx-auto mb-4 text-green-500" />
+        <CardTitle className="text-2xl text-green-600">Welcome to KALASH!</CardTitle>
+        <CardDescription>Your AI sales agent is being configured</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        {/* Profile Completion */}
+        <div className="space-y-2">
+          <div className="flex justify-between items-center">
+            <h3 className="font-semibold">Profile Completion</h3>
+            <span className="text-sm text-gray-600">{formData.profileCompletion}%</span>
+          </div>
+          <Progress value={formData.profileCompletion} className="h-2" />
+        </div>
+
+        {/* AI Agent Status */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Card className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h4 className="font-medium">AI Agent Status</h4>
+                <p className="text-sm text-gray-600">Currently setting up</p>
+              </div>
+              <Badge variant={formData.agentStatus === 'live' ? 'default' : 'secondary'}>
+                {formData.agentStatus === 'inactive' ? 'Setup' : formData.agentStatus}
+              </Badge>
+            </div>
+          </Card>
+
+          <Card className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h4 className="font-medium">WhatsApp Integration</h4>
+                <p className="text-sm text-gray-600">Pending verification</p>
+              </div>
+              <AlertCircle className="h-5 w-5 text-orange-500" />
+            </div>
+          </Card>
+
+          <Card className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h4 className="font-medium">Lead Sources</h4>
+                <p className="text-sm text-gray-600">{formData.leadSources.length} connected</p>
+              </div>
+              <CheckCircle className="h-5 w-5 text-green-500" />
+            </div>
+          </Card>
+        </div>
+
+        {/* Quick Setup Tasks */}
+        <div className="space-y-4">
+          <h3 className="font-semibold">Complete Your Setup</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Card className="p-4 cursor-pointer hover:shadow-md transition-shadow">
+              <div className="flex items-center gap-3">
+                <Upload className="h-8 w-8 text-blue-500" />
+                <div>
+                  <h4 className="font-medium">Upload Business Logo</h4>
+                  <p className="text-sm text-gray-600">Customize your dashboard branding</p>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-4 cursor-pointer hover:shadow-md transition-shadow">
+              <div className="flex items-center gap-3">
+                <Key className="h-8 w-8 text-purple-500" />
+                <div>
+                  <h4 className="font-medium">API Keys & Tokens</h4>
+                  <p className="text-sm text-gray-600">Configure integrations</p>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-4 cursor-pointer hover:shadow-md transition-shadow">
+              <div className="flex items-center gap-3">
+                <UserPlus className="h-8 w-8 text-green-500" />
+                <div>
+                  <h4 className="font-medium">Add Team Members</h4>
+                  <p className="text-sm text-gray-600">Invite sales executives</p>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-4 cursor-pointer hover:shadow-md transition-shadow">
+              <div className="flex items-center gap-3">
+                <Settings className="h-8 w-8 text-orange-500" />
+                <div>
+                  <h4 className="font-medium">Agent Configuration</h4>
+                  <p className="text-sm text-gray-600">Fine-tune AI responses</p>
+                </div>
+              </div>
+            </Card>
+          </div>
+        </div>
+
+        {/* User Roles Preview */}
+        <div className="space-y-4">
+          <h3 className="font-semibold">User Roles & Permissions</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Card className="p-4 border-green-200">
+              <div className="flex items-center gap-3 mb-3">
+                <Shield className="h-6 w-6 text-green-600" />
+                <div>
+                  <h4 className="font-medium text-green-600">Admin Role (You)</h4>
+                  <p className="text-sm text-gray-600">Full access & configuration</p>
+                </div>
+              </div>
+              <ul className="text-sm space-y-1 text-gray-600">
+                <li>• AI Agent Configuration</li>
+                <li>• Team Management</li>
+                <li>• Analytics & Reports</li>
+                <li>• Billing & Settings</li>
+              </ul>
+            </Card>
+
+            <Card className="p-4">
+              <div className="flex items-center gap-3 mb-3">
+                <Users className="h-6 w-6 text-blue-600" />
+                <div>
+                  <h4 className="font-medium">Team Member Role</h4>
+                  <p className="text-sm text-gray-600">Limited access for staff</p>
+                </div>
+              </div>
+              <ul className="text-sm space-y-1 text-gray-600">
+                <li>• Lead View & Edit</li>
+                <li>• Appointment Management</li>
+                <li>• Basic Analytics</li>
+                <li>• Task Management</li>
+              </ul>
+            </Card>
+          </div>
+        </div>
+
+        {/* Automation Integration Preview */}
+        <div className="space-y-4">
+          <h3 className="font-semibold">Available Integrations</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { name: 'Google Sheets', icon: Database, status: 'Available' },
+              { name: 'Webhooks', icon: Webhook, status: 'Available' },
+              { name: 'Analytics API', icon: BarChart3, status: 'Available' },
+              { name: 'Custom CRM', icon: Settings, status: 'Setup Required' }
+            ].map((integration) => (
+              <Card key={integration.name} className="p-3 text-center">
+                <integration.icon className="h-6 w-6 mx-auto mb-2 text-gray-600" />
+                <h5 className="text-sm font-medium">{integration.name}</h5>
+                <p className="text-xs text-gray-500">{integration.status}</p>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex justify-center space-x-4">
+          <Button variant="outline" onClick={() => setCurrentStep('login')}>
+            Back to Login
+          </Button>
+          <Button className="px-8" onClick={() => onComplete(formData)}>
+            Access Dashboard
           </Button>
         </div>
       </CardContent>
@@ -663,6 +1053,8 @@ const B2BAuthFlow: React.FC<B2BAuthFlowProps> = ({ onBack, onComplete }) => {
         {currentStep === 'step4' && renderStep4()}
         {currentStep === 'step5' && renderStep5()}
         {currentStep === 'step6' && renderStep6()}
+        {currentStep === 'agent-setup' && renderAgentSetup()}
+        {currentStep === 'dashboard-setup' && renderDashboardSetup()}
         {currentStep === 'complete' && renderComplete()}
       </div>
     </div>
