@@ -18,7 +18,8 @@ import {
   Search,
   Bell,
   Settings,
-  LogIn
+  LogIn,
+  MapPin
 } from 'lucide-react';
 import MarketingModule from '@/components/MarketingModule';
 import EnhancedLeadModule from '@/components/EnhancedLeadModule';
@@ -27,12 +28,16 @@ import AppointmentModule from '@/components/AppointmentModule';
 import SalesModule from '@/components/SalesModule';
 import IndustrySelector from '@/components/IndustrySelector';
 import B2BAuthFlow from '@/components/B2BAuthFlow';
+import CountryCurrencySelector from '@/components/CountryCurrencySelector';
 
 const Index = () => {
   const [activeModule, setActiveModule] = useState('dashboard');
   const [selectedIndustry, setSelectedIndustry] = useState('');
   const [showAuth, setShowAuth] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [showCountrySelector, setShowCountrySelector] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState('India');
+  const [selectedCurrency, setSelectedCurrency] = useState('INR');
 
   const dashboardData = {
     leads: [
@@ -63,8 +68,26 @@ const Index = () => {
     console.log('User authenticated:', userData);
   };
 
+  const handleCountryCurrencySelect = (data: { country: string; currency: string }) => {
+    setSelectedCountry(data.country);
+    setSelectedCurrency(data.currency);
+    setShowCountrySelector(false);
+    console.log('Country and currency selected:', data);
+  };
+
   if (showAuth) {
     return <B2BAuthFlow onBack={() => setShowAuth(false)} onComplete={handleAuthComplete} />;
+  }
+
+  if (showCountrySelector) {
+    return (
+      <CountryCurrencySelector
+        onSubmit={handleCountryCurrencySelect}
+        onBack={() => setShowCountrySelector(false)}
+        defaultCountry={`${selectedCountry}|${selectedCurrency}`}
+        defaultCurrency={selectedCurrency}
+      />
+    );
   }
 
   if (!selectedIndustry && !isAuthenticated) {
@@ -77,10 +100,14 @@ const Index = () => {
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Business Dashboard</h1>
           <p className="text-gray-600 mt-1">
-            {selectedIndustry} Industry • Welcome back to your automation hub
+            {selectedIndustry} Industry • {selectedCountry} ({selectedCurrency}) • Welcome back to your automation hub
           </p>
         </div>
         <div className="flex gap-3">
+          <Button variant="outline" size="sm" onClick={() => setShowCountrySelector(true)}>
+            <MapPin className="w-4 h-4 mr-2" />
+            {selectedCountry} ({selectedCurrency})
+          </Button>
           <Button variant="outline" size="sm">
             <Bell className="w-4 h-4 mr-2" />
             Notifications
@@ -279,6 +306,14 @@ const Index = () => {
             </div>
           </div>
           <div className="flex items-center space-x-4">
+            <Button
+              variant="outline"
+              onClick={() => setShowCountrySelector(true)}
+              className="text-sm"
+            >
+              <MapPin className="w-4 h-4 mr-2" />
+              {selectedCountry} ({selectedCurrency})
+            </Button>
             <Button
               variant="outline"
               onClick={() => {
