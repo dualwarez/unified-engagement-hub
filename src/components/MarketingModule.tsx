@@ -20,9 +20,11 @@ import {
   Instagram,
   Linkedin,
   Youtube,
-  Sparkles
+  Sparkles,
+  Activity
 } from 'lucide-react';
 import CampaignCreationForm from './CampaignCreationForm';
+import PerformanceMonitor from './PerformanceMonitor';
 
 interface MarketingModuleProps {
   industry: string;
@@ -138,7 +140,7 @@ const MarketingModule: React.FC<MarketingModuleProps> = ({ industry }) => {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="campaigns">Active Campaigns</TabsTrigger>
           <TabsTrigger value="create">
             <Sparkles className="w-4 h-4 mr-1" />
@@ -147,10 +149,18 @@ const MarketingModule: React.FC<MarketingModuleProps> = ({ industry }) => {
           <TabsTrigger value="templates">Templates</TabsTrigger>
           <TabsTrigger value="analytics">Analytics</TabsTrigger>
           <TabsTrigger value="automation">Automation</TabsTrigger>
+          <TabsTrigger value="monitoring">
+            <Activity className="w-4 h-4 mr-1" />
+            Performance Monitor
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="create" className="space-y-6">
           <CampaignCreationForm />
+        </TabsContent>
+
+        <TabsContent value="monitoring" className="space-y-6">
+          <PerformanceMonitor />
         </TabsContent>
 
         <TabsContent value="campaigns" className="space-y-6">

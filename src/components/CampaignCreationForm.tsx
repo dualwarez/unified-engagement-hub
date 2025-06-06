@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,8 +6,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, Sparkles, Eye, Send } from 'lucide-react';
+import { Loader2, Sparkles, Eye, Send, Clock, CheckCircle, Calendar } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
+import { metaApiService } from '@/services/metaApiService';
 
 interface CampaignFormData {
   campaignName: string;
@@ -41,8 +41,10 @@ const CampaignCreationForm: React.FC = () => {
   });
   
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isCreatingCampaign, setIsCreatingCampaign] = useState(false);
   const [generatedContent, setGeneratedContent] = useState<GeneratedContent | null>(null);
-  const [step, setStep] = useState<'form' | 'preview' | 'approved'>('form');
+  const [campaignId, setCampaignId] = useState<string | null>(null);
+  const [step, setStep] = useState<'form' | 'preview' | 'approved' | 'launched'>('form');
   const { toast } = useToast();
 
   const handleInputChange = (field: keyof CampaignFormData, value: string) => {
@@ -133,11 +135,64 @@ const CampaignCreationForm: React.FC = () => {
   };
 
   const handleApprove = async () => {
-    setStep('approved');
-    toast({
-      title: "Campaign Approved!",
-      description: "Your campaign has been approved and is ready to launch.",
-    });
+    if (!generatedContent) return;
+    
+    setIsCreatingCampaign(true);
+    
+    try {
+      // Call Meta API to create campaign
+      toast({
+        title: "Creating Campaign",
+        description: "Setting up your campaign on the selected platform...",
+      });
+
+      const metaCampaignData = {
+        name: formData.campaignName,
+        objective: formData.objective,
+        budget: parseInt(formData.budget.replace('$', '')),
+        targeting: { audience: formData.targetAudience },
+        creative: {
+          headline: generatedContent.headline,
+          description: generatedContent.description,
+          image_url: generatedContent.adCreativeUrl || '',
+        },
+      };
+
+      const newCampaignId = await metaApiService.createCampaign(metaCampaignData);
+      setCampaignId(newCampaignId);
+
+      // Schedule start time (immediate for demo, could be user-selected)
+      const startTime = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes from now
+      await metaApiService.scheduleCampaignStart(newCampaignId, startTime);
+
+      toast({
+        title: "Campaign Submitted!",
+        description: "Your campaign has been submitted for platform approval.",
+      });
+
+      setStep('approved');
+
+      // Monitor for approval (in real implementation, this would be a webhook or scheduled check)
+      setTimeout(async () => {
+        const approvalStatus = await metaApiService.checkCampaignApprovalStatus(newCampaignId);
+        if (approvalStatus === 'approved') {
+          setStep('launched');
+          toast({
+            title: "Campaign Approved & Launched!",
+            description: "Your campaign is now live and collecting data.",
+          });
+        }
+      }, 3000);
+
+    } catch (error) {
+      toast({
+        title: "Campaign Creation Failed",
+        description: "There was an error creating your campaign. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsCreatingCampaign(false);
+    }
   };
 
   const handleEdit = () => {
@@ -145,23 +200,69 @@ const CampaignCreationForm: React.FC = () => {
     setGeneratedContent(null);
   };
 
-  if (step === 'approved') {
+  if (step === 'launched') {
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-green-600">Campaign Approved! ✅</CardTitle>
-          <CardDescription>Your campaign is ready to launch</CardDescription>
+          <CardTitle className="text-green-600 flex items-center gap-2">
+            <CheckCircle className="w-5 h-5" />
+            Campaign Live! 🚀
+          </CardTitle>
+          <CardDescription>Your campaign is now running and collecting performance data</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="text-center py-8">
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Send className="w-8 h-8 text-green-600" />
             </div>
-            <h3 className="text-lg font-semibold mb-2">Campaign "{formData.campaignName}" Approved</h3>
-            <p className="text-gray-600 mb-4">Your campaign is now ready to be launched on {formData.platform}</p>
+            <h3 className="text-lg font-semibold mb-2">Campaign "{formData.campaignName}" is Live</h3>
+            <p className="text-gray-600 mb-4">Campaign ID: {campaignId}</p>
+            <div className="bg-blue-50 p-4 rounded-lg mb-4">
+              <p className="text-sm text-blue-800">
+                ⏰ Performance data will be automatically fetched every 12 hours and updated in your dashboard.
+              </p>
+            </div>
             <div className="flex gap-3 justify-center">
               <Button onClick={() => setStep('form')}>Create New Campaign</Button>
-              <Button variant="outline">View Campaign Details</Button>
+              <Button variant="outline">View Analytics</Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (step === 'approved') {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-blue-600 flex items-center gap-2">
+            <Clock className="w-5 h-5" />
+            Campaign Submitted for Approval
+          </CardTitle>
+          <CardDescription>Waiting for platform approval before going live</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="text-center py-8">
+            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              {isCreatingCampaign ? (
+                <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
+              ) : (
+                <Calendar className="w-8 h-8 text-blue-600" />
+              )}
+            </div>
+            <h3 className="text-lg font-semibold mb-2">Campaign "{formData.campaignName}" Submitted</h3>
+            <p className="text-gray-600 mb-4">
+              {campaignId ? `Campaign ID: ${campaignId}` : 'Creating campaign...'}
+            </p>
+            <div className="bg-yellow-50 p-4 rounded-lg mb-4">
+              <p className="text-sm text-yellow-800">
+                📋 Your campaign is being reviewed by {formData.platform}. This typically takes 24-48 hours.
+              </p>
+            </div>
+            <div className="flex gap-3 justify-center">
+              <Button onClick={() => setStep('form')}>Create New Campaign</Button>
+              <Button variant="outline">Monitor Status</Button>
             </div>
           </div>
         </CardContent>
@@ -219,8 +320,19 @@ const CampaignCreationForm: React.FC = () => {
           </div>
           
           <div className="flex gap-3 pt-4 border-t">
-            <Button onClick={handleApprove} className="bg-green-600 hover:bg-green-700">
-              Approve Campaign
+            <Button 
+              onClick={handleApprove} 
+              className="bg-green-600 hover:bg-green-700"
+              disabled={isCreatingCampaign}
+            >
+              {isCreatingCampaign ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Creating Campaign...
+                </>
+              ) : (
+                'Approve & Launch Campaign'
+              )}
             </Button>
             <Button variant="outline" onClick={handleEdit}>
               Edit Campaign
