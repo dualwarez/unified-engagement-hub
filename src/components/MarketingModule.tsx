@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -20,8 +19,10 @@ import {
   Facebook,
   Instagram,
   Linkedin,
-  Youtube
+  Youtube,
+  Sparkles
 } from 'lucide-react';
+import CampaignCreationForm from './CampaignCreationForm';
 
 interface MarketingModuleProps {
   industry: string;
@@ -137,12 +138,20 @@ const MarketingModule: React.FC<MarketingModuleProps> = ({ industry }) => {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="campaigns">Active Campaigns</TabsTrigger>
+          <TabsTrigger value="create">
+            <Sparkles className="w-4 h-4 mr-1" />
+            AI Campaign Creator
+          </TabsTrigger>
           <TabsTrigger value="templates">Templates</TabsTrigger>
           <TabsTrigger value="analytics">Analytics</TabsTrigger>
           <TabsTrigger value="automation">Automation</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="create" className="space-y-6">
+          <CampaignCreationForm />
+        </TabsContent>
 
         <TabsContent value="campaigns" className="space-y-6">
           <div className="grid gap-4">
