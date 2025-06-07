@@ -252,7 +252,7 @@ const Index = () => {
           <div className="flex items-center space-x-8">
             <div className="flex items-center space-x-3">
               <img src="/lovable-uploads/b583aa5c-7bf8-4a13-b413-3f8b3437278d.png" alt="KALASH Logo" className="h-10 w-10" />
-              <h1 className="text-xl font-bold text-green-600">PLATFORM</h1>
+              <h1 className="text-xl font-bold text-green-800">PLATFORM</h1>
             </div>
             <div className="flex space-x-1">
               <Button variant={activeModule === 'dashboard' ? 'default' : 'ghost'} onClick={() => setActiveModule('dashboard')} className="text-sm">
