@@ -4,23 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts';
-import { 
-  TrendingUp, 
-  Users, 
-  Calendar, 
-  MessageSquare, 
-  Phone, 
-  Mail, 
-  Target, 
-  DollarSign,
-  PlusCircle,
-  Filter,
-  Search,
-  Bell,
-  Settings,
-  LogIn,
-  MapPin
-} from 'lucide-react';
+import { TrendingUp, Users, Calendar, MessageSquare, Phone, Mail, Target, DollarSign, PlusCircle, Filter, Search, Bell, Settings, LogIn, MapPin } from 'lucide-react';
 import MarketingModule from '@/components/MarketingModule';
 import EnhancedLeadModule from '@/components/EnhancedLeadModule';
 import CRMModule from '@/components/CRMModule';
@@ -30,7 +14,6 @@ import IndustrySelector from '@/components/IndustrySelector';
 import B2BAuthFlow from '@/components/B2BAuthFlow';
 import CountryCurrencySelector from '@/components/CountryCurrencySelector';
 import { CurrencyService } from '@/services/currencyService';
-
 const Index = () => {
   const [activeModule, setActiveModule] = useState('dashboard');
   const [selectedIndustry, setSelectedIndustry] = useState('');
@@ -39,68 +22,93 @@ const Index = () => {
   const [showCountrySelector, setShowCountrySelector] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState('India');
   const [selectedCurrency, setSelectedCurrency] = useState('INR');
-
   const dashboardData = {
-    leads: [
-      { name: 'Jan', value: 45 },
-      { name: 'Feb', value: 52 },
-      { name: 'Mar', value: 61 },
-      { name: 'Apr', value: 58 },
-      { name: 'May', value: 72 },
-      { name: 'Jun', value: 69 }
-    ],
-    conversion: [
-      { name: 'Leads', value: 156, color: '#3b82f6' },
-      { name: 'Qualified', value: 89, color: '#10b981' },
-      { name: 'Converted', value: 34, color: '#f59e0b' }
-    ]
+    leads: [{
+      name: 'Jan',
+      value: 45
+    }, {
+      name: 'Feb',
+      value: 52
+    }, {
+      name: 'Mar',
+      value: 61
+    }, {
+      name: 'Apr',
+      value: 58
+    }, {
+      name: 'May',
+      value: 72
+    }, {
+      name: 'Jun',
+      value: 69
+    }],
+    conversion: [{
+      name: 'Leads',
+      value: 156,
+      color: '#3b82f6'
+    }, {
+      name: 'Qualified',
+      value: 89,
+      color: '#10b981'
+    }, {
+      name: 'Converted',
+      value: 34,
+      color: '#f59e0b'
+    }]
   };
 
   // Base revenue in USD for conversion
   const baseRevenueUSD = 45678;
   const formattedRevenue = CurrencyService.convertAndFormat(baseRevenueUSD, selectedCurrency);
-
-  const stats = [
-    { title: 'Total Leads', value: '1,247', icon: Users, change: '+12%', color: 'text-blue-600' },
-    { title: 'Conversion Rate', value: '24.5%', icon: TrendingUp, change: '+3.2%', color: 'text-green-600' },
-    { title: 'Revenue', value: formattedRevenue, icon: DollarSign, change: '+8.1%', color: 'text-purple-600' },
-    { title: 'Appointments', value: '89', icon: Calendar, change: '+15%', color: 'text-orange-600' }
-  ];
-
+  const stats = [{
+    title: 'Total Leads',
+    value: '1,247',
+    icon: Users,
+    change: '+12%',
+    color: 'text-blue-600'
+  }, {
+    title: 'Conversion Rate',
+    value: '24.5%',
+    icon: TrendingUp,
+    change: '+3.2%',
+    color: 'text-green-600'
+  }, {
+    title: 'Revenue',
+    value: formattedRevenue,
+    icon: DollarSign,
+    change: '+8.1%',
+    color: 'text-purple-600'
+  }, {
+    title: 'Appointments',
+    value: '89',
+    icon: Calendar,
+    change: '+15%',
+    color: 'text-orange-600'
+  }];
   const handleAuthComplete = (userData: any) => {
     setIsAuthenticated(true);
     setShowAuth(false);
     console.log('User authenticated:', userData);
   };
-
-  const handleCountryCurrencySelect = (data: { country: string; currency: string }) => {
+  const handleCountryCurrencySelect = (data: {
+    country: string;
+    currency: string;
+  }) => {
     setSelectedCountry(data.country);
     setSelectedCurrency(data.currency);
     setShowCountrySelector(false);
     console.log('Country and currency selected:', data);
   };
-
   if (showAuth) {
     return <B2BAuthFlow onBack={() => setShowAuth(false)} onComplete={handleAuthComplete} />;
   }
-
   if (showCountrySelector) {
-    return (
-      <CountryCurrencySelector
-        onSubmit={handleCountryCurrencySelect}
-        onBack={() => setShowCountrySelector(false)}
-        defaultCountry={`${selectedCountry}|${selectedCurrency}`}
-        defaultCurrency={selectedCurrency}
-      />
-    );
+    return <CountryCurrencySelector onSubmit={handleCountryCurrencySelect} onBack={() => setShowCountrySelector(false)} defaultCountry={`${selectedCountry}|${selectedCurrency}`} defaultCurrency={selectedCurrency} />;
   }
-
   if (!selectedIndustry && !isAuthenticated) {
     return <IndustrySelector onSelect={setSelectedIndustry} onShowAuth={() => setShowAuth(true)} />;
   }
-
-  const renderDashboard = () => (
-    <div className="space-y-6">
+  const renderDashboard = () => <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Business Dashboard</h1>
@@ -125,8 +133,7 @@ const Index = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, index) => (
-          <Card key={index} className="relative overflow-hidden">
+        {stats.map((stat, index) => <Card key={index} className="relative overflow-hidden">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -139,8 +146,7 @@ const Index = () => {
                 </div>
               </div>
             </CardContent>
-          </Card>
-        ))}
+          </Card>)}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -170,18 +176,8 @@ const Index = () => {
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
-                <Pie
-                  data={dashboardData.conversion}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={120}
-                  paddingAngle={5}
-                  dataKey="value"
-                >
-                  {dashboardData.conversion.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
+                <Pie data={dashboardData.conversion} cx="50%" cy="50%" innerRadius={60} outerRadius={120} paddingAngle={5} dataKey="value">
+                  {dashboardData.conversion.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.color} />)}
                 </Pie>
                 <Tooltip />
               </PieChart>
@@ -249,84 +245,45 @@ const Index = () => {
           </CardContent>
         </Card>
       </div>
-    </div>
-  );
-
-  return (
-    <div className="min-h-screen bg-gray-50">
+    </div>;
+  return <div className="min-h-screen bg-gray-50">
       <nav className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-8">
             <div className="flex items-center space-x-3">
-              <img 
-                src="/lovable-uploads/b583aa5c-7bf8-4a13-b413-3f8b3437278d.png" 
-                alt="KALASH Logo" 
-                className="h-10 w-10"
-              />
-              <h1 className="text-xl font-bold text-green-600">KALASH</h1>
+              <img src="/lovable-uploads/b583aa5c-7bf8-4a13-b413-3f8b3437278d.png" alt="KALASH Logo" className="h-10 w-10" />
+              <h1 className="text-xl font-bold text-green-600">PLATFORM</h1>
             </div>
             <div className="flex space-x-1">
-              <Button
-                variant={activeModule === 'dashboard' ? 'default' : 'ghost'}
-                onClick={() => setActiveModule('dashboard')}
-                className="text-sm"
-              >
+              <Button variant={activeModule === 'dashboard' ? 'default' : 'ghost'} onClick={() => setActiveModule('dashboard')} className="text-sm">
                 Dashboard
               </Button>
-              <Button
-                variant={activeModule === 'marketing' ? 'default' : 'ghost'}
-                onClick={() => setActiveModule('marketing')}
-                className="text-sm"
-              >
+              <Button variant={activeModule === 'marketing' ? 'default' : 'ghost'} onClick={() => setActiveModule('marketing')} className="text-sm">
                 Marketing
               </Button>
-              <Button
-                variant={activeModule === 'leads' ? 'default' : 'ghost'}
-                onClick={() => setActiveModule('leads')}
-                className="text-sm"
-              >
+              <Button variant={activeModule === 'leads' ? 'default' : 'ghost'} onClick={() => setActiveModule('leads')} className="text-sm">
                 Lead Capture
               </Button>
-              <Button
-                variant={activeModule === 'sales' ? 'default' : 'ghost'}
-                onClick={() => setActiveModule('sales')}
-                className="text-sm"
-              >
+              <Button variant={activeModule === 'sales' ? 'default' : 'ghost'} onClick={() => setActiveModule('sales')} className="text-sm">
                 Sales
               </Button>
-              <Button
-                variant={activeModule === 'crm' ? 'default' : 'ghost'}
-                onClick={() => setActiveModule('crm')}
-                className="text-sm"
-              >
+              <Button variant={activeModule === 'crm' ? 'default' : 'ghost'} onClick={() => setActiveModule('crm')} className="text-sm">
                 CRM
               </Button>
-              <Button
-                variant={activeModule === 'appointments' ? 'default' : 'ghost'}
-                onClick={() => setActiveModule('appointments')}
-                className="text-sm"
-              >
+              <Button variant={activeModule === 'appointments' ? 'default' : 'ghost'} onClick={() => setActiveModule('appointments')} className="text-sm">
                 Appointments
               </Button>
             </div>
           </div>
           <div className="flex items-center space-x-4">
-            <Button
-              variant="outline"
-              onClick={() => setShowCountrySelector(true)}
-              className="text-sm"
-            >
+            <Button variant="outline" onClick={() => setShowCountrySelector(true)} className="text-sm">
               <MapPin className="w-4 h-4 mr-2" />
               {selectedCountry} ({selectedCurrency})
             </Button>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setSelectedIndustry('');
-                setIsAuthenticated(false);
-              }}
-              className="text-sm"
-            >
+            <Button variant="outline" onClick={() => {
+            setSelectedIndustry('');
+            setIsAuthenticated(false);
+          }} className="text-sm">
               Change Industry
             </Button>
             <Button className="text-sm" onClick={() => setShowAuth(true)}>
@@ -345,8 +302,6 @@ const Index = () => {
         {activeModule === 'crm' && <CRMModule industry={selectedIndustry} />}
         {activeModule === 'appointments' && <AppointmentModule industry={selectedIndustry} />}
       </main>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
