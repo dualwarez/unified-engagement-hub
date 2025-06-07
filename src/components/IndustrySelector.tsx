@@ -220,7 +220,8 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect, onShowAut
             <img 
               src="/lovable-uploads/6bafe339-3d34-45eb-88b3-042f4a5281bf.png" 
               alt="KALASH PLATFORM Logo" 
-              className="h-32 w-auto"
+              className="h-32 w-32 object-contain"
+              style={{ width: '150px', height: '150px' }}
             />
           </div>
           <div className="flex gap-3">

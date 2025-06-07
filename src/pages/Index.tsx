@@ -87,6 +87,7 @@ const Index = () => {
     change: '+15%',
     color: 'text-orange-600'
   }];
+
   const handleAuthComplete = (userData: any) => {
     setIsAuthenticated(true);
     setShowAuth(false);
@@ -101,6 +102,7 @@ const Index = () => {
     setShowCountrySelector(false);
     console.log('Country and currency selected:', data);
   };
+
   if (showAuth) {
     return <B2BAuthFlow onBack={() => setShowAuth(false)} onComplete={handleAuthComplete} />;
   }
@@ -110,6 +112,7 @@ const Index = () => {
   if (!selectedIndustry && !isAuthenticated) {
     return <IndustrySelector onSelect={setSelectedIndustry} onShowAuth={() => setShowAuth(true)} selectedCurrency={selectedCurrency} />;
   }
+
   const renderDashboard = () => <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
@@ -248,12 +251,18 @@ const Index = () => {
         </Card>
       </div>
     </div>;
+
   return <div className="min-h-screen bg-gray-50">
       <nav className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-8">
             <div className="flex items-center space-x-3">
-              <img alt="KALASH PLATFORM Logo" className="h-10 w-auto" src="/lovable-uploads/6bafe339-3d34-45eb-88b3-042f4a5281bf.png" />
+              <img 
+                alt="KALASH PLATFORM Logo" 
+                className="object-contain" 
+                src="/lovable-uploads/6bafe339-3d34-45eb-88b3-042f4a5281bf.png"
+                style={{ width: '120px', height: '120px' }}
+              />
               <h1 className="text-xl font-bold text-green-800"></h1>
             </div>
             <div className="flex space-x-1">

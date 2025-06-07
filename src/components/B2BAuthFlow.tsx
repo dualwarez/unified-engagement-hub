@@ -132,7 +132,8 @@ const B2BAuthFlow: React.FC<B2BAuthFlowProps> = ({ onBack, onComplete }) => {
             <img 
               src="/lovable-uploads/6bafe339-3d34-45eb-88b3-042f4a5281bf.png" 
               alt="KALASH PLATFORM Logo" 
-              className="h-16 w-auto mx-auto"
+              className="object-contain mx-auto"
+              style={{ width: '100px', height: '100px' }}
             />
             <div>
               <CardTitle className="text-2xl font-bold text-gray-900">Welcome Back</CardTitle>
