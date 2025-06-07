@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -541,6 +542,15 @@ const RegistrationSteps: React.FC<RegistrationStepsProps> = ({ onComplete, onBac
             <div className="text-sm text-gray-600">
               Step {currentStep} of {totalSteps - 1}
             </div>
+          </div>
+          
+          {/* Logo at the top */}
+          <div className="flex justify-center mb-6">
+            <img 
+              src="/lovable-uploads/6bafe339-3d34-45eb-88b3-042f4a5281bf.png" 
+              alt="KALASH PLATFORM Logo" 
+              className="h-16 w-auto"
+            />
           </div>
           
           <Progress value={(currentStep / (totalSteps - 1)) * 100} className="mb-4" />

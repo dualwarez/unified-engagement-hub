@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -30,15 +29,18 @@ import {
   Phone,
   MapPin,
   Shirt,
-  Coffee
+  Coffee,
+  ArrowLeft
 } from 'lucide-react';
+import { CurrencyService } from '@/services/currencyService';
 
 interface IndustrySelectorProps {
   onSelect: (industry: string) => void;
   onShowAuth: () => void;
+  selectedCurrency?: string;
 }
 
-const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect, onShowAuth }) => {
+const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect, onShowAuth, selectedCurrency = 'USD' }) => {
   const industries = [
     {
       name: 'Real Estate',
@@ -198,6 +200,17 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect, onShowAut
     }
   ];
 
+  // Plan prices in USD (base currency)
+  const basePlanPrices = {
+    standard: 36,
+    value: 180,
+    pro: 540
+  };
+
+  const formatPlanPrice = (priceUSD: number) => {
+    return CurrencyService.convertAndFormat(priceUSD, selectedCurrency);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-6">
       <div className="max-w-6xl w-full">
@@ -205,9 +218,9 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect, onShowAut
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center">
             <img 
-              src="/lovable-uploads/b583aa5c-7bf8-4a13-b413-3f8b3437278d.png" 
-              alt="KALASH Logo" 
-              className="h-32 w-32"
+              src="/lovable-uploads/6bafe339-3d34-45eb-88b3-042f4a5281bf.png" 
+              alt="KALASH PLATFORM Logo" 
+              className="h-32 w-auto"
             />
           </div>
           <div className="flex gap-3">
@@ -251,7 +264,7 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect, onShowAut
         <div className="mt-12">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Choose Your Plan</h2>
-            <p className="text-gray-600">Select the perfect plan for your business needs</p>
+            <p className="text-gray-600">Select the perfect plan for your business needs (Prices in {selectedCurrency})</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -259,7 +272,7 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect, onShowAut
             <Card className="relative border-2 hover:border-green-300 transition-all duration-300">
               <CardHeader className="text-center">
                 <CardTitle className="text-2xl font-bold text-gray-900">Standard</CardTitle>
-                <div className="text-4xl font-bold text-green-600 mt-2">$36/mo</div>
+                <div className="text-4xl font-bold text-green-600 mt-2">{formatPlanPrice(basePlanPrices.standard)}/mo</div>
                 <CardDescription>Perfect for small businesses</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -292,7 +305,7 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect, onShowAut
               </div>
               <CardHeader className="text-center">
                 <CardTitle className="text-2xl font-bold text-gray-900">Value</CardTitle>
-                <div className="text-4xl font-bold text-green-600 mt-2">$180/mo</div>
+                <div className="text-4xl font-bold text-green-600 mt-2">{formatPlanPrice(basePlanPrices.value)}/mo</div>
                 <CardDescription>Best value for growing businesses</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -326,7 +339,7 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect, onShowAut
             <Card className="relative border-2 hover:border-green-300 transition-all duration-300">
               <CardHeader className="text-center">
                 <CardTitle className="text-2xl font-bold text-gray-900">Pro</CardTitle>
-                <div className="text-4xl font-bold text-green-600 mt-2">$540/mo</div>
+                <div className="text-4xl font-bold text-green-600 mt-2">{formatPlanPrice(basePlanPrices.pro)}/mo</div>
                 <CardDescription>For enterprise-level businesses</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
