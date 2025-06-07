@@ -20,6 +20,7 @@ import {
 
 interface SalesModuleProps {
   industry: string;
+  currency: string;
 }
 
 const SalesModule: React.FC<SalesModuleProps> = ({ industry }) => {

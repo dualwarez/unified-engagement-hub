@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -28,6 +29,7 @@ import PerformanceMonitor from './PerformanceMonitor';
 
 interface MarketingModuleProps {
   industry: string;
+  currency: string;
 }
 
 const MarketingModule: React.FC<MarketingModuleProps> = ({ industry }) => {

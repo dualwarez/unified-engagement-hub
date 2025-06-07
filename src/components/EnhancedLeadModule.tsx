@@ -28,6 +28,7 @@ import CallManagement from './CallManagement';
 
 interface EnhancedLeadModuleProps {
   industry: string;
+  currency: string;
 }
 
 const EnhancedLeadModule: React.FC<EnhancedLeadModuleProps> = ({ industry }) => {

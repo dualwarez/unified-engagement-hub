@@ -342,8 +342,8 @@ const Index = () => {
         {activeModule === 'marketing' && <MarketingModule industry={selectedIndustry} currency={selectedCurrency} />}
         {activeModule === 'leads' && <EnhancedLeadModule industry={selectedIndustry} currency={selectedCurrency} />}
         {activeModule === 'sales' && <SalesModule industry={selectedIndustry} currency={selectedCurrency} />}
-        {activeModule === 'crm' && <CRMModule industry={selectedIndustry} currency={selectedCurrency} />}
-        {activeModule === 'appointments' && <AppointmentModule industry={selectedIndustry} currency={selectedCurrency} />}
+        {activeModule === 'crm' && <CRMModule industry={selectedIndustry} />}
+        {activeModule === 'appointments' && <AppointmentModule industry={selectedIndustry} />}
       </main>
     </div>
   );
