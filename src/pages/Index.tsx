@@ -29,6 +29,7 @@ import SalesModule from '@/components/SalesModule';
 import IndustrySelector from '@/components/IndustrySelector';
 import B2BAuthFlow from '@/components/B2BAuthFlow';
 import CountryCurrencySelector from '@/components/CountryCurrencySelector';
+import { CurrencyService } from '@/services/currencyService';
 
 const Index = () => {
   const [activeModule, setActiveModule] = useState('dashboard');
@@ -55,10 +56,14 @@ const Index = () => {
     ]
   };
 
+  // Base revenue in USD for conversion
+  const baseRevenueUSD = 45678;
+  const formattedRevenue = CurrencyService.convertAndFormat(baseRevenueUSD, selectedCurrency);
+
   const stats = [
     { title: 'Total Leads', value: '1,247', icon: Users, change: '+12%', color: 'text-blue-600' },
     { title: 'Conversion Rate', value: '24.5%', icon: TrendingUp, change: '+3.2%', color: 'text-green-600' },
-    { title: 'Revenue', value: '$45,678', icon: DollarSign, change: '+8.1%', color: 'text-purple-600' },
+    { title: 'Revenue', value: formattedRevenue, icon: DollarSign, change: '+8.1%', color: 'text-purple-600' },
     { title: 'Appointments', value: '89', icon: Calendar, change: '+15%', color: 'text-orange-600' }
   ];
 
@@ -334,11 +339,11 @@ const Index = () => {
 
       <main className="p-6">
         {activeModule === 'dashboard' && renderDashboard()}
-        {activeModule === 'marketing' && <MarketingModule industry={selectedIndustry} />}
-        {activeModule === 'leads' && <EnhancedLeadModule industry={selectedIndustry} />}
-        {activeModule === 'sales' && <SalesModule industry={selectedIndustry} />}
-        {activeModule === 'crm' && <CRMModule industry={selectedIndustry} />}
-        {activeModule === 'appointments' && <AppointmentModule industry={selectedIndustry} />}
+        {activeModule === 'marketing' && <MarketingModule industry={selectedIndustry} currency={selectedCurrency} />}
+        {activeModule === 'leads' && <EnhancedLeadModule industry={selectedIndustry} currency={selectedCurrency} />}
+        {activeModule === 'sales' && <SalesModule industry={selectedIndustry} currency={selectedCurrency} />}
+        {activeModule === 'crm' && <CRMModule industry={selectedIndustry} currency={selectedCurrency} />}
+        {activeModule === 'appointments' && <AppointmentModule industry={selectedIndustry} currency={selectedCurrency} />}
       </main>
     </div>
   );
