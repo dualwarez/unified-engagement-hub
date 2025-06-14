@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -25,9 +24,10 @@ import AITeleSalesMindMap from './AITeleSalesMindMap';
 
 interface IndustrySelectorProps {
   onSelect: (industry: string) => void;
+  onShowAuth?: () => void;
 }
 
-const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect }) => {
+const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect, onShowAuth }) => {
   const [selectedTab, setSelectedTab] = useState('industries');
 
   const industries = [
