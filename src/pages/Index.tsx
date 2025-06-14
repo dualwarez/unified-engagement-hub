@@ -276,10 +276,7 @@ const Index = () => {
             </div>
           </div>
           <div className="flex items-center space-x-4">
-            <Button variant="outline" onClick={() => setShowCountrySelector(true)} className="text-sm">
-              <MapPin className="w-4 h-4 mr-2" />
-              {selectedCountry} ({selectedCurrency})
-            </Button>
+            
             <Button variant="outline" onClick={() => {
             setSelectedIndustry('');
             setIsAuthenticated(false);
