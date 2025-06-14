@@ -260,14 +260,16 @@ const Index = () => {
       <nav className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-8">
-            <div className="flex items-center space-x-3">
+            <div className="flex flex-col items-center space-y-1">
               <img 
                 alt="KALASH PLATFORM Logo" 
                 className="w-[200px] h-auto object-contain scale-25" 
                 src="/lovable-uploads/040cc84c-6abc-422b-82cf-4d087a5ad0f9.png"
                 style={{ width: '200px', transform: 'scale(0.25)' }}
               />
-              <h1 className="text-xl font-bold text-green-800"></h1>
+              <p className="text-xs text-green-600 font-semibold tracking-wide">
+                ELIMINATE | AUTOMATE | DELEGATE
+              </p>
             </div>
             <div className="flex space-x-1">
               <Button variant={activeModule === 'dashboard' ? 'default' : 'ghost'} onClick={() => setActiveModule('dashboard')} className="text-sm">
