@@ -13,8 +13,6 @@ import SalesModule from '@/components/SalesModule';
 import IndustrySelector from '@/components/IndustrySelector';
 import B2BAuthFlow from '@/components/B2BAuthFlow';
 import CountryCurrencySelector from '@/components/CountryCurrencySelector';
-import AITeleSalesMindMap from '@/components/AITeleSalesMindMap';
-import FollowUpMeetingMindMap from '@/components/FollowUpMeetingMindMap';
 import { CurrencyService } from '@/services/currencyService';
 
 const Index = () => {
@@ -94,7 +92,6 @@ const Index = () => {
   const handleAuthComplete = (userData: any) => {
     setIsAuthenticated(true);
     setShowAuth(false);
-    setSelectedIndustry('Stock Broking'); // Auto-select after login
     console.log('User authenticated:', userData);
   };
 
@@ -108,24 +105,158 @@ const Index = () => {
     console.log('Country and currency selected:', data);
   };
 
-  // Show auth flow
   if (showAuth) {
     return <B2BAuthFlow onBack={() => setShowAuth(false)} onComplete={handleAuthComplete} />;
   }
 
-  // Show country selector
   if (showCountrySelector) {
     return <CountryCurrencySelector onSubmit={handleCountryCurrencySelect} onBack={() => setShowCountrySelector(false)} defaultCountry={`${selectedCountry}|${selectedCurrency}`} defaultCurrency={selectedCurrency} />;
   }
 
-  // Show industry selector if not authenticated and no industry selected
   if (!selectedIndustry && !isAuthenticated) {
     return <IndustrySelector onSelect={setSelectedIndustry} onShowAuth={() => setShowAuth(true)} />;
   }
 
-  // Main authenticated application view
-  return (
-    <div className="min-h-screen bg-gray-50">
+  const renderDashboard = () => <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Business Dashboard</h1>
+          <p className="text-gray-600 mt-1">
+            {selectedIndustry} Industry • {selectedCountry} ({selectedCurrency}) • Welcome back to your automation hub
+          </p>
+        </div>
+        <div className="flex gap-3">
+          <Button variant="outline" size="sm" onClick={() => setShowCountrySelector(true)}>
+            <MapPin className="w-4 h-4 mr-2" />
+            {selectedCountry} ({selectedCurrency})
+          </Button>
+          <Button variant="outline" size="sm">
+            <Bell className="w-4 h-4 mr-2" />
+            Notifications
+          </Button>
+          <Button variant="outline" size="sm">
+            <Settings className="w-4 h-4 mr-2" />
+            Settings
+          </Button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {stats.map((stat, index) => <Card key={index} className="relative overflow-hidden">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">{stat.title}</p>
+                  <p className="text-2xl font-bold text-gray-900 mt-1">{stat.value}</p>
+                  <p className={`text-sm mt-1 ${stat.color}`}>{stat.change} from last month</p>
+                </div>
+                <div className={`p-3 rounded-full bg-gray-100`}>
+                  <stat.icon className={`w-6 h-6 ${stat.color}`} />
+                </div>
+              </div>
+            </CardContent>
+          </Card>)}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Lead Generation Trends</CardTitle>
+            <CardDescription>Monthly lead acquisition over time</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={dashboardData.leads}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Line type="monotone" dataKey="value" stroke="#3b82f6" strokeWidth={3} />
+              </LineChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Conversion Funnel</CardTitle>
+            <CardDescription>Lead conversion breakdown</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie data={dashboardData.conversion} cx="50%" cy="50%" innerRadius={60} outerRadius={120} paddingAngle={5} dataKey="value">
+                  {dashboardData.conversion.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.color} />)}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <CardTitle>Recent Activities</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex items-center gap-4 p-4 bg-blue-50 rounded-lg">
+                <Mail className="w-5 h-5 text-blue-600" />
+                <div className="flex-1">
+                  <p className="font-medium">New lead from website form</p>
+                  <p className="text-sm text-gray-600">john.doe@example.com • 2 minutes ago</p>
+                </div>
+                <Badge>New</Badge>
+              </div>
+              <div className="flex items-center gap-4 p-4 bg-green-50 rounded-lg">
+                <Calendar className="w-5 h-5 text-green-600" />
+                <div className="flex-1">
+                  <p className="font-medium">Appointment scheduled</p>
+                  <p className="text-sm text-gray-600">Meeting with Sarah Johnson • Tomorrow 2:00 PM</p>
+                </div>
+                <Badge variant="secondary">Scheduled</Badge>
+              </div>
+              <div className="flex items-center gap-4 p-4 bg-purple-50 rounded-lg">
+                <MessageSquare className="w-5 h-5 text-purple-600" />
+                <div className="flex-1">
+                  <p className="font-medium">WhatsApp message sent</p>
+                  <p className="text-sm text-gray-600">Follow-up with Mike Wilson • 1 hour ago</p>
+                </div>
+                <Badge variant="outline">Sent</Badge>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Quick Actions</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <Button className="w-full justify-start" variant="outline">
+              <PlusCircle className="w-4 h-4 mr-2" />
+              Add New Lead
+            </Button>
+            <Button className="w-full justify-start" variant="outline">
+              <Calendar className="w-4 h-4 mr-2" />
+              Schedule Appointment
+            </Button>
+            <Button className="w-full justify-start" variant="outline">
+              <MessageSquare className="w-4 h-4 mr-2" />
+              Send WhatsApp
+            </Button>
+            <Button className="w-full justify-start" variant="outline">
+              <Target className="w-4 h-4 mr-2" />
+              Create Campaign
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    </div>;
+
+  return <div className="min-h-screen bg-gray-50">
       <nav className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-8">
@@ -140,118 +271,52 @@ const Index = () => {
                 ELIMINATE | AUTOMATE | DELEGATE
               </p>
             </div>
-            
-            {/* Main Navigation Tabs matching the uploaded image */}
             <div className="flex space-x-1">
-              <Button 
-                variant={activeModule === 'select-industry' ? 'default' : 'ghost'} 
-                onClick={() => setActiveModule('select-industry')} 
-                className="text-sm"
-              >
-                Select Industry
+              <Button variant={activeModule === 'dashboard' ? 'default' : 'ghost'} onClick={() => setActiveModule('dashboard')} className="text-sm">
+                Dashboard
               </Button>
-              <Button 
-                variant={activeModule === 'core-capabilities' ? 'default' : 'ghost'} 
-                onClick={() => setActiveModule('core-capabilities')} 
-                className="text-sm"
-              >
-                Core Capabilities
+              <Button variant={activeModule === 'marketing' ? 'default' : 'ghost'} onClick={() => setActiveModule('marketing')} className="text-sm">
+                Marketing
               </Button>
-              <Button 
-                variant={activeModule === 'ai-tele-sales' ? 'default' : 'ghost'} 
-                onClick={() => setActiveModule('ai-tele-sales')} 
-                className="text-sm"
-              >
-                AI Tele-Sales Map
+              <Button variant={activeModule === 'leads' ? 'default' : 'ghost'} onClick={() => setActiveModule('leads')} className="text-sm">
+                Lead Capture
               </Button>
-              <Button 
-                variant={activeModule === 'follow-up' ? 'default' : 'ghost'} 
-                onClick={() => setActiveModule('follow-up')} 
-                className="text-sm"
-              >
-                Follow-Up Process
+              <Button variant={activeModule === 'sales' ? 'default' : 'ghost'} onClick={() => setActiveModule('sales')} className="text-sm">
+                Sales
               </Button>
-              <Button 
-                variant={activeModule === 'stock-products' ? 'default' : 'ghost'} 
-                onClick={() => setActiveModule('stock-products')} 
-                className="text-sm"
-              >
-                Stock Products
+              <Button variant={activeModule === 'crm' ? 'default' : 'ghost'} onClick={() => setActiveModule('crm')} className="text-sm">
+                CRM
               </Button>
-              <Button 
-                variant={activeModule === 'client-journey' ? 'default' : 'ghost'} 
-                onClick={() => setActiveModule('client-journey')} 
-                className="text-sm"
-              >
-                Client Journey
+              <Button variant={activeModule === 'appointments' ? 'default' : 'ghost'} onClick={() => setActiveModule('appointments')} className="text-sm">
+                Appointments
               </Button>
             </div>
           </div>
-          
           <div className="flex items-center space-x-4">
-            <Button variant="outline" size="sm" onClick={() => setShowCountrySelector(true)}>
-              <MapPin className="w-4 h-4 mr-2" />
-              {selectedCountry} ({selectedCurrency})
-            </Button>
-            <Button variant="outline" size="sm">
-              <Bell className="w-4 h-4 mr-2" />
-              Notifications
-            </Button>
-            <Button variant="outline" size="sm">
-              <Settings className="w-4 h-4 mr-2" />
-              Settings
-            </Button>
+            
             <Button variant="outline" onClick={() => {
-              setSelectedIndustry('');
-              setIsAuthenticated(false);
-            }} className="text-sm">
-              Logout
+            setSelectedIndustry('');
+            setIsAuthenticated(false);
+          }} className="text-sm">
+              Change Industry
+            </Button>
+            <Button className="text-sm" onClick={() => setShowAuth(true)}>
+              <LogIn className="w-4 h-4 mr-2" />
+              Login
             </Button>
           </div>
         </div>
       </nav>
 
       <main className="p-6">
-        {activeModule === 'select-industry' && (
-          <IndustrySelector onSelect={setSelectedIndustry} onShowAuth={() => setShowAuth(true)} />
-        )}
-        
-        {activeModule === 'core-capabilities' && (
-          <div className="space-y-6">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Core Capabilities</h2>
-              <p className="text-gray-600">Comprehensive AI-powered features for your business growth</p>
-            </div>
-            <MarketingModule industry={selectedIndustry || 'Stock Broking'} currency={selectedCurrency} />
-          </div>
-        )}
-        
-        {activeModule === 'ai-tele-sales' && <AITeleSalesMindMap />}
-        
-        {activeModule === 'follow-up' && <FollowUpMeetingMindMap />}
-        
-        {activeModule === 'stock-products' && (
-          <div className="space-y-6">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Stock Products</h2>
-              <p className="text-gray-600">Comprehensive equity-based financial products</p>
-            </div>
-            <SalesModule industry={selectedIndustry || 'Stock Broking'} currency={selectedCurrency} />
-          </div>
-        )}
-        
-        {activeModule === 'client-journey' && (
-          <div className="space-y-6">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Client Journey</h2>
-              <p className="text-gray-600">Complete client lifecycle management</p>
-            </div>
-            <CRMModule industry={selectedIndustry || 'Stock Broking'} />
-          </div>
-        )}
+        {activeModule === 'dashboard' && renderDashboard()}
+        {activeModule === 'marketing' && <MarketingModule industry={selectedIndustry} currency={selectedCurrency} />}
+        {activeModule === 'leads' && <EnhancedLeadModule industry={selectedIndustry} currency={selectedCurrency} />}
+        {activeModule === 'sales' && <SalesModule industry={selectedIndustry} currency={selectedCurrency} />}
+        {activeModule === 'crm' && <CRMModule industry={selectedIndustry} />}
+        {activeModule === 'appointments' && <AppointmentModule industry={selectedIndustry} />}
       </main>
-    </div>
-  );
+    </div>;
 };
 
 export default Index;
