@@ -139,16 +139,16 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect, onShowAut
         <div className="text-center mb-12">
           <div className="flex justify-center mb-6">
             <img 
-              src="/lovable-uploads/6bafe339-3d34-45eb-88b3-042f4a5281bf.png" 
-              alt="KALASH Logo" 
-              className="h-20 w-20 object-contain"
+              src="/lovable-uploads/040cc84c-6abc-422b-82cf-4d087a5ad0f9.png" 
+              alt="KALASH PLATFORM Logo" 
+              className="h-20 w-auto object-contain"
             />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Welcome to <span className="text-blue-600">KALASH</span>
+            Welcome to <span className="text-green-700">KALASH PLATFORM</span>
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            AI-powered lead generation and customer relationship management platform
+            <span className="text-green-600 font-semibold">ELIMINATE | AUTOMATE | DELEGATE</span> - AI-powered lead generation and customer relationship management platform
           </p>
         </div>
 

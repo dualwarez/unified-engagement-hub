@@ -14,6 +14,7 @@ import IndustrySelector from '@/components/IndustrySelector';
 import B2BAuthFlow from '@/components/B2BAuthFlow';
 import CountryCurrencySelector from '@/components/CountryCurrencySelector';
 import { CurrencyService } from '@/services/currencyService';
+
 const Index = () => {
   const [activeModule, setActiveModule] = useState('dashboard');
   const [selectedIndustry, setSelectedIndustry] = useState('');
@@ -22,6 +23,7 @@ const Index = () => {
   const [showCountrySelector, setShowCountrySelector] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState('India');
   const [selectedCurrency, setSelectedCurrency] = useState('INR');
+
   const dashboardData = {
     leads: [{
       name: 'Jan',
@@ -60,6 +62,7 @@ const Index = () => {
   // Base revenue in USD for conversion
   const baseRevenueUSD = 45678;
   const formattedRevenue = CurrencyService.convertAndFormat(baseRevenueUSD, selectedCurrency);
+
   const stats = [{
     title: 'Total Leads',
     value: '1,247',
@@ -85,11 +88,13 @@ const Index = () => {
     change: '+15%',
     color: 'text-orange-600'
   }];
+
   const handleAuthComplete = (userData: any) => {
     setIsAuthenticated(true);
     setShowAuth(false);
     console.log('User authenticated:', userData);
   };
+
   const handleCountryCurrencySelect = (data: {
     country: string;
     currency: string;
@@ -99,15 +104,19 @@ const Index = () => {
     setShowCountrySelector(false);
     console.log('Country and currency selected:', data);
   };
+
   if (showAuth) {
     return <B2BAuthFlow onBack={() => setShowAuth(false)} onComplete={handleAuthComplete} />;
   }
+
   if (showCountrySelector) {
     return <CountryCurrencySelector onSubmit={handleCountryCurrencySelect} onBack={() => setShowCountrySelector(false)} defaultCountry={`${selectedCountry}|${selectedCurrency}`} defaultCurrency={selectedCurrency} />;
   }
+
   if (!selectedIndustry && !isAuthenticated) {
     return <IndustrySelector onSelect={setSelectedIndustry} onShowAuth={() => setShowAuth(true)} />;
   }
+
   const renderDashboard = () => <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
@@ -246,12 +255,13 @@ const Index = () => {
         </Card>
       </div>
     </div>;
+
   return <div className="min-h-screen bg-gray-50">
       <nav className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-8">
             <div className="flex items-center space-x-3">
-              <img alt="KALASH Logo" className="h-10 w-10" src="/lovable-uploads/38f4e220-f9eb-4282-827d-905d2dba157b.png" />
+              <img alt="KALASH PLATFORM Logo" className="h-10 w-auto" src="/lovable-uploads/040cc84c-6abc-422b-82cf-4d087a5ad0f9.png" />
               <h1 className="text-xl font-bold text-green-800"></h1>
             </div>
             <div className="flex space-x-1">
@@ -301,4 +311,5 @@ const Index = () => {
       </main>
     </div>;
 };
+
 export default Index;
