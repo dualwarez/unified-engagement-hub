@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -16,8 +15,10 @@ import {
   Send,
   Plus,
   Search,
-  Filter
+  Filter,
+  Home
 } from 'lucide-react';
+import RealEstateClientJourney from './RealEstateClientJourney';
 
 interface CRMModuleProps {
   industry: string;
@@ -136,6 +137,24 @@ const CRMModule: React.FC<CRMModuleProps> = ({ industry }) => {
           </Button>
         </div>
       </div>
+
+      {/* Show Real Estate Client Journey if industry is Real Estate */}
+      {industry === 'Real Estate' && (
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Home className="w-5 h-5" />
+              Real Estate Client Journey
+            </CardTitle>
+            <CardDescription>
+              Complete workflow with Developer, Mandate, and Broker coordination
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <RealEstateClientJourney />
+          </CardContent>
+        </Card>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {communicationStats.map((stat, index) => (
