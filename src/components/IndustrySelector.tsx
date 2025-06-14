@@ -306,13 +306,12 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
         </div>
 
         <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-6 mb-8">
+          <TabsList className="grid w-full grid-cols-5 mb-8">
             <TabsTrigger value="industries">Select Industry</TabsTrigger>
             <TabsTrigger value="capabilities">Core Capabilities</TabsTrigger>
             <TabsTrigger value="mindmap">AI Tele-Sales Map</TabsTrigger>
             <TabsTrigger value="followup">Follow-Up Process</TabsTrigger>
-            <TabsTrigger value="stockproducts">Stock Products</TabsTrigger>
-            <TabsTrigger value="stocklifecycle">Client Journey</TabsTrigger>
+            <TabsTrigger value="stockbroking">Stock Broking</TabsTrigger>
           </TabsList>
 
           <TabsContent value="industries" className="space-y-8">
@@ -411,144 +410,160 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
             <FollowUpMeetingMindMap />
           </TabsContent>
 
-          <TabsContent value="stockproducts" className="space-y-8">
+          <TabsContent value="stockbroking" className="space-y-8">
             <div className="text-center mb-8">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Equity-Based Financial Product Categories
+                Stock Broking Solutions
               </h2>
-              <p className="text-gray-600">Comprehensive range of investment products for stock broking</p>
+              <p className="text-gray-600">Comprehensive investment products and client journey management</p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-              <div className="lg:col-span-1">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg">Product Categories</CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-0">
-                    <div className="space-y-1">
-                      {stockBrokingProducts.map((category, index) => {
-                        const IconComponent = category.icon;
-                        return (
-                          <div
-                            key={index}
-                            className={`p-3 cursor-pointer transition-all border-l-4 ${
-                              selectedStockCategory === index 
-                                ? 'bg-blue-50 border-blue-500' 
-                                : 'border-transparent hover:bg-gray-50'
-                            }`}
-                            onClick={() => setSelectedStockCategory(index)}
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className={`p-2 rounded-lg ${category.color} text-white`}>
-                                <IconComponent className="w-4 h-4" />
+            <Tabs defaultValue="products" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 mb-8">
+                <TabsTrigger value="products">Financial Products</TabsTrigger>
+                <TabsTrigger value="journey">Client Journey</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="products" className="space-y-8">
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                    Equity-Based Financial Product Categories
+                  </h3>
+                  <p className="text-gray-600">Comprehensive range of investment products for stock broking</p>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                  <div className="lg:col-span-1">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">Product Categories</CardTitle>
+                      </CardHeader>
+                      <CardContent className="p-0">
+                        <div className="space-y-1">
+                          {stockBrokingProducts.map((category, index) => {
+                            const IconComponent = category.icon;
+                            return (
+                              <div
+                                key={index}
+                                className={`p-3 cursor-pointer transition-all border-l-4 ${
+                                  selectedStockCategory === index 
+                                    ? 'bg-blue-50 border-blue-500' 
+                                    : 'border-transparent hover:bg-gray-50'
+                                }`}
+                                onClick={() => setSelectedStockCategory(index)}
+                              >
+                                <div className="flex items-center gap-3">
+                                  <div className={`p-2 rounded-lg ${category.color} text-white`}>
+                                    <IconComponent className="w-4 h-4" />
+                                  </div>
+                                  <div>
+                                    <h4 className="font-medium text-sm">{category.category}</h4>
+                                    <p className="text-xs text-gray-500">{category.products.length} products</p>
+                                  </div>
+                                </div>
                               </div>
-                              <div>
-                                <h4 className="font-medium text-sm">{category.category}</h4>
-                                <p className="text-xs text-gray-500">{category.products.length} products</p>
-                              </div>
+                            );
+                          })}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  <div className="lg:col-span-3">
+                    <Card>
+                      <CardHeader>
+                        <div className="flex items-center gap-3">
+                          <div className={`p-3 rounded-lg ${stockBrokingProducts[selectedStockCategory].color} text-white`}>
+                            {React.createElement(stockBrokingProducts[selectedStockCategory].icon, { className: "w-6 h-6" })}
+                          </div>
+                          <div>
+                            <CardTitle>{stockBrokingProducts[selectedStockCategory].category}</CardTitle>
+                            <CardDescription>Investment products and services</CardDescription>
+                          </div>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {stockBrokingProducts[selectedStockCategory].products.map((product, idx) => (
+                            <div key={idx} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                              <CheckCircle className="w-5 h-5 text-green-500" />
+                              <span className="font-medium">{product}</span>
                             </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-
-              <div className="lg:col-span-3">
-                <Card>
-                  <CardHeader>
-                    <div className="flex items-center gap-3">
-                      <div className={`p-3 rounded-lg ${stockBrokingProducts[selectedStockCategory].color} text-white`}>
-                        {React.createElement(stockBrokingProducts[selectedStockCategory].icon, { className: "w-6 h-6" })}
-                      </div>
-                      <div>
-                        <CardTitle>{stockBrokingProducts[selectedStockCategory].category}</CardTitle>
-                        <CardDescription>Investment products and services</CardDescription>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {stockBrokingProducts[selectedStockCategory].products.map((product, idx) => (
-                        <div key={idx} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                          <CheckCircle className="w-5 h-5 text-green-500" />
-                          <span className="font-medium">{product}</span>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="stocklifecycle" className="space-y-8">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Client Full Lifecycle Journey
-              </h2>
-              <p className="text-gray-600">Complete workflow from discovery to long-term relationship management</p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {clientLifecycleStages.map((stage, index) => {
-                const IconComponent = stage.icon;
-                return (
-                  <Card key={stage.id} className="hover:shadow-lg transition-shadow duration-300">
-                    <CardHeader>
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className={`p-2 rounded-lg ${stage.color} text-white`}>
-                          <IconComponent className="w-5 h-5" />
-                        </div>
-                        <Badge variant="outline">Stage {stage.id}</Badge>
-                      </div>
-                      <CardTitle className="text-lg">{stage.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-2">
-                        {stage.activities.map((activity, idx) => (
-                          <div key={idx} className="flex items-start gap-2">
-                            <div className="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0"></div>
-                            <span className="text-sm text-gray-700">{activity}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
-
-            <Card className="mt-8">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Sparkles className="w-5 h-5" />
-                  Add-Ons to Lifecycle
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
-                    <GraduationCap className="w-5 h-5 text-blue-600" />
-                    <span className="font-medium">Financial Literacy Programs</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
-                    <BarChart3 className="w-5 h-5 text-green-600" />
-                    <span className="font-medium">Goal-Progress Dashboard</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 bg-purple-50 rounded-lg">
-                    <Bot className="w-5 h-5 text-purple-600" />
-                    <span className="font-medium">Robo-Recommendations</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 bg-orange-50 rounded-lg">
-                    <Phone className="w-5 h-5 text-orange-600" />
-                    <span className="font-medium">RM Support & Alerts</span>
+                      </CardContent>
+                    </Card>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </TabsContent>
+
+              <TabsContent value="journey" className="space-y-8">
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                    Client Full Lifecycle Journey
+                  </h3>
+                  <p className="text-gray-600">Complete workflow from discovery to long-term relationship management</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {clientLifecycleStages.map((stage, index) => {
+                    const IconComponent = stage.icon;
+                    return (
+                      <Card key={stage.id} className="hover:shadow-lg transition-shadow duration-300">
+                        <CardHeader>
+                          <div className="flex items-center gap-3 mb-3">
+                            <div className={`p-2 rounded-lg ${stage.color} text-white`}>
+                              <IconComponent className="w-5 h-5" />
+                            </div>
+                            <Badge variant="outline">Stage {stage.id}</Badge>
+                          </div>
+                          <CardTitle className="text-lg">{stage.title}</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-2">
+                            {stage.activities.map((activity, idx) => (
+                              <div key={idx} className="flex items-start gap-2">
+                                <div className="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0"></div>
+                                <span className="text-sm text-gray-700">{activity}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </div>
+
+                <Card className="mt-8">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Sparkles className="w-5 h-5" />
+                      Add-Ons to Lifecycle
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                      <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+                        <GraduationCap className="w-5 h-5 text-blue-600" />
+                        <span className="font-medium">Financial Literacy Programs</span>
+                      </div>
+                      <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                        <BarChart3 className="w-5 h-5 text-green-600" />
+                        <span className="font-medium">Goal-Progress Dashboard</span>
+                      </div>
+                      <div className="flex items-center gap-3 p-3 bg-purple-50 rounded-lg">
+                        <Bot className="w-5 h-5 text-purple-600" />
+                        <span className="font-medium">Robo-Recommendations</span>
+                      </div>
+                      <div className="flex items-center gap-3 p-3 bg-orange-50 rounded-lg">
+                        <Phone className="w-5 h-5 text-orange-600" />
+                        <span className="font-medium">RM Support & Alerts</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
           </TabsContent>
         </Tabs>
       </div>
