@@ -261,7 +261,12 @@ const Index = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-8">
             <div className="flex items-center space-x-3">
-              <img alt="KALASH PLATFORM Logo" className="h-10 w-auto" src="/lovable-uploads/040cc84c-6abc-422b-82cf-4d087a5ad0f9.png" />
+              <img 
+                alt="KALASH PLATFORM Logo" 
+                className="w-[200px] h-auto object-contain scale-25" 
+                src="/lovable-uploads/040cc84c-6abc-422b-82cf-4d087a5ad0f9.png"
+                style={{ width: '200px', transform: 'scale(0.25)' }}
+              />
               <h1 className="text-xl font-bold text-green-800"></h1>
             </div>
             <div className="flex space-x-1">

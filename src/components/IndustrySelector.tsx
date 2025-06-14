@@ -141,7 +141,8 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect, onShowAut
             <img 
               src="/lovable-uploads/040cc84c-6abc-422b-82cf-4d087a5ad0f9.png" 
               alt="KALASH PLATFORM Logo" 
-              className="h-20 w-auto object-contain"
+              className="w-[200px] h-auto object-contain scale-50"
+              style={{ width: '200px', transform: 'scale(0.5)' }}
             />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
