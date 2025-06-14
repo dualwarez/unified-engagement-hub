@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -471,8 +472,8 @@ const SalesModule: React.FC<SalesModuleProps> = ({ industry, currency }) => {
               </div>
               <Target className="w-8 h-8 text-orange-600" />
             </div>
-          </Card>
-        </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Forecast Methods */}
