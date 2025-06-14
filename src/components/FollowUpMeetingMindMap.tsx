@@ -249,11 +249,11 @@ const FollowUpMeetingMindMap: React.FC = () => {
                       <action.icon className="w-5 h-5 text-gray-600" />
                       <div>
                         <div className="font-medium text-sm">{action.action}</div>
-                        <Badge size="sm" className={
+                        <Badge className={`text-xs ${
                           action.urgency === 'high' ? 'bg-red-100 text-red-800' :
                           action.urgency === 'medium' ? 'bg-yellow-100 text-yellow-800' :
                           'bg-green-100 text-green-800'
-                        }>
+                        }`}>
                           {action.urgency} priority
                         </Badge>
                       </div>
@@ -324,7 +324,7 @@ const FollowUpMeetingMindMap: React.FC = () => {
                     </div>
                   ))}
                 </div>
-              </CardContent>
+              </div>
             </Card>
           </div>
 
