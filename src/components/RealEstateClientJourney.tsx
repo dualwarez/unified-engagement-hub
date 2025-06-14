@@ -249,27 +249,30 @@ const RealEstateClientJourney = () => {
                 </CardHeader>
                 <CardContent className="p-0">
                   <div className="space-y-1">
-                    {journeyStages.map((stage, index) => (
-                      <div
-                        key={stage.id}
-                        className={`p-3 cursor-pointer transition-all border-l-4 ${
-                          selectedStage === index 
-                            ? 'bg-blue-50 border-blue-500' 
-                            : 'border-transparent hover:bg-gray-50'
-                        }`}
-                        onClick={() => setSelectedStage(index)}
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className={`p-2 rounded-lg ${stage.color} text-white`}>
-                            <stage.icon className="w-4 h-4" />
-                          </div>
-                          <div>
-                            <h4 className="font-medium text-sm">{stage.title}</h4>
-                            <p className="text-xs text-gray-500">Stage {stage.id}</p>
+                    {journeyStages.map((stage, index) => {
+                      const IconComponent = stage.icon;
+                      return (
+                        <div
+                          key={stage.id}
+                          className={`p-3 cursor-pointer transition-all border-l-4 ${
+                            selectedStage === index 
+                              ? 'bg-blue-50 border-blue-500' 
+                              : 'border-transparent hover:bg-gray-50'
+                          }`}
+                          onClick={() => setSelectedStage(index)}
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className={`p-2 rounded-lg ${stage.color} text-white`}>
+                              <IconComponent className="w-4 h-4" />
+                            </div>
+                            <div>
+                              <h4 className="font-medium text-sm">{stage.title}</h4>
+                              <p className="text-xs text-gray-500">Stage {stage.id}</p>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </CardContent>
               </Card>
@@ -280,7 +283,7 @@ const RealEstateClientJourney = () => {
                 <CardHeader>
                   <div className="flex items-center gap-3">
                     <div className={`p-3 rounded-lg ${journeyStages[selectedStage].color} text-white`}>
-                      <journeyStages[selectedStage].icon className="w-6 h-6" />
+                      {React.createElement(journeyStages[selectedStage].icon, { className: "w-6 h-6" })}
                     </div>
                     <div>
                       <CardTitle>{journeyStages[selectedStage].title}</CardTitle>
