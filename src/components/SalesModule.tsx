@@ -1,9 +1,18 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { 
   TrendingUp, 
   Users, 
@@ -21,15 +30,20 @@ import {
   BarChart3,
   Activity,
   Filter,
-  RefreshCw
+  RefreshCw,
+  Settings,
+  Globe,
+  CreditCard,
+  MapPin
 } from 'lucide-react';
+import { CurrencyService } from '@/services/currencyService';
 
 interface SalesModuleProps {
   industry: string;
   currency: string;
 }
 
-const SalesModule: React.FC<SalesModuleProps> = ({ industry }) => {
+const SalesModule: React.FC<SalesModuleProps> = ({ industry, currency }) => {
   const [activeTab, setActiveTab] = useState('pipeline');
 
   const salesData = {
@@ -457,8 +471,8 @@ const SalesModule: React.FC<SalesModuleProps> = ({ industry }) => {
               </div>
               <Target className="w-8 h-8 text-orange-600" />
             </div>
-          </CardContent>
-        </Card>
+          </Card>
+        </div>
       </div>
 
       {/* Forecast Methods */}
@@ -605,6 +619,346 @@ const SalesModule: React.FC<SalesModuleProps> = ({ industry }) => {
     </div>
   );
 
+  const renderSettingsView = () => (
+    <div className="space-y-6">
+      {/* Settings Overview */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Active Currency</p>
+                <p className="text-2xl font-bold">{currency}</p>
+                <p className="text-sm text-blue-600">{CurrencyService.getCurrencyName(currency)}</p>
+              </div>
+              <CreditCard className="w-8 h-8 text-blue-600" />
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Exchange Rate</p>
+                <p className="text-2xl font-bold">1.00</p>
+                <p className="text-sm text-green-600">Live rate</p>
+              </div>
+              <TrendingUp className="w-8 h-8 text-green-600" />
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Supported Currencies</p>
+                <p className="text-2xl font-bold">10</p>
+                <p className="text-sm text-purple-600">Active</p>
+              </div>
+              <Globe className="w-8 h-8 text-purple-600" />
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Last Updated</p>
+                <p className="text-2xl font-bold">Now</p>
+                <p className="text-sm text-orange-600">Auto-sync</p>
+              </div>
+              <RefreshCw className="w-8 h-8 text-orange-600" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Country & Currency Settings */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Country & Currency Management</CardTitle>
+          <CardDescription>Configure regional settings and currency preferences</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Country Selection */}
+            <div className="space-y-4">
+              <h4 className="font-medium flex items-center gap-2">
+                <MapPin className="w-4 h-4" />
+                Country Selection
+              </h4>
+              <div className="space-y-3">
+                <div>
+                  <Label htmlFor="country">Primary Country</Label>
+                  <Select defaultValue="india">
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select country" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="india">🇮🇳 India</SelectItem>
+                      <SelectItem value="usa">🇺🇸 United States</SelectItem>
+                      <SelectItem value="uk">🇬🇧 United Kingdom</SelectItem>
+                      <SelectItem value="australia">🇦🇺 Australia</SelectItem>
+                      <SelectItem value="canada">🇨🇦 Canada</SelectItem>
+                      <SelectItem value="eu">🇪🇺 European Union</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Switch id="auto-detect" />
+                  <Label htmlFor="auto-detect">Auto-detect via geolocation</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Switch id="manual-override" />
+                  <Label htmlFor="manual-override">Allow manual override</Label>
+                </div>
+              </div>
+            </div>
+
+            {/* Currency Management */}
+            <div className="space-y-4">
+              <h4 className="font-medium flex items-center gap-2">
+                <CreditCard className="w-4 h-4" />
+                Currency Management
+              </h4>
+              <div className="space-y-3">
+                <div>
+                  <Label htmlFor="base-currency">Base Currency</Label>
+                  <Select defaultValue={currency}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {CurrencyService.getAllCurrencies().map((curr) => (
+                        <SelectItem key={curr} value={curr}>
+                          {CurrencyService.getCurrencySymbol(curr)} {curr} - {CurrencyService.getCurrencyName(curr)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Switch id="multi-currency" defaultChecked />
+                  <Label htmlFor="multi-currency">Enable multi-currency support</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Switch id="live-rates" defaultChecked />
+                  <Label htmlFor="live-rates">Use live exchange rates</Label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Exchange Rate Configuration */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Exchange Rate Configuration</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Rate Settings */}
+            <div className="space-y-4">
+              <h4 className="font-medium">Rate Update Settings</h4>
+              <div className="space-y-3">
+                <div>
+                  <Label htmlFor="update-frequency">Update Frequency</Label>
+                  <Select defaultValue="hourly">
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="realtime">Real-time</SelectItem>
+                      <SelectItem value="hourly">Hourly</SelectItem>
+                      <SelectItem value="daily">Daily</SelectItem>
+                      <SelectItem value="manual">Manual only</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label htmlFor="api-provider">Exchange Rate API</Label>
+                  <Select defaultValue="openexchange">
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="openexchange">OpenExchangeRates</SelectItem>
+                      <SelectItem value="xe">XE.com</SelectItem>
+                      <SelectItem value="fixer">Fixer.io</SelectItem>
+                      <SelectItem value="currencylayer">CurrencyLayer</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </div>
+
+            {/* Current Rates */}
+            <div className="space-y-4">
+              <h4 className="font-medium">Current Exchange Rates (vs USD)</h4>
+              <div className="space-y-2 max-h-48 overflow-y-auto">
+                {CurrencyService.getAllCurrencies().slice(0, 6).map((curr) => (
+                  <div key={curr} className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                    <span className="font-medium">{curr}</span>
+                    <span className="text-sm text-gray-600">
+                      {CurrencyService.getExchangeRate('USD', curr).toFixed(4)}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <Button size="sm" variant="outline">
+                <RefreshCw className="w-4 h-4 mr-2" />
+                Update Rates Now
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Formatting & Display */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Number & Currency Formatting</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Number Format */}
+            <div className="space-y-3">
+              <h4 className="font-medium">Number Format</h4>
+              <div>
+                <Label htmlFor="thousand-sep">Thousand Separator</Label>
+                <Select defaultValue="comma">
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="comma">Comma (1,000)</SelectItem>
+                    <SelectItem value="dot">Dot (1.000)</SelectItem>
+                    <SelectItem value="space">Space (1 000)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="decimal-sep">Decimal Separator</Label>
+                <Select defaultValue="dot">
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="dot">Dot (100.50)</SelectItem>
+                    <SelectItem value="comma">Comma (100,50)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            {/* Currency Format */}
+            <div className="space-y-3">
+              <h4 className="font-medium">Currency Format</h4>
+              <div>
+                <Label htmlFor="symbol-position">Symbol Position</Label>
+                <Select defaultValue="prefix">
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="prefix">Prefix ($100)</SelectItem>
+                    <SelectItem value="suffix">Suffix (100$)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="decimal-places">Decimal Places</Label>
+                <Select defaultValue="2">
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="0">0 (100)</SelectItem>
+                    <SelectItem value="2">2 (100.00)</SelectItem>
+                    <SelectItem value="3">3 (100.000)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            {/* Date Format */}
+            <div className="space-y-3">
+              <h4 className="font-medium">Date Format</h4>
+              <div>
+                <Label htmlFor="date-format">Date Display</Label>
+                <Select defaultValue="dd-mm-yyyy">
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="dd-mm-yyyy">DD/MM/YYYY</SelectItem>
+                    <SelectItem value="mm-dd-yyyy">MM/DD/YYYY</SelectItem>
+                    <SelectItem value="yyyy-mm-dd">YYYY-MM-DD</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="text-sm text-gray-600 p-2 bg-blue-50 rounded">
+                Preview: 14/06/2025
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Localization */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Localization & Language</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <h4 className="font-medium">Language Settings</h4>
+              <div>
+                <Label htmlFor="language">Display Language</Label>
+                <Select defaultValue="en">
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="en">🇺🇸 English</SelectItem>
+                    <SelectItem value="es">🇪🇸 Spanish</SelectItem>
+                    <SelectItem value="fr">🇫🇷 French</SelectItem>
+                    <SelectItem value="de">🇩🇪 German</SelectItem>
+                    <SelectItem value="ar">🇸🇦 Arabic</SelectItem>
+                    <SelectItem value="he">🇮🇱 Hebrew</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Switch id="rtl-support" />
+                <Label htmlFor="rtl-support">Enable RTL support</Label>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <h4 className="font-medium">Regional Preferences</h4>
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">Time Zone</span>
+                  <span className="text-sm font-medium">UTC+05:30 (IST)</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">First Day of Week</span>
+                  <span className="text-sm font-medium">Monday</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">Calendar System</span>
+                  <span className="text-sm font-medium">Gregorian</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -647,10 +1001,11 @@ const SalesModule: React.FC<SalesModuleProps> = ({ industry }) => {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="pipeline">Sales Pipeline</TabsTrigger>
           <TabsTrigger value="followup">Follow-Up System</TabsTrigger>
           <TabsTrigger value="forecast">Sales Forecast</TabsTrigger>
+          <TabsTrigger value="settings">Settings & Localization</TabsTrigger>
         </TabsList>
 
         <TabsContent value="pipeline" className="space-y-4">
@@ -663,6 +1018,10 @@ const SalesModule: React.FC<SalesModuleProps> = ({ industry }) => {
 
         <TabsContent value="forecast" className="space-y-4">
           {renderForecastView()}
+        </TabsContent>
+
+        <TabsContent value="settings" className="space-y-4">
+          {renderSettingsView()}
         </TabsContent>
       </Tabs>
     </div>
