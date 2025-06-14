@@ -18,9 +18,11 @@ import {
   Brain,
   BarChart3,
   Users,
-  Bot
+  Bot,
+  Calendar
 } from 'lucide-react';
 import AITeleSalesMindMap from './AITeleSalesMindMap';
+import FollowUpMeetingMindMap from './FollowUpMeetingMindMap';
 
 interface IndustrySelectorProps {
   onSelect: (industry: string) => void;
@@ -151,10 +153,11 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect, onShowAut
         </div>
 
         <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-8">
+          <TabsList className="grid w-full grid-cols-4 mb-8">
             <TabsTrigger value="industries">Select Industry</TabsTrigger>
             <TabsTrigger value="capabilities">Core Capabilities</TabsTrigger>
             <TabsTrigger value="mindmap">AI Tele-Sales Map</TabsTrigger>
+            <TabsTrigger value="followup">Follow-Up Process</TabsTrigger>
           </TabsList>
 
           <TabsContent value="industries" className="space-y-8">
@@ -252,6 +255,10 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelect, onShowAut
 
           <TabsContent value="mindmap" className="space-y-8">
             <AITeleSalesMindMap />
+          </TabsContent>
+
+          <TabsContent value="followup" className="space-y-8">
+            <FollowUpMeetingMindMap />
           </TabsContent>
         </Tabs>
       </div>
