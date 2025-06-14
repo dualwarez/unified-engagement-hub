@@ -6,19 +6,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Building2, TrendingUp, GraduationCap, Shield, DollarSign, Home, CheckCircle, Sparkles, ArrowRight, Phone, MessageSquare, Brain, BarChart3, Users, Bot, Calendar, Target, FileText, Settings, AlertCircle, PieChart, TrendingDown } from 'lucide-react';
 import AITeleSalesMindMap from './AITeleSalesMindMap';
 import FollowUpMeetingMindMap from './FollowUpMeetingMindMap';
-
 interface IndustrySelectorProps {
   onSelect: (industry: string) => void;
   onShowAuth?: () => void;
 }
-
 const IndustrySelector: React.FC<IndustrySelectorProps> = ({
   onSelect,
   onShowAuth
 }) => {
   const [selectedTab, setSelectedTab] = useState('industries');
   const [selectedStockCategory, setSelectedStockCategory] = useState(0);
-
   const industries = [{
     name: 'Real Estate',
     icon: Home,
@@ -58,212 +55,105 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
   }];
 
   // Stock Broking Financial Products
-  const stockBrokingProducts = [
-    {
-      category: "Direct Equity",
-      icon: TrendingUp,
-      color: "bg-blue-500",
-      products: [
-        "Listed Shares (NSE/BSE)",
-        "SME Shares",
-        "Pre-IPO Stocks (Unlisted)",
-        "Global Equity (via LRS/IFSC/ETF route)"
-      ]
-    },
-    {
-      category: "Mutual Funds (Equity-Oriented)",
-      icon: PieChart,
-      color: "bg-green-500",
-      products: [
-        "Large Cap, Mid Cap, Small Cap",
-        "ELSS (Tax-saving)",
-        "Index Funds (Nifty 50, Sensex, etc.)",
-        "Sectoral/Thematic Funds",
-        "Multi-Asset Funds with Equity Tilt"
-      ]
-    },
-    {
-      category: "ETFs (Exchange Traded Funds)",
-      icon: BarChart3,
-      color: "bg-purple-500",
-      products: [
-        "Index ETFs (Nifty, Sensex, Nasdaq)",
-        "Sector ETFs (Banking, IT)",
-        "International ETFs (S&P500, Nasdaq100)"
-      ]
-    },
-    {
-      category: "PMS (Portfolio Management Services)",
-      icon: Target,
-      color: "bg-orange-500",
-      products: [
-        "Discretionary PMS",
-        "Non-Discretionary PMS",
-        "Thematic/Concentrated Portfolio PMS"
-      ]
-    },
-    {
-      category: "AIF (Alternate Investment Funds - Category III)",
-      icon: TrendingDown,
-      color: "bg-red-500",
-      products: [
-        "Hedge Funds",
-        "Long-Short Strategies",
-        "High Net-Worth Targeted Equity Funds"
-      ]
-    },
-    {
-      category: "REITs & InvITs",
-      icon: Building2,
-      color: "bg-indigo-500",
-      products: [
-        "Publicly Listed REITs",
-        "Infrastructure Investment Trusts"
-      ]
-    },
-    {
-      category: "Employee Equity",
-      icon: Users,
-      color: "bg-teal-500",
-      products: [
-        "ESOPs / RSUs / Sweat Equity",
-        "Employee Stock Purchase Plans (ESPP)"
-      ]
-    }
-  ];
+  const stockBrokingProducts = [{
+    category: "Direct Equity",
+    icon: TrendingUp,
+    color: "bg-blue-500",
+    products: ["Listed Shares (NSE/BSE)", "SME Shares", "Pre-IPO Stocks (Unlisted)", "Global Equity (via LRS/IFSC/ETF route)"]
+  }, {
+    category: "Mutual Funds (Equity-Oriented)",
+    icon: PieChart,
+    color: "bg-green-500",
+    products: ["Large Cap, Mid Cap, Small Cap", "ELSS (Tax-saving)", "Index Funds (Nifty 50, Sensex, etc.)", "Sectoral/Thematic Funds", "Multi-Asset Funds with Equity Tilt"]
+  }, {
+    category: "ETFs (Exchange Traded Funds)",
+    icon: BarChart3,
+    color: "bg-purple-500",
+    products: ["Index ETFs (Nifty, Sensex, Nasdaq)", "Sector ETFs (Banking, IT)", "International ETFs (S&P500, Nasdaq100)"]
+  }, {
+    category: "PMS (Portfolio Management Services)",
+    icon: Target,
+    color: "bg-orange-500",
+    products: ["Discretionary PMS", "Non-Discretionary PMS", "Thematic/Concentrated Portfolio PMS"]
+  }, {
+    category: "AIF (Alternate Investment Funds - Category III)",
+    icon: TrendingDown,
+    color: "bg-red-500",
+    products: ["Hedge Funds", "Long-Short Strategies", "High Net-Worth Targeted Equity Funds"]
+  }, {
+    category: "REITs & InvITs",
+    icon: Building2,
+    color: "bg-indigo-500",
+    products: ["Publicly Listed REITs", "Infrastructure Investment Trusts"]
+  }, {
+    category: "Employee Equity",
+    icon: Users,
+    color: "bg-teal-500",
+    products: ["ESOPs / RSUs / Sweat Equity", "Employee Stock Purchase Plans (ESPP)"]
+  }];
 
   // Client Lifecycle Journey
-  const clientLifecycleStages = [
-    {
-      id: 1,
-      title: "Client Discovery & Onboarding",
-      icon: Users,
-      color: "bg-blue-500",
-      activities: [
-        "Investor Profiling (Age, Goals, Income)",
-        "KYC & Risk Appetite Assessment",
-        "Mode Selection: Direct / Assisted / Robo-Advisory",
-        "Platform/App Registration",
-        "Brokerage or RIA Selection"
-      ]
-    },
-    {
-      id: 2,
-      title: "Goal Identification",
-      icon: Target,
-      color: "bg-green-500",
-      activities: [
-        "Short-Term (1–3 yrs): Capital Appreciation",
-        "Mid-Term (3–5 yrs): House, Wedding, Car",
-        "Long-Term (5+ yrs): Retirement, Child Education",
-        "Wealth Creation (High Risk, High Return)"
-      ]
-    },
-    {
-      id: 3,
-      title: "Asset Allocation Planning",
-      icon: PieChart,
-      color: "bg-purple-500",
-      activities: [
-        "Conservative (0–30%)",
-        "Moderate (30–60%)",
-        "Aggressive (60–100%)",
-        "Domestic vs Global Equity",
-        "Sectors vs Index vs Active vs Passive"
-      ]
-    },
-    {
-      id: 4,
-      title: "Product Recommendation",
-      icon: Brain,
-      color: "bg-orange-500",
-      activities: [
-        "Risk Score Analysis",
-        "Tax Bracket Consideration",
-        "Goals & Tenure Matching",
-        "Portfolio Builder Tools",
-        "Fund & Stock Screener"
-      ]
-    },
-    {
-      id: 5,
-      title: "Execution",
-      icon: Settings,
-      color: "bg-red-500",
-      activities: [
-        "Order Placement (Equity / MF / ETF / PMS)",
-        "Lumpsum / SIP/STP/SWP",
-        "Payment Gateway Integration",
-        "Confirmation via Email/SMS/App"
-      ]
-    },
-    {
-      id: 6,
-      title: "Monitoring & Reporting",
-      icon: BarChart3,
-      color: "bg-indigo-500",
-      activities: [
-        "Daily Portfolio Valuation",
-        "Profit/Loss Tracking",
-        "Benchmark Comparison",
-        "XIRR & CAGR Reports",
-        "Quarterly Review Call / Report"
-      ]
-    },
-    {
-      id: 7,
-      title: "Review & Rebalancing",
-      icon: AlertCircle,
-      color: "bg-yellow-500",
-      activities: [
-        "Overexposure Alerts",
-        "Sector Risk Monitoring",
-        "Portfolio Drift Analysis",
-        "Rebalancing Advice (Manual/Auto)",
-        "Switch / Redeem / Top-Up Recommendations"
-      ]
-    },
-    {
-      id: 8,
-      title: "Exit & Redemption",
-      icon: DollarSign,
-      color: "bg-pink-500",
-      activities: [
-        "Partial / Full Redemption",
-        "Exit Load Consideration",
-        "Taxation Implication (STCG, LTCG)",
-        "Goal Achievement Alert",
-        "Switching to Safer Assets"
-      ]
-    },
-    {
-      id: 9,
-      title: "Post-Exit Service",
-      icon: FileText,
-      color: "bg-teal-500",
-      activities: [
-        "Capital Gains Report",
-        "Advisory for Reinvestment",
-        "Family Planning Services",
-        "Portfolio for Children",
-        "Referral / Loyalty Benefits"
-      ]
-    },
-    {
-      id: 10,
-      title: "Client Segmentation",
-      icon: TrendingUp,
-      color: "bg-emerald-500",
-      activities: [
-        "New Investor (<1 yr)",
-        "Growing Portfolio (₹5–25 Lakh)",
-        "HNI (₹25L–2 Cr)",
-        "UHNI (₹2 Cr+)",
-        "Advisory Shift: DIY → Hybrid → Dedicated"
-      ]
-    }
-  ];
-
+  const clientLifecycleStages = [{
+    id: 1,
+    title: "Client Discovery & Onboarding",
+    icon: Users,
+    color: "bg-blue-500",
+    activities: ["Investor Profiling (Age, Goals, Income)", "KYC & Risk Appetite Assessment", "Mode Selection: Direct / Assisted / Robo-Advisory", "Platform/App Registration", "Brokerage or RIA Selection"]
+  }, {
+    id: 2,
+    title: "Goal Identification",
+    icon: Target,
+    color: "bg-green-500",
+    activities: ["Short-Term (1–3 yrs): Capital Appreciation", "Mid-Term (3–5 yrs): House, Wedding, Car", "Long-Term (5+ yrs): Retirement, Child Education", "Wealth Creation (High Risk, High Return)"]
+  }, {
+    id: 3,
+    title: "Asset Allocation Planning",
+    icon: PieChart,
+    color: "bg-purple-500",
+    activities: ["Conservative (0–30%)", "Moderate (30–60%)", "Aggressive (60–100%)", "Domestic vs Global Equity", "Sectors vs Index vs Active vs Passive"]
+  }, {
+    id: 4,
+    title: "Product Recommendation",
+    icon: Brain,
+    color: "bg-orange-500",
+    activities: ["Risk Score Analysis", "Tax Bracket Consideration", "Goals & Tenure Matching", "Portfolio Builder Tools", "Fund & Stock Screener"]
+  }, {
+    id: 5,
+    title: "Execution",
+    icon: Settings,
+    color: "bg-red-500",
+    activities: ["Order Placement (Equity / MF / ETF / PMS)", "Lumpsum / SIP/STP/SWP", "Payment Gateway Integration", "Confirmation via Email/SMS/App"]
+  }, {
+    id: 6,
+    title: "Monitoring & Reporting",
+    icon: BarChart3,
+    color: "bg-indigo-500",
+    activities: ["Daily Portfolio Valuation", "Profit/Loss Tracking", "Benchmark Comparison", "XIRR & CAGR Reports", "Quarterly Review Call / Report"]
+  }, {
+    id: 7,
+    title: "Review & Rebalancing",
+    icon: AlertCircle,
+    color: "bg-yellow-500",
+    activities: ["Overexposure Alerts", "Sector Risk Monitoring", "Portfolio Drift Analysis", "Rebalancing Advice (Manual/Auto)", "Switch / Redeem / Top-Up Recommendations"]
+  }, {
+    id: 8,
+    title: "Exit & Redemption",
+    icon: DollarSign,
+    color: "bg-pink-500",
+    activities: ["Partial / Full Redemption", "Exit Load Consideration", "Taxation Implication (STCG, LTCG)", "Goal Achievement Alert", "Switching to Safer Assets"]
+  }, {
+    id: 9,
+    title: "Post-Exit Service",
+    icon: FileText,
+    color: "bg-teal-500",
+    activities: ["Capital Gains Report", "Advisory for Reinvestment", "Family Planning Services", "Portfolio for Children", "Referral / Loyalty Benefits"]
+  }, {
+    id: 10,
+    title: "Client Segmentation",
+    icon: TrendingUp,
+    color: "bg-emerald-500",
+    activities: ["New Investor (<1 yr)", "Growing Portfolio (₹5–25 Lakh)", "HNI (₹25L–2 Cr)", "UHNI (₹2 Cr+)", "Advisory Shift: DIY → Hybrid → Dedicated"]
+  }];
   const coreCapabilities = [{
     category: "AI Lead Qualification",
     icon: Brain,
@@ -285,9 +175,7 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
     icon: BarChart3,
     features: ["Funnel analysis & optimization", "Sales team training & KPIs", "Pitch decks, case studies creation", "Custom workflows and strategy design"]
   }];
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+  return <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-12">
@@ -301,7 +189,7 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
             Welcome to <span className="text-green-700">KALASH PLATFORM</span>
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            <span className="text-green-600 font-semibold">ELIMINATE | AUTOMATE | DELEGATE</span> - AI-powered lead generation and customer relationship management platform
+            <span className="text-green-600 text-4xl text-center font-light">ELIMINATE | AUTOMATE | DELEGATE</span> - AI-powered lead generation and customer relationship management platform
           </p>
         </div>
 
@@ -322,9 +210,8 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {industries.map(industry => {
-                const IconComponent = industry.icon;
-                return (
-                  <Card key={industry.name} className="group hover:shadow-xl transition-all duration-300 cursor-pointer border-2 hover:border-blue-200" onClick={() => onSelect(industry.name)}>
+              const IconComponent = industry.icon;
+              return <Card key={industry.name} className="group hover:shadow-xl transition-all duration-300 cursor-pointer border-2 hover:border-blue-200" onClick={() => onSelect(industry.name)}>
                     <CardHeader>
                       <div className={`w-16 h-16 rounded-xl bg-gradient-to-r ${industry.color} p-4 mb-4 group-hover:scale-110 transition-transform duration-300`}>
                         <IconComponent className="w-8 h-8 text-white" />
@@ -338,21 +225,18 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-2 mb-4">
-                        {industry.benefits.map((benefit, index) => (
-                          <div key={index} className="flex items-center gap-2">
+                        {industry.benefits.map((benefit, index) => <div key={index} className="flex items-center gap-2">
                             <CheckCircle className="w-4 h-4 text-green-500" />
                             <span className="text-sm text-gray-600">{benefit}</span>
-                          </div>
-                        ))}
+                          </div>)}
                       </div>
                       <Button className="w-full group-hover:bg-blue-600 transition-colors">
                         Get Started
                         <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                       </Button>
                     </CardContent>
-                  </Card>
-                );
-              })}
+                  </Card>;
+            })}
             </div>
           </TabsContent>
 
@@ -363,8 +247,7 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {coreCapabilities.map((capability, index) => (
-                <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
+              {coreCapabilities.map((capability, index) => <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-3">
                       <div className="p-2 rounded-lg bg-blue-100">
@@ -375,16 +258,13 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      {capability.features.map((feature, idx) => (
-                        <div key={idx} className="flex items-start gap-3">
+                      {capability.features.map((feature, idx) => <div key={idx} className="flex items-start gap-3">
                           <div className="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0"></div>
                           <span className="text-gray-700">{feature}</span>
-                        </div>
-                      ))}
+                        </div>)}
                     </div>
                   </CardContent>
-                </Card>
-              ))}
+                </Card>)}
             </div>
 
             <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-8 text-center">
@@ -441,17 +321,8 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
                       <CardContent className="p-0">
                         <div className="space-y-1">
                           {stockBrokingProducts.map((category, index) => {
-                            const IconComponent = category.icon;
-                            return (
-                              <div
-                                key={index}
-                                className={`p-3 cursor-pointer transition-all border-l-4 ${
-                                  selectedStockCategory === index 
-                                    ? 'bg-blue-50 border-blue-500' 
-                                    : 'border-transparent hover:bg-gray-50'
-                                }`}
-                                onClick={() => setSelectedStockCategory(index)}
-                              >
+                          const IconComponent = category.icon;
+                          return <div key={index} className={`p-3 cursor-pointer transition-all border-l-4 ${selectedStockCategory === index ? 'bg-blue-50 border-blue-500' : 'border-transparent hover:bg-gray-50'}`} onClick={() => setSelectedStockCategory(index)}>
                                 <div className="flex items-center gap-3">
                                   <div className={`p-2 rounded-lg ${category.color} text-white`}>
                                     <IconComponent className="w-4 h-4" />
@@ -461,9 +332,8 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
                                     <p className="text-xs text-gray-500">{category.products.length} products</p>
                                   </div>
                                 </div>
-                              </div>
-                            );
-                          })}
+                              </div>;
+                        })}
                         </div>
                       </CardContent>
                     </Card>
@@ -474,7 +344,9 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
                       <CardHeader>
                         <div className="flex items-center gap-3">
                           <div className={`p-3 rounded-lg ${stockBrokingProducts[selectedStockCategory].color} text-white`}>
-                            {React.createElement(stockBrokingProducts[selectedStockCategory].icon, { className: "w-6 h-6" })}
+                            {React.createElement(stockBrokingProducts[selectedStockCategory].icon, {
+                            className: "w-6 h-6"
+                          })}
                           </div>
                           <div>
                             <CardTitle>{stockBrokingProducts[selectedStockCategory].category}</CardTitle>
@@ -484,12 +356,10 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
                       </CardHeader>
                       <CardContent className="space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          {stockBrokingProducts[selectedStockCategory].products.map((product, idx) => (
-                            <div key={idx} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                          {stockBrokingProducts[selectedStockCategory].products.map((product, idx) => <div key={idx} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                               <CheckCircle className="w-5 h-5 text-green-500" />
                               <span className="font-medium">{product}</span>
-                            </div>
-                          ))}
+                            </div>)}
                         </div>
                       </CardContent>
                     </Card>
@@ -507,9 +377,8 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {clientLifecycleStages.map((stage, index) => {
-                    const IconComponent = stage.icon;
-                    return (
-                      <Card key={stage.id} className="hover:shadow-lg transition-shadow duration-300">
+                  const IconComponent = stage.icon;
+                  return <Card key={stage.id} className="hover:shadow-lg transition-shadow duration-300">
                         <CardHeader>
                           <div className="flex items-center gap-3 mb-3">
                             <div className={`p-2 rounded-lg ${stage.color} text-white`}>
@@ -521,17 +390,14 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
                         </CardHeader>
                         <CardContent>
                           <div className="space-y-2">
-                            {stage.activities.map((activity, idx) => (
-                              <div key={idx} className="flex items-start gap-2">
+                            {stage.activities.map((activity, idx) => <div key={idx} className="flex items-start gap-2">
                                 <div className="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0"></div>
                                 <span className="text-sm text-gray-700">{activity}</span>
-                              </div>
-                            ))}
+                              </div>)}
                           </div>
                         </CardContent>
-                      </Card>
-                    );
-                  })}
+                      </Card>;
+                })}
                 </div>
 
                 <Card className="mt-8">
@@ -567,8 +433,6 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
           </TabsContent>
         </Tabs>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default IndustrySelector;
