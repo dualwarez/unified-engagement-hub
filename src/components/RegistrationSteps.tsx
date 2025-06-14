@@ -536,7 +536,7 @@ const RegistrationSteps: React.FC<RegistrationStepsProps> = ({ onComplete, onBac
           <div className="flex items-center justify-between mb-4">
             <Button variant="outline" onClick={currentStep === 1 ? onBack : handlePrevious}>
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back
+              {currentStep === 1 ? 'Back to Login' : 'Previous'}
             </Button>
             <div className="text-sm text-gray-600">
               Step {currentStep} of {totalSteps - 1}
