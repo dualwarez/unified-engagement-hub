@@ -210,7 +210,7 @@ const AITeleSalesMindMap: React.FC = () => {
 
       <Tabs defaultValue="overview" className="w-full">
         <TabsList className="grid w-full grid-cols-3 mb-8">
-          <TabsTrigger value="overview">Mind Map Overview</TabsTrigger>
+          <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="features">Feature Categories</TabsTrigger>
           <TabsTrigger value="implementation">Implementation Guide</TabsTrigger>
         </TabsList>
