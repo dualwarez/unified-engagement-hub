@@ -6,12 +6,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Building2, TrendingUp, GraduationCap, Shield, DollarSign, Home, CheckCircle, Sparkles, ArrowRight, Phone, MessageSquare, Brain, BarChart3, Users, Bot, Calendar, Target, FileText, Settings, AlertCircle, PieChart, TrendingDown } from 'lucide-react';
 import AITeleSalesMindMap from './AITeleSalesMindMap';
 import FollowUpMeetingMindMap from './FollowUpMeetingMindMap';
-
 interface IndustrySelectorProps {
   onSelect: (industry: string) => void;
   onShowAuth?: () => void;
 }
-
 const IndustrySelector: React.FC<IndustrySelectorProps> = ({
   onSelect,
   onShowAuth
@@ -19,7 +17,6 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
   const [selectedTab, setSelectedTab] = useState('industries');
   const [selectedStockCategory, setSelectedStockCategory] = useState(0);
   const [selectedIndustry, setSelectedIndustry] = useState<string>('');
-
   const industries = [{
     name: 'Real Estate',
     icon: Home,
@@ -57,7 +54,6 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
     benefits: ['Course recommendations', 'Learning analytics', 'Progress tracking'],
     color: 'from-indigo-500 to-indigo-600'
   }];
-
   const stockBrokingProducts = [{
     category: "Direct Equity",
     icon: TrendingUp,
@@ -94,7 +90,6 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
     color: "bg-teal-500",
     products: ["ESOPs / RSUs / Sweat Equity", "Employee Stock Purchase Plans (ESPP)"]
   }];
-
   const clientLifecycleStages = [{
     id: 1,
     title: "Client Discovery & Onboarding",
@@ -177,7 +172,6 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
     icon: BarChart3,
     features: ["Funnel analysis & optimization", "Sales team training & KPIs", "Pitch decks, case studies creation", "Custom workflows and strategy design"]
   }];
-
   const handleIndustrySelect = (industryName: string) => {
     if (industryName === 'Stock Broking') {
       setSelectedIndustry(industryName);
@@ -189,18 +183,15 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
 
   // If Stock Broking is selected, show the stock broking specific view
   if (selectedIndustry === 'Stock Broking') {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+    return <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
         <div className="container mx-auto px-4 py-8">
           {/* Header */}
           <div className="text-center mb-12">
             <div className="flex justify-center mb-6">
-              <img 
-                alt="KALASH PLATFORM Logo" 
-                className="w-[200px] h-auto object-contain scale-50" 
-                style={{ width: '200px', transform: 'scale(0.5)' }}
-                src="/lovable-uploads/50787e3d-90b3-4882-950e-1da83e68307f.png" 
-              />
+              <img alt="KALASH PLATFORM Logo" className="w-[200px] h-auto object-contain scale-50" style={{
+              width: '200px',
+              transform: 'scale(0.5)'
+            }} src="/lovable-uploads/50787e3d-90b3-4882-950e-1da83e68307f.png" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               <span className="text-green-700">Stock Broking</span> Solutions
@@ -209,17 +200,10 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
               <span className="text-green-600 text-4xl text-center font-light">ELIMINATE | AUTOMATE | DELEGATE</span> - Comprehensive investment products and client journey management
             </p>
             <div className="mt-6">
-              <Button 
-                variant="outline" 
-                onClick={() => setSelectedIndustry('')}
-                className="mr-4"
-              >
+              <Button variant="outline" onClick={() => setSelectedIndustry('')} className="mr-4">
                 ← Back to Industries
               </Button>
-              <Button 
-                onClick={() => onSelect('Stock Broking')}
-                className="bg-green-600 hover:bg-green-700"
-              >
+              <Button onClick={() => onSelect('Stock Broking')} className="bg-green-600 hover:bg-green-700">
                 Get Started with Stock Broking
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
@@ -250,17 +234,8 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
                     <CardContent className="p-0">
                       <div className="space-y-1">
                         {stockBrokingProducts.map((category, index) => {
-                          const IconComponent = category.icon;
-                          return (
-                            <div 
-                              key={index}
-                              className={`p-3 cursor-pointer transition-all border-l-4 ${
-                                selectedStockCategory === index 
-                                  ? 'bg-blue-50 border-blue-500' 
-                                  : 'border-transparent hover:bg-gray-50'
-                              }`}
-                              onClick={() => setSelectedStockCategory(index)}
-                            >
+                        const IconComponent = category.icon;
+                        return <div key={index} className={`p-3 cursor-pointer transition-all border-l-4 ${selectedStockCategory === index ? 'bg-blue-50 border-blue-500' : 'border-transparent hover:bg-gray-50'}`} onClick={() => setSelectedStockCategory(index)}>
                               <div className="flex items-center gap-3">
                                 <div className={`p-2 rounded-lg ${category.color} text-white`}>
                                   <IconComponent className="w-4 h-4" />
@@ -270,9 +245,8 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
                                   <p className="text-xs text-gray-500">{category.products.length} products</p>
                                 </div>
                               </div>
-                            </div>
-                          );
-                        })}
+                            </div>;
+                      })}
                       </div>
                     </CardContent>
                   </Card>
@@ -284,8 +258,8 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
                       <div className="flex items-center gap-3">
                         <div className={`p-3 rounded-lg ${stockBrokingProducts[selectedStockCategory].color} text-white`}>
                           {React.createElement(stockBrokingProducts[selectedStockCategory].icon, {
-                            className: "w-6 h-6"
-                          })}
+                          className: "w-6 h-6"
+                        })}
                         </div>
                         <div>
                           <CardTitle>{stockBrokingProducts[selectedStockCategory].category}</CardTitle>
@@ -295,12 +269,10 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
                     </CardHeader>
                     <CardContent className="space-y-6">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {stockBrokingProducts[selectedStockCategory].products.map((product, idx) => (
-                          <div key={idx} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                        {stockBrokingProducts[selectedStockCategory].products.map((product, idx) => <div key={idx} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                             <CheckCircle className="w-5 h-5 text-green-500" />
                             <span className="font-medium">{product}</span>
-                          </div>
-                        ))}
+                          </div>)}
                       </div>
                     </CardContent>
                   </Card>
@@ -319,9 +291,8 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {clientLifecycleStages.map((stage, index) => {
-                  const IconComponent = stage.icon;
-                  return (
-                    <Card key={stage.id} className="hover:shadow-lg transition-shadow duration-300">
+                const IconComponent = stage.icon;
+                return <Card key={stage.id} className="hover:shadow-lg transition-shadow duration-300">
                       <CardHeader>
                         <div className="flex items-center gap-3 mb-3">
                           <div className={`p-2 rounded-lg ${stage.color} text-white`}>
@@ -333,17 +304,14 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-2">
-                          {stage.activities.map((activity, idx) => (
-                            <div key={idx} className="flex items-start gap-2">
+                          {stage.activities.map((activity, idx) => <div key={idx} className="flex items-start gap-2">
                               <div className="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0"></div>
                               <span className="text-sm text-gray-700">{activity}</span>
-                            </div>
-                          ))}
+                            </div>)}
                         </div>
                       </CardContent>
-                    </Card>
-                  );
-                })}
+                    </Card>;
+              })}
               </div>
 
               <Card className="mt-8">
@@ -377,23 +345,19 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
             </TabsContent>
           </Tabs>
         </div>
-      </div>
-    );
+      </div>;
   }
 
   // Main industry selector view
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+  return <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex justify-center mb-6">
-            <img 
-              alt="KALASH PLATFORM Logo" 
-              className="w-[200px] h-auto object-contain scale-50" 
-              style={{ width: '200px', transform: 'scale(0.5)' }}
-              src="/lovable-uploads/50787e3d-90b3-4882-950e-1da83e68307f.png" 
-            />
+            <img alt="KALASH PLATFORM Logo" className="w-[200px] h-auto object-contain scale-50" style={{
+            width: '200px',
+            transform: 'scale(0.5)'
+          }} src="/lovable-uploads/a93b6e02-d0cf-4a02-ba25-2077be49ecbd.png" />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Welcome to <span className="text-green-700">KALASH PLATFORM</span>
@@ -418,14 +382,9 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {industries.map((industry) => {
-                const IconComponent = industry.icon;
-                return (
-                  <Card 
-                    key={industry.name} 
-                    className="group hover:shadow-xl transition-all duration-300 cursor-pointer border-2 hover:border-blue-200" 
-                    onClick={() => handleIndustrySelect(industry.name)}
-                  >
+              {industries.map(industry => {
+              const IconComponent = industry.icon;
+              return <Card key={industry.name} className="group hover:shadow-xl transition-all duration-300 cursor-pointer border-2 hover:border-blue-200" onClick={() => handleIndustrySelect(industry.name)}>
                     <CardHeader>
                       <div className={`w-16 h-16 rounded-xl bg-gradient-to-r ${industry.color} p-4 mb-4 group-hover:scale-110 transition-transform duration-300`}>
                         <IconComponent className="w-8 h-8 text-white" />
@@ -439,21 +398,18 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-2 mb-4">
-                        {industry.benefits.map((benefit, index) => (
-                          <div key={index} className="flex items-center gap-2">
+                        {industry.benefits.map((benefit, index) => <div key={index} className="flex items-center gap-2">
                             <CheckCircle className="w-4 h-4 text-green-500" />
                             <span className="text-sm text-gray-600">{benefit}</span>
-                          </div>
-                        ))}
+                          </div>)}
                       </div>
                       <Button className="w-full group-hover:bg-blue-600 transition-colors">
                         {industry.name === 'Stock Broking' ? 'Explore Stock Broking' : 'Get Started'}
                         <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                       </Button>
                     </CardContent>
-                  </Card>
-                );
-              })}
+                  </Card>;
+            })}
             </div>
           </TabsContent>
 
@@ -464,8 +420,7 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {coreCapabilities.map((capability, index) => (
-                <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
+              {coreCapabilities.map((capability, index) => <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-3">
                       <div className="p-2 rounded-lg bg-blue-100">
@@ -476,16 +431,13 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      {capability.features.map((feature, idx) => (
-                        <div key={idx} className="flex items-start gap-3">
+                      {capability.features.map((feature, idx) => <div key={idx} className="flex items-start gap-3">
                           <div className="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0"></div>
                           <span className="text-gray-700">{feature}</span>
-                        </div>
-                      ))}
+                        </div>)}
                     </div>
                   </CardContent>
-                </Card>
-              ))}
+                </Card>)}
             </div>
 
             <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-8 text-center">
@@ -512,8 +464,6 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
           </TabsContent>
         </Tabs>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default IndustrySelector;
