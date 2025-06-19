@@ -357,7 +357,7 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
             <img alt="KALASH PLATFORM Logo" className="w-[200px] h-auto object-contain scale-50" style={{
             width: '200px',
             transform: 'scale(0.5)'
-          }} src="/lovable-uploads/a93b6e02-d0cf-4a02-ba25-2077be49ecbd.png" />
+          }} src="/lovable-uploads/6cedae4d-a738-45ff-b426-aa4be1d6ae73.png" />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Welcome to <span className="text-green-700">KALASH PLATFORM</span>
