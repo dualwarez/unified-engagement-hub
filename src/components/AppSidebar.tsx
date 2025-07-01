@@ -10,7 +10,8 @@ import {
   Calendar,
   MapPin,
   LogIn,
-  Settings
+  Settings,
+  HeadphonesIcon
 } from 'lucide-react';
 import {
   Sidebar,
@@ -42,9 +43,10 @@ const navigationItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { id: 'marketing', label: 'Marketing', icon: Megaphone },
   { id: 'leads', label: 'Lead Capture', icon: Users },
-  { id: 'sales', label: 'Sales', icon: DollarSign },
   { id: 'crm', label: 'CRM', icon: UserCheck },
   { id: 'appointments', label: 'Appointments', icon: Calendar },
+  { id: 'sales', label: 'Sales', icon: DollarSign },
+  { id: 'post-sales', label: 'Post Sales', icon: HeadphonesIcon },
 ];
 
 export function AppSidebar({

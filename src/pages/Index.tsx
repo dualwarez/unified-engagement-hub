@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -105,6 +106,70 @@ const Index = () => {
     setShowCountrySelector(false);
     console.log('Country and currency selected:', data);
   };
+
+  const dashboardData = {
+    leads: [{
+      name: 'Jan',
+      value: 45
+    }, {
+      name: 'Feb',
+      value: 52
+    }, {
+      name: 'Mar',
+      value: 61
+    }, {
+      name: 'Apr',
+      value: 58
+    }, {
+      name: 'May',
+      value: 72
+    }, {
+      name: 'Jun',
+      value: 69
+    }],
+    conversion: [{
+      name: 'Leads',
+      value: 156,
+      color: '#3b82f6'
+    }, {
+      name: 'Qualified',
+      value: 89,
+      color: '#10b981'
+    }, {
+      name: 'Converted',
+      value: 34,
+      color: '#f59e0b'
+    }]
+  };
+
+  // Base revenue in USD for conversion
+  const baseRevenueUSD = 45678;
+  const formattedRevenue = CurrencyService.convertAndFormat(baseRevenueUSD, selectedCurrency);
+  const stats = [{
+    title: 'Total Leads',
+    value: '1,247',
+    icon: Users,
+    change: '+12%',
+    color: 'text-blue-600'
+  }, {
+    title: 'Conversion Rate',
+    value: '24.5%',
+    icon: TrendingUp,
+    change: '+3.2%',
+    color: 'text-green-600'
+  }, {
+    title: 'Revenue',
+    value: formattedRevenue,
+    icon: DollarSign,
+    change: '+8.1%',
+    color: 'text-purple-600'
+  }, {
+    title: 'Appointments',
+    value: '89',
+    icon: Calendar,
+    change: '+15%',
+    color: 'text-orange-600'
+  }];
 
   if (showAuth) {
     return <B2BAuthFlow onBack={() => setShowAuth(false)} onComplete={handleAuthComplete} />;
@@ -253,6 +318,27 @@ const Index = () => {
     </div>
   );
 
+  const renderPostSales = () => (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Post Sales</h1>
+          <p className="text-gray-600 mt-1">Customer support and post-sale services</p>
+        </div>
+      </div>
+      
+      <Card>
+        <CardHeader>
+          <CardTitle>Post Sales Module</CardTitle>
+          <CardDescription>Manage customer support and post-sale activities</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className="text-gray-600">Post sales functionality coming soon...</p>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
@@ -275,7 +361,7 @@ const Index = () => {
             <SidebarTrigger className="-ml-1" />
             <div className="mx-2 h-4 w-px bg-sidebar-border" />
             <h2 className="text-lg font-semibold capitalize">
-              {activeModule === 'leads' ? 'Lead Capture' : activeModule}
+              {activeModule === 'leads' ? 'Lead Capture' : activeModule === 'post-sales' ? 'Post Sales' : activeModule}
             </h2>
           </header>
           
@@ -286,6 +372,7 @@ const Index = () => {
             {activeModule === 'sales' && <SalesModule industry={selectedIndustry} currency={selectedCurrency} />}
             {activeModule === 'crm' && <CRMModule industry={selectedIndustry} />}
             {activeModule === 'appointments' && <AppointmentModule industry={selectedIndustry} />}
+            {activeModule === 'post-sales' && renderPostSales()}
           </main>
         </SidebarInset>
       </div>
