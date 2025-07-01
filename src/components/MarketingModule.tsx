@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -21,13 +22,10 @@ import {
   Linkedin,
   Youtube,
   Sparkles,
-  Activity,
-  Bot,
-  Target
+  Activity
 } from 'lucide-react';
 import CampaignCreationForm from './CampaignCreationForm';
 import PerformanceMonitor from './PerformanceMonitor';
-import AutomatedMarketingSystem from './AutomatedMarketingSystem';
 
 interface MarketingModuleProps {
   industry: string;
@@ -144,12 +142,8 @@ const MarketingModule: React.FC<MarketingModuleProps> = ({ industry }) => {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-7">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="campaigns">Active Campaigns</TabsTrigger>
-          <TabsTrigger value="automated">
-            <Bot className="w-4 h-4 mr-1" />
-            Automated Marketing
-          </TabsTrigger>
           <TabsTrigger value="create">
             <Sparkles className="w-4 h-4 mr-1" />
             AI Campaign Creator
@@ -162,10 +156,6 @@ const MarketingModule: React.FC<MarketingModuleProps> = ({ industry }) => {
             Performance Monitor
           </TabsTrigger>
         </TabsList>
-
-        <TabsContent value="automated" className="space-y-6">
-          <AutomatedMarketingSystem />
-        </TabsContent>
 
         <TabsContent value="create" className="space-y-6">
           <CampaignCreationForm />
