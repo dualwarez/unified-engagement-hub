@@ -61,7 +61,7 @@ export function AppSidebar({
   const collapsed = state === "collapsed";
 
   return (
-    <Sidebar className={collapsed ? "w-16" : "w-64"} collapsible>
+    <Sidebar className={collapsed ? "w-16" : "w-64"} collapsible="icon">
       <SidebarHeader className="border-b border-gray-200 p-4">
         <div className="flex items-center space-x-3">
           <img 
