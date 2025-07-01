@@ -5,6 +5,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts';
 import { TrendingUp, Users, Calendar, MessageSquare, Phone, Mail, Target, DollarSign, PlusCircle, Filter, Search, Bell, Settings, LogIn, MapPin } from 'lucide-react';
+import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
+import { AppSidebar } from '@/components/AppSidebar';
 import MarketingModule from '@/components/MarketingModule';
 import EnhancedLeadModule from '@/components/EnhancedLeadModule';
 import CRMModule from '@/components/CRMModule';
@@ -14,6 +16,7 @@ import IndustrySelector from '@/components/IndustrySelector';
 import B2BAuthFlow from '@/components/B2BAuthFlow';
 import CountryCurrencySelector from '@/components/CountryCurrencySelector';
 import { CurrencyService } from '@/services/currencyService';
+
 const Index = () => {
   const [activeModule, setActiveModule] = useState('dashboard');
   const [selectedIndustry, setSelectedIndustry] = useState('');
@@ -22,6 +25,7 @@ const Index = () => {
   const [showCountrySelector, setShowCountrySelector] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState('India');
   const [selectedCurrency, setSelectedCurrency] = useState('INR');
+
   const dashboardData = {
     leads: [{
       name: 'Jan',
@@ -85,11 +89,13 @@ const Index = () => {
     change: '+15%',
     color: 'text-orange-600'
   }];
+
   const handleAuthComplete = (userData: any) => {
     setIsAuthenticated(true);
     setShowAuth(false);
     console.log('User authenticated:', userData);
   };
+
   const handleCountryCurrencySelect = (data: {
     country: string;
     currency: string;
@@ -99,6 +105,7 @@ const Index = () => {
     setShowCountrySelector(false);
     console.log('Country and currency selected:', data);
   };
+
   if (showAuth) {
     return <B2BAuthFlow onBack={() => setShowAuth(false)} onComplete={handleAuthComplete} />;
   }
@@ -108,7 +115,9 @@ const Index = () => {
   if (!selectedIndustry && !isAuthenticated) {
     return <IndustrySelector onSelect={setSelectedIndustry} onShowAuth={() => setShowAuth(true)} />;
   }
-  const renderDashboard = () => <div className="space-y-6">
+
+  const renderDashboard = () => (
+    <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Business Dashboard</h1>
@@ -117,23 +126,16 @@ const Index = () => {
           </p>
         </div>
         <div className="flex gap-3">
-          <Button variant="outline" size="sm" onClick={() => setShowCountrySelector(true)}>
-            <MapPin className="w-4 h-4 mr-2" />
-            {selectedCountry} ({selectedCurrency})
-          </Button>
           <Button variant="outline" size="sm">
             <Bell className="w-4 h-4 mr-2" />
             Notifications
-          </Button>
-          <Button variant="outline" size="sm">
-            <Settings className="w-4 h-4 mr-2" />
-            Settings
           </Button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, index) => <Card key={index} className="relative overflow-hidden">
+        {stats.map((stat, index) => (
+          <Card key={index} className="relative overflow-hidden">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -146,7 +148,8 @@ const Index = () => {
                 </div>
               </div>
             </CardContent>
-          </Card>)}
+          </Card>
+        ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -177,7 +180,9 @@ const Index = () => {
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie data={dashboardData.conversion} cx="50%" cy="50%" innerRadius={60} outerRadius={120} paddingAngle={5} dataKey="value">
-                  {dashboardData.conversion.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.color} />)}
+                  {dashboardData.conversion.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
                 </Pie>
                 <Tooltip />
               </PieChart>
@@ -245,63 +250,47 @@ const Index = () => {
           </CardContent>
         </Card>
       </div>
-    </div>;
-  return <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-8">
-            <div className="flex items-center space-x-3">
-              <img alt="KALASH Logo" className="h-10 w-10" src="/lovable-uploads/38f4e220-f9eb-4282-827d-905d2dba157b.png" />
-              <h1 className="text-xl font-bold text-green-800"></h1>
-            </div>
-            <div className="flex space-x-1">
-              <Button variant={activeModule === 'dashboard' ? 'default' : 'ghost'} onClick={() => setActiveModule('dashboard')} className="text-sm">
-                Dashboard
-              </Button>
-              <Button variant={activeModule === 'marketing' ? 'default' : 'ghost'} onClick={() => setActiveModule('marketing')} className="text-sm">
-                Marketing
-              </Button>
-              <Button variant={activeModule === 'leads' ? 'default' : 'ghost'} onClick={() => setActiveModule('leads')} className="text-sm">
-                Lead Capture
-              </Button>
-              <Button variant={activeModule === 'sales' ? 'default' : 'ghost'} onClick={() => setActiveModule('sales')} className="text-sm">
-                Sales
-              </Button>
-              <Button variant={activeModule === 'crm' ? 'default' : 'ghost'} onClick={() => setActiveModule('crm')} className="text-sm">
-                CRM
-              </Button>
-              <Button variant={activeModule === 'appointments' ? 'default' : 'ghost'} onClick={() => setActiveModule('appointments')} className="text-sm">
-                Appointments
-              </Button>
-            </div>
-          </div>
-          <div className="flex items-center space-x-4">
-            <Button variant="outline" onClick={() => setShowCountrySelector(true)} className="text-sm">
-              <MapPin className="w-4 h-4 mr-2" />
-              {selectedCountry} ({selectedCurrency})
-            </Button>
-            <Button variant="outline" onClick={() => {
+    </div>
+  );
+
+  return (
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full bg-gray-50">
+        <AppSidebar
+          activeModule={activeModule}
+          setActiveModule={setActiveModule}
+          selectedCountry={selectedCountry}
+          selectedCurrency={selectedCurrency}
+          selectedIndustry={selectedIndustry}
+          onShowCountrySelector={() => setShowCountrySelector(true)}
+          onChangeIndustry={() => {
             setSelectedIndustry('');
             setIsAuthenticated(false);
-          }} className="text-sm">
-              Change Industry
-            </Button>
-            <Button className="text-sm" onClick={() => setShowAuth(true)}>
-              <LogIn className="w-4 h-4 mr-2" />
-              Login
-            </Button>
-          </div>
-        </div>
-      </nav>
-
-      <main className="p-6">
-        {activeModule === 'dashboard' && renderDashboard()}
-        {activeModule === 'marketing' && <MarketingModule industry={selectedIndustry} currency={selectedCurrency} />}
-        {activeModule === 'leads' && <EnhancedLeadModule industry={selectedIndustry} currency={selectedCurrency} />}
-        {activeModule === 'sales' && <SalesModule industry={selectedIndustry} currency={selectedCurrency} />}
-        {activeModule === 'crm' && <CRMModule industry={selectedIndustry} />}
-        {activeModule === 'appointments' && <AppointmentModule industry={selectedIndustry} />}
-      </main>
-    </div>;
+          }}
+          onShowAuth={() => setShowAuth(true)}
+        />
+        
+        <SidebarInset className="flex-1">
+          <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+            <SidebarTrigger className="-ml-1" />
+            <div className="mx-2 h-4 w-px bg-sidebar-border" />
+            <h2 className="text-lg font-semibold capitalize">
+              {activeModule === 'leads' ? 'Lead Capture' : activeModule}
+            </h2>
+          </header>
+          
+          <main className="flex-1 p-6">
+            {activeModule === 'dashboard' && renderDashboard()}
+            {activeModule === 'marketing' && <MarketingModule industry={selectedIndustry} currency={selectedCurrency} />}
+            {activeModule === 'leads' && <EnhancedLeadModule industry={selectedIndustry} currency={selectedCurrency} />}
+            {activeModule === 'sales' && <SalesModule industry={selectedIndustry} currency={selectedCurrency} />}
+            {activeModule === 'crm' && <CRMModule industry={selectedIndustry} />}
+            {activeModule === 'appointments' && <AppointmentModule industry={selectedIndustry} />}
+          </main>
+        </SidebarInset>
+      </div>
+    </SidebarProvider>
+  );
 };
+
 export default Index;
