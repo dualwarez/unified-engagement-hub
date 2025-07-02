@@ -1,10 +1,11 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts';
-import { TrendingUp, Users, Calendar, MessageSquare, Phone, Mail, Target, DollarSign, PlusCircle, Filter, Search, Bell, Settings, LogIn, MapPin } from 'lucide-react';
+import { TrendingUp, Users, Calendar, MessageSquare, Phone, Mail, Target, DollarSign, PlusCircle, Filter, Search, Bell, Settings, LogIn, MapPin, FileText, CreditCard, Building, UserCheck, Handshake, Wrench, BarChart3, CheckCircle } from 'lucide-react';
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from '@/components/AppSidebar';
 import MarketingModule from '@/components/MarketingModule';
@@ -264,18 +265,232 @@ const Index = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Post Sales</h1>
-          <p className="text-gray-600 mt-1">Customer support and post-sale services</p>
+          <h1 className="text-3xl font-bold text-gray-900">Post Sales CRM - Real Estate</h1>
+          <p className="text-gray-600 mt-1">Comprehensive post-sales customer relationship management</p>
         </div>
       </div>
       
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+        {/* 1. Booking Confirmation */}
+        <Card className="h-fit">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <CheckCircle className="w-5 h-5 text-green-600" />
+              Booking Confirmation
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="text-sm text-gray-600">
+              • Booking ID Generation<br/>
+              • Welcome Communication<br/>
+              • Document Checklist Sent<br/>
+              • Payment Schedule Shared
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* 2. Documentation Management */}
+        <Card className="h-fit">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <FileText className="w-5 h-5 text-blue-600" />
+              Documentation Management
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="text-sm text-gray-600">
+              • KYC Collection<br/>
+              • Agreement for Sale<br/>
+              • Payment Receipt Tracking<br/>
+              • Loan Processing<br/>
+              • Allotment Letter Issued
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* 3. Payment Milestone Tracking */}
+        <Card className="h-fit">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <CreditCard className="w-5 h-5 text-purple-600" />
+              Payment Milestone Tracking
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="text-sm text-gray-600">
+              • Auto-reminders (AI-powered)<br/>
+              • Milestone Invoice Generation<br/>
+              • Delay Penalty Tracking<br/>
+              • Online Payment Gateway
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* 4. Construction Updates */}
+        <Card className="h-fit">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Building className="w-5 h-5 text-orange-600" />
+              Construction Updates
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="text-sm text-gray-600">
+              • Monthly Status (Photos/Videos)<br/>
+              • Virtual Site Visits<br/>
+              • Delay Notifications<br/>
+              • Completion Milestones
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* 5. Customer Engagement */}
+        <Card className="h-fit">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <MessageSquare className="w-5 h-5 text-teal-600" />
+              Customer Engagement
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="text-sm text-gray-600">
+              • Dedicated Relationship Manager<br/>
+              • Feedback Collection<br/>
+              • Issue/Ticket Management<br/>
+              • AI Chatbot Support
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* 6. Handover Preparation */}
+        <Card className="h-fit">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <UserCheck className="w-5 h-5 text-indigo-600" />
+              Handover Preparation
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="text-sm text-gray-600">
+              • Completion Certificate<br/>
+              • Final Payment Reminder<br/>
+              • Snag List Sharing<br/>
+              • Handover Scheduling
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* 7. Property Handover */}
+        <Card className="h-fit">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Handshake className="w-5 h-5 text-green-600" />
+              Property Handover
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="text-sm text-gray-600">
+              • Key Handover & Documents<br/>
+              • Society Introduction<br/>
+              • Utility Connection Assistance<br/>
+              • Welcome Gift/Token
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* 8. Post-Handover Support */}
+        <Card className="h-fit">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Wrench className="w-5 h-5 text-red-600" />
+              Post-Handover Support
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="text-sm text-gray-600">
+              • Maintenance Coordination<br/>
+              • Repair Ticketing System<br/>
+              • Warranty Reminders<br/>
+              • Referral Program Offer
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* 9. Client Segmentation */}
+        <Card className="h-fit">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Target className="w-5 h-5 text-pink-600" />
+              Client Segmentation
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="text-sm text-gray-600">
+              • Satisfaction Score (CSAT)<br/>
+              • Referral Status Classification<br/>
+              • Upsell Opportunity Flag<br/>
+              • AI-based Follow-Up
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Reporting & Dashboards - Full Width */}
       <Card>
         <CardHeader>
-          <CardTitle>Post Sales Module</CardTitle>
-          <CardDescription>Manage customer support and post-sale activities</CardDescription>
+          <CardTitle className="flex items-center gap-2">
+            <BarChart3 className="w-5 h-5 text-blue-600" />
+            Reporting & Dashboards
+          </CardTitle>
+          <CardDescription>Comprehensive analytics and tracking for post-sales activities</CardDescription>
         </CardHeader>
         <CardContent>
-          <p className="text-gray-600">Post sales functionality coming soon...</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="p-4 bg-blue-50 rounded-lg">
+              <h4 className="font-medium text-blue-900">Customer Journey Reports</h4>
+              <p className="text-sm text-blue-700 mt-1">Track client progression through post-sales stages</p>
+            </div>
+            <div className="p-4 bg-green-50 rounded-lg">
+              <h4 className="font-medium text-green-900">Project-wise Summary</h4>
+              <p className="text-sm text-green-700 mt-1">Post-sales metrics by individual projects</p>
+            </div>
+            <div className="p-4 bg-purple-50 rounded-lg">
+              <h4 className="font-medium text-purple-900">CRM Task Logs</h4>
+              <p className="text-sm text-purple-700 mt-1">Auto-follow-up logs and task tracking</p>
+            </div>
+            <div className="p-4 bg-orange-50 rounded-lg">
+              <h4 className="font-medium text-orange-900">Client Status Charts</h4>
+              <p className="text-sm text-orange-700 mt-1">Visual representation by stage (Bar/Pie)</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Quick Actions for Post-Sales */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Quick Actions</CardTitle>
+          <CardDescription>Common post-sales activities</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <Button className="w-full justify-start" variant="outline">
+              <FileText className="w-4 h-4 mr-2" />
+              Send Documents
+            </Button>
+            <Button className="w-full justify-start" variant="outline">
+              <CreditCard className="w-4 h-4 mr-2" />
+              Payment Reminder
+            </Button>
+            <Button className="w-full justify-start" variant="outline">
+              <Building className="w-4 h-4 mr-2" />
+              Construction Update
+            </Button>
+            <Button className="w-full justify-start" variant="outline">
+              <MessageSquare className="w-4 h-4 mr-2" />
+              Client Follow-up
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>
