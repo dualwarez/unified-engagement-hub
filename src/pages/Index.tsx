@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -119,6 +118,13 @@ const Index = () => {
 
   const renderDashboard = () => (
     <div className="space-y-6">
+      {/* Top center bold text */}
+      <div className="text-center">
+        <h2 className="text-2xl font-bold text-gray-900">
+          Eliminate • Automate • Delegate
+        </h2>
+      </div>
+
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Business Dashboard</h1>
