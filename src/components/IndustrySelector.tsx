@@ -1,4 +1,5 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -13,6 +14,8 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
   onSelect,
   onShowAuth
 }) => {
+  const [selectedIndustry, setSelectedIndustry] = useState<string | null>(null);
+
   const industries = [
     {
       name: 'Real Estate',
@@ -492,8 +495,52 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
           </div>
         </CardContent>
       </Card>
+
+      <div className="text-center mt-8">
+        <Button onClick={() => onSelect('Real Estate')} className="bg-blue-500 hover:bg-blue-600 text-white" size="lg">
+          Select Real Estate
+        </Button>
+      </div>
     </div>
   );
+
+  const handleIndustryClick = (industryName: string) => {
+    if (industryName === 'Real Estate') {
+      setSelectedIndustry(industryName);
+    } else {
+      onSelect(industryName);
+    }
+  };
+
+  if (selectedIndustry === 'Real Estate') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
+        <div className="max-w-6xl mx-auto">
+          {/* Header with Back Button */}
+          <div className="flex justify-between items-center mb-8">
+            <Button 
+              onClick={() => setSelectedIndustry(null)} 
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              ← Back to Industries
+            </Button>
+            <div className="flex gap-3">
+              <Button onClick={onShowAuth} className="text-sm">
+                <LogIn className="w-4 h-4 mr-2" />
+                Login as B2B User
+              </Button>
+              <Button onClick={onShowAuth} variant="outline" className="text-sm">
+                Register Your Business
+              </Button>
+            </div>
+          </div>
+
+          {renderRealEstateJourney()}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-6">
@@ -522,7 +569,7 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {industries.map((industry, index) => (
-            <Card key={index} className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-2 hover:border-green-300" onClick={() => onSelect(industry.name)}>
+            <Card key={index} className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-2 hover:border-green-300" onClick={() => handleIndustryClick(industry.name)}>
               <CardHeader className="text-center pb-2">
                 <div className={`w-16 h-16 ${industry.color} rounded-full flex items-center justify-center mx-auto mb-4`}>
                   <industry.icon className="w-8 h-8 text-white" />
@@ -535,9 +582,6 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
             </Card>
           ))}
         </div>
-
-        {/* Real Estate Client Journey */}
-        {renderRealEstateJourney()}
 
         {/* Subscription Plans Section */}
         <div className="mt-12">
