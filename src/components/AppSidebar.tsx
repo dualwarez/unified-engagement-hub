@@ -11,7 +11,8 @@ import {
   MapPin,
   LogIn,
   Settings,
-  HeadphonesIcon
+  HeadphonesIcon,
+  BarChart3
 } from 'lucide-react';
 import {
   Sidebar,
@@ -47,6 +48,7 @@ const navigationItems = [
   { id: 'appointments', label: 'Appointments', icon: Calendar },
   { id: 'sales', label: 'Sales', icon: DollarSign },
   { id: 'post-sales', label: 'Post Sales', icon: HeadphonesIcon },
+  { id: 'analytics', label: 'Analytics', icon: BarChart3 },
 ];
 
 export function AppSidebar({

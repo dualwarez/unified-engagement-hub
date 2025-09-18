@@ -13,6 +13,7 @@ import EnhancedLeadModule from '@/components/EnhancedLeadModule';
 import CRMModule from '@/components/CRMModule';
 import AppointmentModule from '@/components/AppointmentModule';
 import SalesModule from '@/components/SalesModule';
+import AnalyticsModule from '@/components/AnalyticsModule';
 import IndustrySelector from '@/components/IndustrySelector';
 import B2BAuthFlow from '@/components/B2BAuthFlow';
 import CountryCurrencySelector from '@/components/CountryCurrencySelector';
@@ -530,6 +531,7 @@ const Index = () => {
             {activeModule === 'crm' && <CRMModule industry={selectedIndustry} />}
             {activeModule === 'appointments' && <AppointmentModule industry={selectedIndustry} />}
             {activeModule === 'post-sales' && renderPostSales()}
+            {activeModule === 'analytics' && <AnalyticsModule industry={selectedIndustry} />}
           </main>
         </SidebarInset>
       </div>

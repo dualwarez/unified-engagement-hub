@@ -26,6 +26,13 @@ interface CRMModuleProps {
 const CRMModule: React.FC<CRMModuleProps> = ({ industry }) => {
   const [selectedContact, setSelectedContact] = useState(0);
   const [messageText, setMessageText] = useState('');
+  const [showBantFilter, setShowBantFilter] = useState(false);
+  const [bantFilters, setBantFilters] = useState({
+    budget: '',
+    authority: '',
+    needs: '',
+    timeline: ''
+  });
 
   const contacts = [
     {
@@ -37,7 +44,14 @@ const CRMModule: React.FC<CRMModuleProps> = ({ industry }) => {
       lastContact: '2 hours ago',
       priority: 'high',
       tags: ['Hot Lead', 'First Time Buyer'],
-      notes: 'Interested in downtown properties. Budget: $250k-300k'
+      notes: 'Interested in downtown properties. Budget: $250k-300k',
+      bantScore: 85,
+      bantData: {
+        budget: 'High ($250k-300k)',
+        authority: 'Decision Maker',
+        needs: 'Urgent - Relocating',
+        timeline: '2-3 months'
+      }
     },
     {
       id: 2,
@@ -48,7 +62,14 @@ const CRMModule: React.FC<CRMModuleProps> = ({ industry }) => {
       lastContact: '1 day ago',
       priority: 'medium',
       tags: ['Luxury', 'Investor'],
-      notes: 'Looking for investment properties. Cash buyer.'
+      notes: 'Looking for investment properties. Cash buyer.',
+      bantScore: 78,
+      bantData: {
+        budget: 'Very High ($500k+)',
+        authority: 'Influencer',
+        needs: 'Investment Portfolio',
+        timeline: '6-12 months'
+      }
     },
     {
       id: 3,
@@ -59,7 +80,14 @@ const CRMModule: React.FC<CRMModuleProps> = ({ industry }) => {
       lastContact: '3 days ago',
       priority: 'low',
       tags: ['Referral'],
-      notes: 'Referred by existing client. Timeline flexible.'
+      notes: 'Referred by existing client. Timeline flexible.',
+      bantScore: 45,
+      bantData: {
+        budget: 'Medium ($150k-200k)',
+        authority: 'User',
+        needs: 'Future Planning',
+        timeline: '12+ months'
+      }
     }
   ];
 
@@ -166,11 +194,89 @@ const CRMModule: React.FC<CRMModuleProps> = ({ industry }) => {
                 <Button size="sm" variant="outline">
                   <Search className="w-4 h-4" />
                 </Button>
-                <Button size="sm" variant="outline">
+                <Button 
+                  size="sm" 
+                  variant={showBantFilter ? "default" : "outline"}
+                  onClick={() => setShowBantFilter(!showBantFilter)}
+                >
                   <Filter className="w-4 h-4" />
+                  BANT Filter
                 </Button>
               </div>
             </CardTitle>
+            {showBantFilter && (
+              <div className="mt-4 p-4 bg-gray-50 rounded-lg space-y-3">
+                <h4 className="font-medium text-sm">BANT Lead Qualification Filter</h4>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-xs font-medium text-gray-600">Budget</label>
+                    <select 
+                      className="w-full text-xs p-1 border rounded"
+                      value={bantFilters.budget}
+                      onChange={(e) => setBantFilters({...bantFilters, budget: e.target.value})}
+                    >
+                      <option value="">All Budgets</option>
+                      <option value="low">Low (&lt;$150k)</option>
+                      <option value="medium">Medium ($150k-300k)</option>
+                      <option value="high">High ($300k-500k)</option>
+                      <option value="very-high">Very High ($500k+)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-gray-600">Authority</label>
+                    <select 
+                      className="w-full text-xs p-1 border rounded"
+                      value={bantFilters.authority}
+                      onChange={(e) => setBantFilters({...bantFilters, authority: e.target.value})}
+                    >
+                      <option value="">All Authority Levels</option>
+                      <option value="decision-maker">Decision Maker</option>
+                      <option value="influencer">Influencer</option>
+                      <option value="user">User</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-gray-600">Needs</label>
+                    <select 
+                      className="w-full text-xs p-1 border rounded"
+                      value={bantFilters.needs}
+                      onChange={(e) => setBantFilters({...bantFilters, needs: e.target.value})}
+                    >
+                      <option value="">All Needs</option>
+                      <option value="urgent">Urgent</option>
+                      <option value="investment">Investment</option>
+                      <option value="future">Future Planning</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-gray-600">Timeline</label>
+                    <select 
+                      className="w-full text-xs p-1 border rounded"
+                      value={bantFilters.timeline}
+                      onChange={(e) => setBantFilters({...bantFilters, timeline: e.target.value})}
+                    >
+                      <option value="">All Timelines</option>
+                      <option value="immediate">0-3 months</option>
+                      <option value="short">3-6 months</option>
+                      <option value="medium">6-12 months</option>
+                      <option value="long">12+ months</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center">
+                  <Badge variant="outline" className="text-xs">
+                    BANT Score Range: 0-100
+                  </Badge>
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    onClick={() => setBantFilters({budget: '', authority: '', needs: '', timeline: ''})}
+                  >
+                    Clear Filters
+                  </Button>
+                </div>
+              </div>
+            )}
           </CardHeader>
           <CardContent className="p-0">
             <div className="space-y-1">
@@ -189,11 +295,23 @@ const CRMModule: React.FC<CRMModuleProps> = ({ industry }) => {
                       <p className="text-xs text-gray-500">Last contact: {contact.lastContact}</p>
                     </div>
                     <div className="text-right">
-                      <Badge variant={contact.priority === 'high' ? 'destructive' : contact.priority === 'medium' ? 'default' : 'secondary'}>
-                        {contact.priority}
-                      </Badge>
+                      <div className="flex flex-col gap-1">
+                        <Badge variant={contact.priority === 'high' ? 'destructive' : contact.priority === 'medium' ? 'default' : 'secondary'}>
+                          {contact.priority}
+                        </Badge>
+                        <Badge 
+                          variant={contact.bantScore >= 70 ? 'default' : contact.bantScore >= 50 ? 'secondary' : 'outline'}
+                          className={`text-xs ${
+                            contact.bantScore >= 70 ? 'bg-green-100 text-green-800' : 
+                            contact.bantScore >= 50 ? 'bg-yellow-100 text-yellow-800' : 
+                            'bg-red-100 text-red-800'
+                          }`}
+                        >
+                          BANT: {contact.bantScore}
+                        </Badge>
+                      </div>
                       <div className="flex gap-1 mt-1">
-                        {contact.tags.slice(0, 2).map((tag, tagIndex) => (
+                        {contact.tags.slice(0, 1).map((tag, tagIndex) => (
                           <Badge key={tagIndex} variant="outline" className="text-xs">
                             {tag}
                           </Badge>
@@ -298,6 +416,43 @@ const CRMModule: React.FC<CRMModuleProps> = ({ industry }) => {
                     {contacts[selectedContact]?.tags.map((tag, index) => (
                       <Badge key={index} variant="outline">{tag}</Badge>
                     ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-3">BANT Qualification</h4>
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div className="p-3 bg-red-50 rounded-lg border-l-4 border-red-500">
+                      <label className="text-sm font-medium text-red-700">Budget</label>
+                      <p className="text-sm text-gray-900">{contacts[selectedContact]?.bantData?.budget}</p>
+                    </div>
+                    <div className="p-3 bg-yellow-50 rounded-lg border-l-4 border-yellow-500">
+                      <label className="text-sm font-medium text-yellow-700">Authority</label>
+                      <p className="text-sm text-gray-900">{contacts[selectedContact]?.bantData?.authority}</p>
+                    </div>
+                    <div className="p-3 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                      <label className="text-sm font-medium text-blue-700">Needs</label>
+                      <p className="text-sm text-gray-900">{contacts[selectedContact]?.bantData?.needs}</p>
+                    </div>
+                    <div className="p-3 bg-green-50 rounded-lg border-l-4 border-green-500">
+                      <label className="text-sm font-medium text-green-700">Timeline</label>
+                      <p className="text-sm text-gray-900">{contacts[selectedContact]?.bantData?.timeline}</p>
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <Badge 
+                      variant="outline" 
+                      className={`text-lg px-4 py-2 ${
+                        (contacts[selectedContact]?.bantScore || 0) >= 70 ? 'bg-green-100 text-green-800 border-green-300' : 
+                        (contacts[selectedContact]?.bantScore || 0) >= 50 ? 'bg-yellow-100 text-yellow-800 border-yellow-300' : 
+                        'bg-red-100 text-red-800 border-red-300'
+                      }`}
+                    >
+                      BANT Score: {contacts[selectedContact]?.bantScore}/100
+                      {(contacts[selectedContact]?.bantScore || 0) >= 70 ? ' (Hot Lead)' : 
+                       (contacts[selectedContact]?.bantScore || 0) >= 50 ? ' (Warm Lead)' : 
+                       ' (Cold Lead)'}
+                    </Badge>
                   </div>
                 </div>
 
