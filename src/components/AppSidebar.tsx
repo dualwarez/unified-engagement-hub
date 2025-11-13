@@ -71,7 +71,7 @@ export function AppSidebar({
           <img 
             alt="DHWAJ AI Logo" 
             className="h-10 w-10 flex-shrink-0 rounded-full object-cover" 
-            src="/dhwaj-ai-logo.jpg" 
+            src="/dhwaj-ai-logo.png" 
           />
           {!collapsed && (
             <div>
