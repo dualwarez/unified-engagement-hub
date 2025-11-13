@@ -548,7 +548,7 @@ const IndustrySelector: React.FC<IndustrySelectorProps> = ({
         {/* Header with Login Button */}
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center">
-            <img alt="KALASH Logo" className="h-32 w-32" src="/lovable-uploads/b18e37f6-7a2f-4b13-8160-5bccd16410f0.png" />
+            <img alt="DHWAJ AI Logo" className="h-32 w-32" src="/dhwaj-ai-home-logo.png" />
           </div>
           <div className="flex gap-3">
             <Button onClick={onShowAuth} className="text-sm">
