@@ -66,17 +66,17 @@ export function AppSidebar({
 
   return (
     <Sidebar className={collapsed ? "w-16" : "w-64"} collapsible="icon">
-      <SidebarHeader className="border-b border-gray-200 p-4">
+      <SidebarHeader className="border-b border-sidebar-border p-4">
         <div className="flex items-center space-x-3">
           <img 
-            alt="KALASH Logo" 
-            className="h-8 w-8 flex-shrink-0" 
-            src="/lovable-uploads/38f4e220-f9eb-4282-827d-905d2dba157b.png" 
+            alt="DHWAJ AI Logo" 
+            className="h-10 w-10 flex-shrink-0 rounded-full object-cover" 
+            src="/dhwaj-ai-logo.jpg" 
           />
           {!collapsed && (
             <div>
-              <h1 className="text-lg font-bold text-green-800">KALASH</h1>
-              <p className="text-xs text-gray-600">{selectedIndustry}</p>
+              <h1 className="text-lg font-bold text-primary">DHWAJ AI</h1>
+              <p className="text-xs text-muted-foreground">{selectedIndustry}</p>
             </div>
           )}
         </div>
@@ -104,7 +104,7 @@ export function AppSidebar({
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-gray-200 p-4 space-y-2">
+      <SidebarFooter className="border-t border-sidebar-border p-4 space-y-2">
         <Button
           variant="outline"
           size="sm"
