@@ -99,8 +99,8 @@ const B2BAuthFlow: React.FC<B2BAuthFlowProps> = ({ onBack, onComplete }) => {
     <Card className="w-full max-w-md mx-auto">
       <CardHeader className="text-center">
         <img 
-          src="/lovable-uploads/b583aa5c-7bf8-4a13-b413-3f8b3437278d.png" 
-          alt="KALASH Logo" 
+          src="/dhwaj-ai-home-logo.png" 
+          alt="DHWAJ AI Logo" 
           className="h-20 w-20 mx-auto mb-4"
         />
         <CardTitle className="text-2xl">Login to Your Account</CardTitle>
